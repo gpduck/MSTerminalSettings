@@ -4,10 +4,10 @@ image:
   - Visual Studio 2017
 init:
   - ps: |
-    "APPVEYOR_REPO_BRANCH = $env:APPVEYOR_REPO_BRANCH"
-    "APPVEYOR_PULL_REQUEST_NUMBER = $env:APPVEYOR_PULL_REQUEST_NUMBER"
-    "APPVEYOR_REPO_COMMIT_MESSAGE = $env:APPVEYOR_REPO_COMMIT_MESSAGE"
-    "OS = $env:OS"
+      "APPVEYOR_REPO_BRANCH = $env:APPVEYOR_REPO_BRANCH"
+      "APPVEYOR_PULL_REQUEST_NUMBER = $env:APPVEYOR_PULL_REQUEST_NUMBER"
+      "APPVEYOR_REPO_COMMIT_MESSAGE = $env:APPVEYOR_REPO_COMMIT_MESSAGE"
+      "OS = $env:OS"
   - sh: export PATH=/home/appveyor/.local/bin:$PATH
 environment:
   POWERSHELL_TELEMETRY_OPTOUT: 1
@@ -17,20 +17,20 @@ environment:
     secure: 8fJPHEBmSxPZ0u9nv+lk+NtRb3GmKUib4Is98Lel/hiD3cnB5S9AiKXF75IEkvXs
 install:
   - ps: |
-    import-module powershellget
-    Install-module PowerShellGet -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
-    Remove-Module PowerShellGet -Force
-    Import-Module PowerShellGet -Force
-    Get-PackageProvider -Name NuGet -ForceBootstrap
-    install-module pester -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
-    install-module PSScriptAnalyzer -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      import-module powershellget
+      Install-module PowerShellGet -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      Remove-Module PowerShellGet -Force
+      Import-Module PowerShellGet -Force
+      Get-PackageProvider -Name NuGet -ForceBootstrap
+      install-module pester -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      install-module PSScriptAnalyzer -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
 build_script:
   - ps: |
-    if( $env:APPVEYOR_REPO_BRANCH -eq "master" -and !$env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_REPO_COMMIT_MESSAGE -notlike "skip: *" ) {
-      .\Invoke-Build.ps1 build,test,publish
-    } else {
-      .\Invoke-Build.ps1 build,test
-    }
+      if( $env:APPVEYOR_REPO_BRANCH -eq "master" -and !$env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_REPO_COMMIT_MESSAGE -notlike "skip: *" ) {
+        .\Invoke-Build.ps1 build,test,publish
+      } else {
+        .\Invoke-Build.ps1 build,test
+      }
 artifacts:
   - path: MSTerminalSettings.zip
 deploy:
