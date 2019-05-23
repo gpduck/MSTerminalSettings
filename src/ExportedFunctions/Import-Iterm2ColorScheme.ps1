@@ -46,10 +46,31 @@ function Import-Iterm2ColorScheme {
     $Xml = New-Object System.Xml.XmlDocument
     $Xml.Load( (Resolve-Path $Path).Path )
     $ItermHT = HandleDict $Xml.DocumentElement.FirstChild
-    $Colors = 0..15 | ForEach-Object {
-        ToRGB $ItermHT["Ansi $_ Color"]
+    $AnsiColorMap = @{
+        0 = "black"
+        1 = "red"
+        2 = "green"
+        3 = "yellow"
+        4 = "blue"
+        5 = "purple"
+        6 = "cyan"
+        7 = "white"
+        8 = "brightBlack"
+        9 = "brightRed"
+        10 = "brightGreen"
+        11 = "brightYellow"
+        12 = "brightBlue"
+        13 = "brightPurple"
+        14 = "brightCyan"
+        15 = "brightWhite"
     }
+    $Colors = @{}
+    $AnsiColorMap.Keys | ForEach-Object {
+        $ColorName = $AnsiColorMap[$_]
+        $Colors[$ColorName] = ToRGB $ItermHT["Ansi $_ Color"]
+    }
+
     $Foreground = ToRGB $ITermHT["Foreground Color"]
     $Background = ToRGB $ITermHT["Background Color"]
-    New-MSTerminalColorScheme -Name $Name -Foreground $Foreground -Background $Background -Colors $Colors
+    New-MSTerminalColorScheme -Name $Name -Foreground $Foreground -Background $Background @Colors
 }
