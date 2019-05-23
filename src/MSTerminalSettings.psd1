@@ -30,7 +30,7 @@ CompanyName = 'Unknown'
 Copyright = '(c) Chris Duck. All rights reserved.'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'Manage MS Terminal settings'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''
@@ -106,13 +106,13 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = @("PSEdition_Core", "Windows", "Terminal")
 
         # A URL to the license for this module.
         # LicenseUri = ''
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/gpduck/MSTerminalSettings'
 
         # A URL to an icon representing this module.
         # IconUri = ''
