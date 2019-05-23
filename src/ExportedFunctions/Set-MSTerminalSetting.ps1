@@ -1,10 +1,10 @@
 function Set-MSTerminalSetting {
     [CmdletBinding(SupportsShouldProcess=$true)]
     param(
-        $DefaultProfile,
+        [string]$DefaultProfile,
 
         [ValidateRange(1,[int]::MaxValue)]
-        $InitialRows,
+        [int]$InitialRows,
 
         [ValidateRange(1,[int]::MaxValue)]
         [int]$InitialCols,

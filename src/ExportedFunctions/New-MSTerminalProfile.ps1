@@ -3,10 +3,10 @@ function New-MSTerminalProfile {
         [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     param(
         [Parameter(Mandatory=$true)]
-        $Name,
+        [String]$Name,
 
         [Parameter(Mandatory=$true)]
-        $CommandLine,
+        [String]$CommandLine,
 
         [switch]$MakeDefault,
 
@@ -14,16 +14,16 @@ function New-MSTerminalProfile {
 
         [switch]$SnapOnInput = $true,
 
-        $ColorScheme = "Campbell",
+        [String]$ColorScheme = "Campbell",
 
-        $CursorColor = "#ffffff",
+        [String]$CursorColor = "#ffffff",
 
         [ValidateSet("bar","vintage")]
-        $CursorShape = "bar",
+        [String]$CursorShape = "bar",
 
-        $FontFace = "Consolas",
+        [String]$FontFace = "Consolas",
 
-        $StartingDirectory = "%USERPROFILE%",
+        [String]$StartingDirectory = "%USERPROFILE%",
 
         [ValidateRange(1,[Int]::MaxValue)]
         [int]$FontSize = 12,
@@ -35,7 +35,7 @@ function New-MSTerminalProfile {
 
         [switch]$CloseOnExit = $true,
 
-        $Icon,
+        [String]$Icon,
 
         [ValidateCount(4,4)]
         [int[]]$Padding = @(0,0,0,0)

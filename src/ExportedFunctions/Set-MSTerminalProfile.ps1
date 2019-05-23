@@ -2,12 +2,12 @@ function Set-MSTerminalProfile {
     [CmdletBinding(DefaultParameterSetName="Name",SupportsShouldProcess=$true)]
     param(
         [Parameter(Mandatory=$true,ParameterSetname="Name")]
-        $Name,
+        [string]$Name,
 
         [Parameter(Mandatory=$true,ParameterSetName="InputObject",ValueFromPipeline=$true)]
         $InputObject,
 
-        $CommandLine,
+        [string]$CommandLine,
 
         [switch]$MakeDefault,
 
@@ -15,16 +15,16 @@ function Set-MSTerminalProfile {
 
         [switch]$SnapOnInput,
 
-        $ColorScheme,
+        [string]$ColorScheme,
 
-        $CursorColor,
+        [string]$CursorColor,
 
         [ValidateSet("bar","vintage")]
-        $CursorShape,
+        [string]$CursorShape,
 
-        $FontFace,
+        [string]$FontFace,
 
-        $StartingDirectory,
+        [string]$StartingDirectory,
 
         [ValidateRange(1,[Int]::MaxValue)]
         [int]$FontSize,
@@ -36,7 +36,7 @@ function Set-MSTerminalProfile {
 
         [switch]$CloseOnExit,
 
-        $Icon,
+        [string]$Icon,
 
         [ValidateCount(4,4)]
         [int[]]$Padding
