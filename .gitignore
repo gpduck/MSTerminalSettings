@@ -1,0 +1,11 @@
+# Output files
+Release/
+*.zip
+
+# Test results
+PesterResults.xml
+
+# Paket and module binary files
+paket-files/
+.paket/paket.exe
+src/bin/
