@@ -57,51 +57,57 @@ function Set-MSTerminalProfile {
             $InputObject = Get-MSTerminalProfile -name $Name
         }
         $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
-        Write-Debug "Editing profile $($InputObject['name']) $($InputObject['guid'])"
 
-        $ValueProperties = @(
-            "commandline",
-            "colorscheme",
-            "cursorColor",
-            "cursorShape",
-            "cursorHeight",
-            "historySize",
-            "fontFace",
-            "fontSize",
-            "background",
-            "acrylicOpacity",
-            "startingDirectory",
-            "icon"
-        )
-        $ValueProperties | ForEach-Object {
-            if($PSBoundParameters.ContainsKey($_)) {
-                $InputObject[$_] = $PSBoundParameters[$_]
-            }
-        }
-        $SwitchProperties = @(
-            "useAcrylic",
-            "closeOnExit",
-            "snapOnInput"
-        )
-        $SwitchProperties | ForEach-Object {
-            if($PSBoundParameters.ContainsKey($_)) {
-                $InputObject[$_] = $PSBoundParameters[$_].IsPresent
-            }
-        }
-        if($Padding.Count -gt 0) {
-            $InputObject.padding = $padding -Join ", "
-        }
+        $InputObject | ForEach-Object {
+            $TerminalProfile = $_
+            Write-Debug "Editing profile $($TerminalProfile['name']) $($TerminalProfile['guid'])"
 
-        $Settings["profiles"] = @($Settings["profiles"] | ForEach-Object {
-            if($_.guid -eq $InputObject['guid']) {
-                if($PSCmdlet.ShouldProcess("$($_.name) $($_.guid)", "Replace profile")) {
-                    $InputObject
-                    $ProfileReplaced = $true
+            $ValueProperties = @(
+                "commandline",
+                "colorscheme",
+                "cursorColor",
+                "cursorShape",
+                "cursorHeight",
+                "historySize",
+                "fontFace",
+                "fontSize",
+                "background",
+                "acrylicOpacity",
+                "startingDirectory",
+                "icon"
+            )
+            $ValueProperties | ForEach-Object {
+                if($PSBoundParameters.ContainsKey($_)) {
+                    $TerminalProfile[$_] = $PSBoundParameters[$_]
                 }
-            } else {
-                $_
             }
-        })
+            $SwitchProperties = @(
+                "useAcrylic",
+                "closeOnExit",
+                "snapOnInput"
+            )
+            $SwitchProperties | ForEach-Object {
+                if($PSBoundParameters.ContainsKey($_)) {
+                    $TerminalProfile[$_] = $PSBoundParameters[$_].IsPresent
+                }
+            }
+            if($Padding.Count -gt 0) {
+                $TerminalProfile["padding"] = $padding -Join ", "
+            }
+
+            $Settings["profiles"] = @($Settings["profiles"] | ForEach-Object {
+                if($_.guid -eq $TerminalProfile['guid']) {
+                    if($PSCmdlet.ShouldProcess("$($_.name) $($_.guid)", "Replace profile")) {
+                        $TerminalProfile
+                        [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignment", "ProfileReplaced")]
+                        $ProfileReplaced = $true
+                    }
+                } else {
+                    $_
+                }
+            })
+
+        }
     }
     end {
         if($ProfileReplaced) {
