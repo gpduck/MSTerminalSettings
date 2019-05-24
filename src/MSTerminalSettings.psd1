@@ -78,6 +78,7 @@ FunctionsToExport = @(
     'New-MSTerminalColorScheme',
     'New-MSTerminalProfile',
     'Remove-MSTerminalColorScheme',
+    'Remove-MSTerminalProfile',
     'Set-MSTerminalProfile',
     'Set-MSTerminalSetting'
 )

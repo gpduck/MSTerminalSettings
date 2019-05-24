@@ -14,8 +14,8 @@ Updates the top-level settings for MS Terminal.
 
 ```
 Set-MSTerminalSetting [[-DefaultProfile] <String>] [[-InitialRows] <Int32>] [[-InitialCols] <Int32>]
- [-AlwaysShowTabs] [-ShowTerminalTitleInTitlebar] [-Experimental_ShowTabsInTitlebar]
- [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-AlwaysShowTabs] [[-RequestedTheme] <String>] [-ShowTerminalTitleInTitlebar]
+ [-Experimental_ShowTabsInTitlebar] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -101,7 +101,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -132,6 +132,22 @@ Aliases:
 
 Required: False
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RequestedTheme
+Sets the theme of the tab bar. Possible values: "light", "dark", "system"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: light, dark, system
+
+Required: False
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

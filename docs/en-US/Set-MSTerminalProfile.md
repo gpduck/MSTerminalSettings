@@ -15,17 +15,19 @@ Updates a profile setting.
 ### Name (Default)
 ```
 Set-MSTerminalProfile -Name <String> [-CommandLine <String>] [-MakeDefault] [-HistorySize <Int32>]
- [-SnapOnInput] [-ColorScheme <String>] [-CursorColor <String>] [-CursorShape <String>] [-FontFace <String>]
- [-StartingDirectory <String>] [-FontSize <Int32>] [-AcrylicOpacity <Single>] [-UseAcrylic] [-CloseOnExit]
- [-Icon <String>] [-Padding <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-SnapOnInput] [-ColorScheme <String>] [-CursorColor <String>] [-CursorShape <String>] [-CursorHeight <Int32>]
+ [-FontFace <String>] [-StartingDirectory <String>] [-FontSize <Int32>] [-Background <String>]
+ [-AcrylicOpacity <Single>] [-UseAcrylic] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### InputObject
 ```
 Set-MSTerminalProfile -InputObject <Object> [-CommandLine <String>] [-MakeDefault] [-HistorySize <Int32>]
- [-SnapOnInput] [-ColorScheme <String>] [-CursorColor <String>] [-CursorShape <String>] [-FontFace <String>]
- [-StartingDirectory <String>] [-FontSize <Int32>] [-AcrylicOpacity <Single>] [-UseAcrylic] [-CloseOnExit]
- [-Icon <String>] [-Padding <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-SnapOnInput] [-ColorScheme <String>] [-CursorColor <String>] [-CursorShape <String>] [-CursorHeight <Int32>]
+ [-FontFace <String>] [-StartingDirectory <String>] [-FontSize <Int32>] [-Background <String>]
+ [-AcrylicOpacity <Single>] [-UseAcrylic] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,6 +49,21 @@ Sets the acrylic opacity, 0 being completely transparent and 1 being completely 
 
 ```yaml
 Type: Single
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Background
+Sets the background color of the profile. Overrides "background" set in color scheme if "colorscheme" is set.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -132,6 +149,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CursorHeight
+Sets the height of the cursor. Only works when "cursorShape" is set to "vintage". Accepts values from 25-100.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CursorShape
 The cursor shape.
 
@@ -139,7 +171,7 @@ The cursor shape.
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: bar, vintage
+Accepted values: bar, emptyBox, filledBox, underscore, vintage
 
 Required: False
 Position: Named

@@ -11,6 +11,9 @@ function Set-MSTerminalSetting {
 
         [Switch]$AlwaysShowTabs,
 
+        [ValidateSet("light","dark","system")]
+        [string]$RequestedTheme,
+
         [Switch]$ShowTerminalTitleInTitlebar,
 
         [Switch]$Experimental_ShowTabsInTitlebar,
@@ -29,6 +32,9 @@ function Set-MSTerminalSetting {
     }
     if($InitialCols) {
         $Settings["initialCols"] = $InitialCols
+    }
+    if($RequestedTheme) {
+        $Settings["requestedTheme"] = $RequestedTheme
     }
     if($PSBoundParameters.ContainsKey("AlwaysShowTabs")) {
         $Settings["alwaysShowTabs"] = $AlwaysShowTabs.IsPresent
