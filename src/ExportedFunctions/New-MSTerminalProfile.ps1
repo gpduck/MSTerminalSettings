@@ -16,10 +16,15 @@ function New-MSTerminalProfile {
 
         [String]$ColorScheme = "Campbell",
 
+        #$ColorTable,
+
         [String]$CursorColor = "#ffffff",
 
-        [ValidateSet("bar","vintage")]
+        [ValidateSet("bar","emptyBox","filledBox","underscore","vintage")]
         [String]$CursorShape = "bar",
+
+        [ValidateRange(25,100)]
+        [int]$CursorHeight,
 
         [String]$FontFace = "Consolas",
 
@@ -28,10 +33,15 @@ function New-MSTerminalProfile {
         [ValidateRange(1,[Int]::MaxValue)]
         [int]$FontSize = 12,
 
+        [string]$Background,
+
         [ValidateRange(0,1)]
         [float]$AcrylicOpacity = 0.5,
 
         [switch]$UseAcrylic,
+
+        [ValidateSet("visible","hidden")]
+        [string]$ScrollbarState,
 
         [switch]$CloseOnExit = $true,
 
@@ -64,8 +74,14 @@ function New-MSTerminalProfile {
     if($CursorShape) {
         $Profile["cursorShape"] = $cursorShape
     }
+    if($CursorHeight) {
+        $Profile["cursorHeight"] = $CursorHeight
+    }
     if($HistorySize) {
         $Profile["historySize"] = $HistorySize
+    }
+    if($Background) {
+        $Profile["background"] = $Background
     }
     if($FontFace) {
         $Profile["fontFace"] = $FontFace
@@ -79,6 +95,9 @@ function New-MSTerminalProfile {
     $Profile["useAcrylic"] = $UseAcrylic.IsPresent
     $Profile["closeOnExit"] = $CloseOnExit.IsPresent
     $Profile["snapOnInput"] = $SnapOnInput.IsPresent
+    if($ScrollbarState) {
+        $Profile["scrollbarState"] = $ScrollbarState
+    }
     if($StartingDirectory) {
         $Profile["startingDirectory"] = $StartingDirectory
     }

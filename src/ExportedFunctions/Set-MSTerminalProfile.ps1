@@ -19,8 +19,11 @@ function Set-MSTerminalProfile {
 
         [string]$CursorColor,
 
-        [ValidateSet("bar","vintage")]
+        [ValidateSet("bar","emptyBox","filledBox","underscore","vintage")]
         [string]$CursorShape,
+
+        [ValidateRange(25,100)]
+        [int]$CursorHeight,
 
         [string]$FontFace,
 
@@ -28,6 +31,8 @@ function Set-MSTerminalProfile {
 
         [ValidateRange(1,[Int]::MaxValue)]
         [int]$FontSize,
+
+        [string]$Background,
 
         [ValidateRange(0,1)]
         [float]$AcrylicOpacity,
@@ -41,67 +46,65 @@ function Set-MSTerminalProfile {
         [ValidateCount(4,4)]
         [int[]]$Padding
     )
+    begin {
+        $Path = Find-MSTerminalFolder
+        $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
+        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+        $ProfileReplaced = $false
+    }
     process {
         if($PSCmdlet.ParametersetName -eq "Name") {
             $InputObject = Get-MSTerminalProfile -name $Name
         }
+        $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
+        Write-Debug "Editing profile $($InputObject['name']) $($InputObject['guid'])"
 
-        $Path = Find-MSTerminalFolder
-        $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
-        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json
-
-        if($CommandLine) {
-            $InputObject.commandline = $CommandLine
+        $ValueProperties = @(
+            "commandline",
+            "colorscheme",
+            "cursorColor",
+            "cursorShape",
+            "cursorHeight",
+            "historySize",
+            "fontFace",
+            "fontSize",
+            "background",
+            "acrylicOpacity",
+            "startingDirectory",
+            "icon"
+        )
+        $ValueProperties | ForEach-Object {
+            if($PSBoundParameters.ContainsKey($_)) {
+                $InputObject[$_] = $PSBoundParameters[$_]
+            }
         }
-        if($ColorScheme) {
-            $InputObject.colorscheme = $ColorScheme
-        }
-        if($CursorColor) {
-            $InputObject.cursorColor = $CursorColor
-        }
-        if($CursorShape) {
-            $InputObject.cursorShape = $cursorShape
-        }
-        if($HistorySize) {
-            $InputObject.historySize = $HistorySize
-        }
-        if($FontFace) {
-            $InputObject.fontFace = $FontFace
-        }
-        if($FontSize) {
-            $InputObject.fontSize = $FontSize
-        }
-        if($AcrylicOpacity) {
-            $InputObject.acrylicOpacity = $AcrylicOpacity
-        }
-        if($PSBoundParameters.ContainsKey("UseAcrylic")) {
-            $InputObject.UseAcrylic = $UseAcrylic.IsPresent
-        }
-        if($PSBoundParameters.ContainsKey("UseAcrylic")) {
-            $InputObject.closeOnExit = $CloseOnExit.IsPresent
-        }
-        if($PSBoundParameters.ContainsKey("UseAcrylic")) {
-            $InputObject.snapOnInput = $SnapOnInput.IsPresent
-        }
-        if($StartingDirectory) {
-            $InputObject.startingDirectory = $StartingDirectory
-        }
-        if($Icon) {
-            $InputObject.icon = $Icon
+        $SwitchProperties = @(
+            "useAcrylic",
+            "closeOnExit",
+            "snapOnInput"
+        )
+        $SwitchProperties | ForEach-Object {
+            if($PSBoundParameters.ContainsKey($_)) {
+                $InputObject[$_] = $PSBoundParameters[$_].IsPresent
+            }
         }
         if($Padding.Count -gt 0) {
             $InputObject.padding = $padding -Join ", "
         }
 
-        if($PSCmdlet.ShouldProcess($InputObject.Name, "Update MS Terminal profile")) {
-            $NewProfiles = $Settings.Profiles | ForEach-Object {
-                if($_.Guid -eq $InputObject.Guid) {
+        $Settings["profiles"] = @($Settings["profiles"] | ForEach-Object {
+            if($_.guid -eq $InputObject['guid']) {
+                if($PSCmdlet.ShouldProcess("$($_.name) $($_.guid)", "Replace profile")) {
                     $InputObject
-                } else {
-                    $_
+                    $ProfileReplaced = $true
                 }
+            } else {
+                $_
             }
-            $Settings.Profiles = $NewProfiles
+        })
+    }
+    end {
+        if($ProfileReplaced) {
             ConvertTo-Json $Settings -Depth 10 | Set-Content -Path $SettingsPath
         }
     }

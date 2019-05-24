@@ -15,9 +15,9 @@ Creates a new MS Terminal profile.
 ```
 New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[-HistorySize] <Int32>]
  [-SnapOnInput] [[-ColorScheme] <String>] [[-CursorColor] <String>] [[-CursorShape] <String>]
- [[-FontFace] <String>] [[-StartingDirectory] <String>] [[-FontSize] <Int32>] [[-AcrylicOpacity] <Single>]
- [-UseAcrylic] [-CloseOnExit] [[-Icon] <String>] [[-Padding] <Int32[]>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [[-CursorHeight] <Int32>] [[-FontFace] <String>] [[-StartingDirectory] <String>] [[-FontSize] <Int32>]
+ [[-Background] <String>] [[-AcrylicOpacity] <Single>] [-UseAcrylic] [[-ScrollbarState] <String>]
+ [-CloseOnExit] [[-Icon] <String>] [[-Padding] <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,8 +43,23 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 11
 Default value: 0.5
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Background
+Sets the background color of the profile. Overrides "background" set in color scheme if "colorscheme" is set.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -124,6 +139,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CursorHeight
+Sets the height of the cursor. Only works when "cursorShape" is set to "vintage". Accepts values from 25-100.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CursorShape
 The cursor shape.
 
@@ -131,7 +161,7 @@ The cursor shape.
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: bar, vintage
+Accepted values: bar, emptyBox, filledBox, underscore, vintage
 
 Required: False
 Position: 5
@@ -149,7 +179,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: Consolas
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -164,7 +194,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: 12
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -194,7 +224,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -239,8 +269,24 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 14
 Default value: 0,0,0,0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ScrollbarState
+Defines the visibility of the scrollbar. Possible values: "visible", "hidden"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: visible, hidden
+
+Required: False
+Position: 12
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -269,7 +315,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: %USERPROFILE%
 Accept pipeline input: False
 Accept wildcard characters: False
