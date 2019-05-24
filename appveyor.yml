@@ -1,5 +1,10 @@
 version: 0.1.0.{build}
 skip_tags: true
+pull_requests:
+  do_not_increment_build_number: true
+branches:
+  only:
+  - master
 image:
   - Visual Studio 2017
 init:
