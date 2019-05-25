@@ -7,6 +7,7 @@ function Set-MSTerminalProfile {
         [Parameter(Mandatory=$true,ParameterSetName="InputObject",ValueFromPipeline=$true)]
         $InputObject,
 
+        [ValidateNotNullOrEmpty()]
         [string]$CommandLine,
 
         [switch]$MakeDefault,
@@ -78,7 +79,20 @@ function Set-MSTerminalProfile {
             )
             $ValueProperties | ForEach-Object {
                 if($PSBoundParameters.ContainsKey($_)) {
-                    $TerminalProfile[$_] = $PSBoundParameters[$_]
+                    $Key = $_
+                    $NewValue = $PSBoundParameters[$_]
+                    switch($NewValue.Gettype().Fullname) {
+                        "System.String" {
+                            if([String]::IsNullOrEmpty($NewValue)) {
+                                $TerminalProfile.Remove($Key)
+                            } else {
+                                $TerminalProfile[$Key] = $NewValue
+                            }
+                        }
+                        default {
+                            $TerminalProfile[$Key] = $NewValue
+                        }
+                    }
                 }
             }
             $SwitchProperties = @(
