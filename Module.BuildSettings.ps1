@@ -126,7 +126,7 @@ $PublishRepository = "PSGallery"
 # Path to the release notes file.  Set to $null if the release notes reside in the manifest file.
 # The contents of this file are used during publishing for the ReleaseNotes parameter.
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-$ReleaseNotesPath = $null
+$ReleaseNotesPath = 'ReleaseNotes.txt'
 
 # ----------------------- Misc properties ---------------------------------
 
@@ -255,6 +255,12 @@ Task AfterInstall -After Install {
 
 # Executes before the Publish task.
 Task BeforePublish -Before Publish {
+    if($env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
+        $ReleaseNotes = $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED.Replace("\n", "`n")
+    } else {
+        $ReleaseNotes = ""
+    }
+    Set-Content -Path $ReleaseNotesPath -Value $ReleaseNotes -Force
 }
 
 # Executes after the Publish task.
