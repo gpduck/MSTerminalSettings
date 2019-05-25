@@ -175,6 +175,11 @@ Task AfterStageFiles -After StageFiles {
 
     # Write updated manifest
     Set-Content -Path $ManifestPath -Value $Manifest
+
+    if($env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
+        $ReleaseNotes = $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED.Replace("\n", "`n")
+        Update-ModuleManifest -Path $ManifestPath -ReleaseNotes $ReleaseNotes
+    }
 }
 
 ###############################################################################
@@ -250,11 +255,6 @@ Task AfterInstall -After Install {
 
 # Executes before the Publish task.
 Task BeforePublish -Before Publish {
-    if($env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
-        $ReleaseNotes = $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED.Replace("\n", "`n")
-        $ManifestPath = Join-Path "$ModuleOutDir" "$ModuleName.psd1"
-        Update-ModuleManifest -Path $ManifestPath -ReleaseNotes $ReleaseNotes
-    }
 }
 
 # Executes after the Publish task.
