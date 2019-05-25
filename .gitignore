@@ -1,7 +1,6 @@
 # Output files
 Release/
 *.zip
-ReleaseNotes.txt
 
 # Test results
 PesterResults.xml

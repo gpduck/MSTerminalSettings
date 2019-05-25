@@ -257,10 +257,9 @@ Task AfterInstall -After Install {
 Task BeforePublish -Before Publish {
     if($env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
         $ReleaseNotes = $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED.Replace("\n", "`n")
-    } else {
-        $ReleaseNotes = ""
+        $ManifestPath = Join-Path "$ModuleOutDir" "$ModuleName.psd1"
+        Update-ModuleManifest -Path $ManifestPath -ReleaseNotes $ReleaseNotes
     }
-    Set-Content -Path $ReleaseNotesPath -Value $ReleaseNotes -Force
 }
 
 # Executes after the Publish task.
