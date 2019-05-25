@@ -1,5 +1,5 @@
 function Remove-MSTerminalProfile {
-     [CmdletBinding(DefaultParameterSetName="Name",SupportsShouldProcess=$true)]
+     [CmdletBinding(DefaultParameterSetName="Name",SupportsShouldProcess=$true,ConfirmImpact="High")]
     param(
         [Parameter(Mandatory=$true,ParameterSetname="Name")]
         [string]$Name,
