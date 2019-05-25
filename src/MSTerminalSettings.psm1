@@ -6,3 +6,10 @@ $Script:ModuleRoot = $PSScriptRoot
 Get-ChildItem $PSScriptRoot\ExportedFunctions\*.ps1 -Exclude *.Tests.ps1 | ForEach-Object {
 	. $_.fullname
 }
+
+# Load any argument completers
+if( Test-Path $PSScriptRoot\ArgumentCompleters ) {
+	Get-ChildItem $PSScriptRoot\ArgumentCompleters\*.ps1 -Exclude *.Tests.ps1 | ForEach-Object {
+		. $_.fullname
+	}
+}
