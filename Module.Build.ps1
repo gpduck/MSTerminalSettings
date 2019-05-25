@@ -378,11 +378,6 @@ Task Publish -If ($NuGetApiKey) Build, Test, BuildHelp, GenerateFileCatalog, {
         $publishParams['Repository'] = $PublishRepository
     }
 
-    # Consider not using -ReleaseNotes parameter when Update-ModuleManifest has been fixed.
-    if ($ReleaseNotesPath) {
-        $publishParams['ReleaseNotes'] = @(Get-Content $ReleaseNotesPath)
-    }
-
     "Calling Publish-Module..."
     Publish-Module @publishParams
 }

@@ -123,11 +123,6 @@ $NuGetApiKey = $env:PowershellGalleryKey
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
 $PublishRepository = "PSGallery"
 
-# Path to the release notes file.  Set to $null if the release notes reside in the manifest file.
-# The contents of this file are used during publishing for the ReleaseNotes parameter.
-[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-$ReleaseNotesPath = 'ReleaseNotes.txt'
-
 # ----------------------- Misc properties ---------------------------------
 
 # In addition, PFX certificates are supported in an interactive scenario only,
