@@ -31,7 +31,7 @@ function New-MSTerminalProfile {
         [String]$StartingDirectory = "%USERPROFILE%",
 
         [ValidateRange(1,[Int]::MaxValue)]
-        [int]$FontSize = 12,
+        [int]$FontSize = 10,
 
         [string]$Background,
 
