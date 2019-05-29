@@ -1,8 +1,8 @@
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '', Scope='*', Target='SuppressImportModule')]
-$SuppressImportModule = $true
+$SuppressImportModule = $false
 . $PSScriptRoot\Shared.ps1
 
-Describe "Get-MSTerminalSetting" {
+Describe "Set-MSTerminalSetting" {
     New-Item -Path $TestDrive/RoamingState -ItemType Directory
 
     Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
