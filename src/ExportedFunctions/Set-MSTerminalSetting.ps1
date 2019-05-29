@@ -22,7 +22,11 @@ function Set-MSTerminalSetting {
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
-    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+    if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
+        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+    } else {
+        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+    }
 
     if($DefaultProfile) {
         $Settings["defaultProfile"] = $DefaultProfile

@@ -7,6 +7,11 @@ Get-ChildItem $PSScriptRoot\ExportedFunctions\*.ps1 -Exclude *.Tests.ps1 | ForEa
 	. $_.fullname
 }
 
+# Import all scripts as functions in .\InternalFunctions.
+Get-ChildItem $PSScriptRoot\InternalFunctions\*.ps1 -Exclude *.Tests.ps1 | ForEach-Object {
+	. $_.fullname
+}
+
 # Load any argument completers
 if( Test-Path $PSScriptRoot\ArgumentCompleters ) {
 	Get-ChildItem $PSScriptRoot\ArgumentCompleters\*.ps1 -Exclude *.Tests.ps1 | ForEach-Object {
