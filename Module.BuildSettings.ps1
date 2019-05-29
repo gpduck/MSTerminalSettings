@@ -177,7 +177,9 @@ Task AfterStageFiles -After StageFiles {
     Set-Content -Path $ManifestPath -Value $Manifest
 
     if($env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
-        $ReleaseNotes = $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED.Replace("\n", "`n")
+        $ReleaseNotesTitle = $env:APPVEYOR_REPO_COMMIT_MESSAGE
+        $ReleaseNotesBody = $env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED.Replace("\n", "`n")
+        $ReleaseNotes = "$ReleaseNotesTitle`n`n$ReleaseNotesBody"
         Update-ModuleManifest -Path $ManifestPath -ReleaseNotes $ReleaseNotes
     }
 }

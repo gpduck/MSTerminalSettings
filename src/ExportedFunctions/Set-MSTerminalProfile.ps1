@@ -12,6 +12,7 @@ function Set-MSTerminalProfile {
 
         [switch]$MakeDefault,
 
+        [ValidateRange(-1,32767)]
         [Int]$HistorySize,
 
         [switch]$SnapOnInput,
