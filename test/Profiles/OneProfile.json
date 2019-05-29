@@ -1,0 +1,34 @@
+{
+    "showTabsInTitlebar": true,
+    "profiles": [
+        {
+            "name": "pester",
+            "guid": "{pester-guid}",
+            "useAcrylic": false,
+            "fontFace": "pester-font-face",
+            "cursorColor": "#pester",
+            "padding": "42, 42, 42, 42",
+            "commandline": "pester.exe",
+            "icon": "ms-appx:///ProfileIcons/pester.png",
+            "background": "#pester",
+            "fontSize": 42,
+            "closeOnExit": true,
+            "snapOnInput": true,
+            "colorscheme": "pester",
+            "historySize": 42,
+            "acrylicOpacity": 0.42,
+            "cursorShape": "pester",
+            "startingDirectory": "pester"
+          }
+    ],
+    "alwaysShowTabs": true,
+    "keybindings": [
+    ],
+    "schemes": [
+    ],
+    "initialCols": 42,
+    "defaultProfile": "42",
+    "requestedTheme": "42",
+    "showTerminalTitleInTitlebar": true,
+    "initialRows": 42
+  }
