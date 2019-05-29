@@ -30,7 +30,7 @@ initialRows                     : 30
 initialCols                     : 120
 alwaysShowTabs                  : True
 showTerminalTitleInTitlebar     : True
-experimental_showTabsInTitlebar : False
+showTabsInTitlebar              : False
 requestedTheme                  : system
 keybindings                     : {@{keys=System.Object[]; command=closeTab},...}
 ```

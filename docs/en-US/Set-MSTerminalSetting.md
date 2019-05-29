@@ -15,7 +15,7 @@ Updates the top-level settings for MS Terminal.
 ```
 Set-MSTerminalSetting [[-DefaultProfile] <String>] [[-InitialRows] <Int32>] [[-InitialCols] <Int32>]
  [-AlwaysShowTabs] [[-RequestedTheme] <String>] [-ShowTerminalTitleInTitlebar]
- [-Experimental_ShowTabsInTitlebar] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ShowTabsInTitlebar] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -77,8 +77,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Experimental_ShowTabsInTitlebar
-Enable the experimental "ShowTabsInTitlebar" setting.
+### -ShowTabsInTitlebar
+When set to 'true', the tabs are moved into the titlebar and the titlebar disappears. When set to 'false', the titlebar sits above the tabs.
 
 ```yaml
 Type: SwitchParameter

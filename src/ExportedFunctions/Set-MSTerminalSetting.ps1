@@ -16,7 +16,7 @@ function Set-MSTerminalSetting {
 
         [Switch]$ShowTerminalTitleInTitlebar,
 
-        [Switch]$Experimental_ShowTabsInTitlebar,
+        [Switch]$ShowTabsInTitlebar,
 
         [Hashtable]$ExtraSettings
     )
@@ -42,8 +42,8 @@ function Set-MSTerminalSetting {
     if($PSBoundParameters.ContainsKey("ShowTerminalTitleInTitlebar")) {
         $Settings["showTerminalTitleInTitlebar"] = $ShowTerminalTitleInTitlebar.IsPresent
     }
-    if($PSBoundParameters.ContainsKey("Experimental_ShowTabsInTitlebar")) {
-        $Settings["experimental_ShowTabsInTitlebar"] = $Experimental_ShowTabsInTitlebar.IsPresent
+    if($PSBoundParameters.ContainsKey("ShowTabsInTitlebar")) {
+        $Settings["showTabsInTitlebar"] = $ShowTabsInTitlebar.IsPresent
     }
     if($PSCmdlet.ShouldProcess("update MS Terminal settings")) {
         ConvertTo-Json $Settings -Depth 10 | Set-Content -Path $SettingsPath
