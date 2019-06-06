@@ -1,0 +1,15 @@
+{
+    "showTabsInTitlebar": true,
+    "profiles": [
+    ],
+    "alwaysShowTabs": true,
+    "keybindings": [
+    ],
+    "schemes": [
+    ],
+    "initialCols": 42,
+    "defaultProfile": "42",
+    "requestedTheme": "42",
+    "showTerminalTitleInTitlebar": true,
+    "initialRows": 42
+  }

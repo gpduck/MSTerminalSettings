@@ -24,7 +24,7 @@ Returns the currently defined profiles from the profiles.json file.
 Returns the current top-level settings for MS Terminal.
 
 ### [Import-Iterm2ColorScheme](Import-Iterm2ColorScheme.md)
-Imports an iterm2 colorscheme file into MS Terminal.
+Imports an iterm2 color scheme file into MS Terminal.
 
 ### [New-MSTerminalColorScheme](New-MSTerminalColorScheme.md)
 {{ Fill in the Description }}

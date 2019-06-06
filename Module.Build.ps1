@@ -349,11 +349,16 @@ Task Test -If (Get-Module Pester -ListAvailable) Build,{
             $testing.CodeCoverage = $CodeCoverageFiles
         }
 
-        $testResult = Invoke-Pester @testing
+        $PowerShell = powershell { param($p) Import-Module Pester; Invoke-Pester @p } -Args $testing
+        $pwsh = pwsh { param($p) Import-Module Pester; Invoke-Pester @p } -Args $testing
 
         Assert -Condition (
-            $testResult.FailedCount -eq 0
-        ) -Message "One or more Pester tests failed, build cannot continue."
+            $PowerShell.FailedCount -eq 0
+        ) -Message "One or more PowerShell Pester tests failed, build cannot continue."
+
+        Assert -Condition (
+            $pwsh.FailedCount -eq 0
+        ) -Message "One or more pwsh Pester tests failed, build cannot continue."
 
         if ($CodeCoverageEnabled) {
             $testCoverage = [int]($testResult.CodeCoverage.NumberOfCommandsExecuted /

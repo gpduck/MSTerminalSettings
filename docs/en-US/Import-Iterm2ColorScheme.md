@@ -8,7 +8,7 @@ schema: 2.0.0
 # Import-Iterm2ColorScheme
 
 ## SYNOPSIS
-Imports an iterm2 colorscheme file into MS Terminal.
+Imports an iterm2 color scheme file into MS Terminal.
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Import-Iterm2ColorScheme [-LiteralPath] <String[]> [-Name <Object>] [<CommonPara
 ```
 
 ## DESCRIPTION
-Imports an iterm2 colorscheme file into MS Terminal.
+Imports an iterm2 color scheme file into MS Terminal.
 
 ## EXAMPLES
 

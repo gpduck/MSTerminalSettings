@@ -41,6 +41,14 @@ function New-MSTerminalProfile {
 
         [switch]$UseAcrylic,
 
+        [String]$BackgroundImage,
+
+        [ValidateRange(0,1)]
+        [double]$BackgroundImageOpacity,
+
+        [ValidateSet("none","fill","uniform","uniformToFill")]
+        [String]$BackgroundImageStretchMode,
+
         [ValidateSet("visible","hidden")]
         [string]$ScrollbarState,
 
@@ -66,8 +74,18 @@ function New-MSTerminalProfile {
         guid = "{$([Guid]::NewGuid().Guid)}"
         commandline = $CommandLine
     }
+    $ValueProperties = @(
+        "backgroundImage",
+        "backgroundImageOpacity",
+        "backgroundImageStretchMode"
+    )
+    $ValueProperties | ForEach-Object {
+        if($PSBoundParameters.ContainsKey($_)) {
+            $Profile[$_] = $PSBoundParameters[$_]
+        }
+    }
     if($ColorScheme) {
-        $Profile["colorscheme"] = $ColorScheme
+        $Profile["colorScheme"] = $ColorScheme
     }
     if($CursorColor) {
         $Profile["cursorColor"] = $CursorColor

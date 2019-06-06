@@ -41,32 +41,54 @@ function Set-MSTerminalProfile {
 
         [switch]$UseAcrylic,
 
+        [String]$BackgroundImage,
+
+        [ValidateRange(0,1)]
+        [double]$BackgroundImageOpacity,
+
+        [ValidateSet("none","fill","uniform","uniformToFill")]
+        [AllowNull()]
+        [String]$BackgroundImageStretchMode,
+
         [switch]$CloseOnExit,
 
         [string]$Icon,
 
         [ValidateCount(4,4)]
-        [int[]]$Padding
+        [int[]]$Padding,
+
+        [string[]]$Clear
     )
     begin {
         $Path = Find-MSTerminalFolder
         $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
-        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+        if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
+            $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+        } else {
+            $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+        }
         $ProfileReplaced = $false
     }
     process {
         if($PSCmdlet.ParametersetName -eq "Name") {
             $InputObject = Get-MSTerminalProfile -name $Name
         }
-        $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
+        if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
+            $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
+        } else {
+            $InputObject = ConvertPSObjectToHashtable $InputObject
+        }
 
         $InputObject | ForEach-Object {
             $TerminalProfile = $_
             Write-Debug "Editing profile $($TerminalProfile['name']) $($TerminalProfile['guid'])"
 
             $ValueProperties = @(
+                "backgroundImage",
+                "backgroundImageOpacity",
+                "backgroundImageStretchMode",
                 "commandline",
-                "colorscheme",
+                "colorScheme",
                 "cursorColor",
                 "cursorShape",
                 "cursorHeight",
@@ -108,6 +130,12 @@ function Set-MSTerminalProfile {
             }
             if($Padding.Count -gt 0) {
                 $TerminalProfile["padding"] = $padding -Join ", "
+            }
+
+            if($Clear) {
+                $Clear | ForEach-Object {
+                    $TerminalProfile.Remove($_)
+                }
             }
 
             $Settings["profiles"] = @($Settings["profiles"] | ForEach-Object {

@@ -16,7 +16,8 @@ Creates a new MS Terminal profile.
 New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[-HistorySize] <Int32>]
  [-SnapOnInput] [[-ColorScheme] <String>] [[-CursorColor] <String>] [[-CursorShape] <String>]
  [[-CursorHeight] <Int32>] [[-FontFace] <String>] [[-StartingDirectory] <String>] [[-FontSize] <Int32>]
- [[-Background] <String>] [[-AcrylicOpacity] <Single>] [-UseAcrylic] [[-ScrollbarState] <String>]
+ [[-Background] <String>] [[-AcrylicOpacity] <Single>] [-UseAcrylic] [-BackgroundImage <String>]
+ [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>] [[-ScrollbarState] <String>]
  [-CloseOnExit] [[-Icon] <String>] [[-Padding] <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -50,7 +51,7 @@ Accept wildcard characters: False
 ```
 
 ### -Background
-Sets the background color of the profile. Overrides "background" set in color scheme if "colorscheme" is set.
+Sets the background color of the profile. Overrides "background" set in color scheme if "colorScheme" is set.
 
 ```yaml
 Type: String
@@ -344,6 +345,58 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImage
+The path to an image to use as the background for the terminal window.  This value is ignored if UseAcrylic is enabled.
+
+Ex: "file:///c:/users/USER/Pictures/background.jpg"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImageOpacity
+The background image opacity, a number between 0 and 1.
+
+```yaml
+Type: Double
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImageStretchMode
+How to resize the background image.
+
+Fill - The background is resized to fill the window.  The aspect ratio is not preserved.
+None - The background image is kept at it's original dimensions.
+Uniform - The background image is resized to fill the window, preserving the aspect ratio.
+UniformToFill - The background image is resized to fill the window, clipping the image to make it fit the window and preserving the aspect ratio.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

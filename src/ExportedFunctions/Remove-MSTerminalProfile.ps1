@@ -10,14 +10,22 @@ function Remove-MSTerminalProfile {
     begin {
         $Path = Find-MSTerminalFolder
         $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
-        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+        if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
+            $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+        } else {
+            $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+        }
         $ProfileRemoved = $false
     }
     process {
         if($PSCmdlet.ParametersetName -eq "Name") {
             $InputObject = Get-MSTerminalProfile -name $Name
         }
-        $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
+        if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
+            $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
+        } else {
+            $InputObject = ConvertPSObjectToHashtable
+        }
 
         $InputObject | ForEach-Object {
             $TerminalProfile = $_

@@ -16,13 +16,17 @@ function Set-MSTerminalSetting {
 
         [Switch]$ShowTerminalTitleInTitlebar,
 
-        [Switch]$Experimental_ShowTabsInTitlebar,
+        [Switch]$ShowTabsInTitlebar,
 
         [Hashtable]$ExtraSettings
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
-    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+    if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
+        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+    } else {
+        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+    }
 
     if($DefaultProfile) {
         $Settings["defaultProfile"] = $DefaultProfile
@@ -42,8 +46,8 @@ function Set-MSTerminalSetting {
     if($PSBoundParameters.ContainsKey("ShowTerminalTitleInTitlebar")) {
         $Settings["showTerminalTitleInTitlebar"] = $ShowTerminalTitleInTitlebar.IsPresent
     }
-    if($PSBoundParameters.ContainsKey("Experimental_ShowTabsInTitlebar")) {
-        $Settings["experimental_ShowTabsInTitlebar"] = $Experimental_ShowTabsInTitlebar.IsPresent
+    if($PSBoundParameters.ContainsKey("ShowTabsInTitlebar")) {
+        $Settings["showTabsInTitlebar"] = $ShowTabsInTitlebar.IsPresent
     }
     if($PSCmdlet.ShouldProcess("update MS Terminal settings")) {
         ConvertTo-Json $Settings -Depth 10 | Set-Content -Path $SettingsPath

@@ -9,6 +9,6 @@ function Get-MSTerminalSetting {
     if($Force) {
         $Settings
     } else {
-        $Settings | Select-Object -ExcludeProperty Profiles,Schemes
+        $Settings | Select-Object -Property * -ExcludeProperty Profiles,Schemes
     }
 }
