@@ -60,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Background
-Sets the background color of the profile. Overrides "background" set in color scheme if "colorscheme" is set.
+Sets the background color of the profile. Overrides "background" set in color scheme if "colorScheme" is set.
 
 ```yaml
 Type: String

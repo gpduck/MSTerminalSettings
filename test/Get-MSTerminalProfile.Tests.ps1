@@ -27,7 +27,7 @@ Describe "Get-MSTerminalProfile" {
             @("fontSize", 42),
             @("closeOnExit", $true),
             @("snapOnInput", $true),
-            @("colorscheme", "pester"),
+            @("colorScheme", "pester"),
             @("historySize", 42),
             @("acrylicOpacity", 0.42),
             @("cursorShape", "pester"),

@@ -74,7 +74,7 @@ function Set-MSTerminalProfile {
 
             $ValueProperties = @(
                 "commandline",
-                "colorscheme",
+                "colorScheme",
                 "cursorColor",
                 "cursorShape",
                 "cursorHeight",

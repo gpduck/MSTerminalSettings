@@ -27,7 +27,7 @@ Describe "New-MSTerminalProfile" {
                 fontSize = 11
                 closeOnExit = $true
                 snapOnInput = $true
-                colorscheme = "new-pester"
+                colorScheme = "new-pester"
                 historySize = 11
                 acrylicOpacity = 0.11
                 cursorShape = "vintage"
@@ -60,7 +60,7 @@ Describe "New-MSTerminalProfile" {
             @("fontSize", 42),
             @("closeOnExit", $true),
             @("snapOnInput", $true),
-            @("colorscheme", "pester"),
+            @("colorScheme", "pester"),
             @("historySize", 42),
             @("acrylicOpacity", 0.42),
             @("cursorShape", "pester"),
@@ -93,7 +93,7 @@ Describe "New-MSTerminalProfile" {
                 fontSize = 11
                 closeOnExit = $true
                 snapOnInput = $true
-                colorscheme = "new-pester"
+                colorScheme = "new-pester"
                 historySize = 11
                 acrylicOpacity = 0.11
                 cursorShape = "vintage"

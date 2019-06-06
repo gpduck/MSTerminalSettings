@@ -67,7 +67,7 @@ function New-MSTerminalProfile {
         commandline = $CommandLine
     }
     if($ColorScheme) {
-        $Profile["colorscheme"] = $ColorScheme
+        $Profile["colorScheme"] = $ColorScheme
     }
     if($CursorColor) {
         $Profile["cursorColor"] = $CursorColor
