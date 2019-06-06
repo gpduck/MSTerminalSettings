@@ -41,12 +41,23 @@ function Set-MSTerminalProfile {
 
         [switch]$UseAcrylic,
 
+        [String]$BackgroundImage,
+
+        [ValidateRange(0,1)]
+        [double]$BackgroundImageOpacity,
+
+        [ValidateSet("none","fill","uniform","uniformToFill")]
+        [AllowNull()]
+        [String]$BackgroundImageStretchMode,
+
         [switch]$CloseOnExit,
 
         [string]$Icon,
 
         [ValidateCount(4,4)]
-        [int[]]$Padding
+        [int[]]$Padding,
+
+        [string[]]$Clear
     )
     begin {
         $Path = Find-MSTerminalFolder
@@ -65,7 +76,7 @@ function Set-MSTerminalProfile {
         if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
             $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
         } else {
-            $InputObject = ConvertPSObjectToHashtable
+            $InputObject = ConvertPSObjectToHashtable $InputObject
         }
 
         $InputObject | ForEach-Object {
@@ -73,6 +84,9 @@ function Set-MSTerminalProfile {
             Write-Debug "Editing profile $($TerminalProfile['name']) $($TerminalProfile['guid'])"
 
             $ValueProperties = @(
+                "backgroundImage",
+                "backgroundImageOpacity",
+                "backgroundImageStretchMode",
                 "commandline",
                 "colorScheme",
                 "cursorColor",
@@ -116,6 +130,12 @@ function Set-MSTerminalProfile {
             }
             if($Padding.Count -gt 0) {
                 $TerminalProfile["padding"] = $padding -Join ", "
+            }
+
+            if($Clear) {
+                $Clear | ForEach-Object {
+                    $TerminalProfile.Remove($_)
+                }
             }
 
             $Settings["profiles"] = @($Settings["profiles"] | ForEach-Object {

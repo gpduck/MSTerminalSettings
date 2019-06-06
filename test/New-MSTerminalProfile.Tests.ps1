@@ -94,6 +94,9 @@ Describe "New-MSTerminalProfile" {
                 closeOnExit = $true
                 snapOnInput = $true
                 colorScheme = "new-pester"
+                backgroundImage = "pester-background.jpg"
+                backgroundImageOpacity = "0.11"
+                backgroundImageStretchMode = "uniform"
                 historySize = 11
                 acrylicOpacity = 0.11
                 cursorShape = "vintage"
