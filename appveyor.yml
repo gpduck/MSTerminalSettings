@@ -24,9 +24,10 @@ environment:
 install:
   - ps: |
       import-module powershellget
-      Install-module PowerShellGet -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
-      Remove-Module PowerShellGet -Force
-      Import-Module PowerShellGet -Force
+      # cannot update and use new version in the same process
+      #Install-module PowerShellGet -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      #Remove-Module PowerShellGet -Force
+      #Import-Module PowerShellGet -Force
       Get-PackageProvider -Name NuGet -ForceBootstrap
       install-module pester,PSScriptAnalyzer,PlatyPS -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
   - pwsh: |
