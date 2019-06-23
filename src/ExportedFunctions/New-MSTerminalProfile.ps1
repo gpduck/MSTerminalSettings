@@ -36,6 +36,8 @@ function New-MSTerminalProfile {
 
         [string]$Background,
 
+        [string]$Foreground,
+
         [ValidateRange(0,1)]
         [float]$AcrylicOpacity = 0.5,
 
@@ -77,7 +79,8 @@ function New-MSTerminalProfile {
     $ValueProperties = @(
         "backgroundImage",
         "backgroundImageOpacity",
-        "backgroundImageStretchMode"
+        "backgroundImageStretchMode",
+        "foreground"
     )
     $ValueProperties | ForEach-Object {
         if($PSBoundParameters.ContainsKey($_)) {

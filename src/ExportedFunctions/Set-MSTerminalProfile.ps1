@@ -36,6 +36,8 @@ function Set-MSTerminalProfile {
 
         [string]$Background,
 
+        [string]$Foreground,
+
         [ValidateRange(0,1)]
         [float]$AcrylicOpacity,
 
@@ -49,6 +51,9 @@ function Set-MSTerminalProfile {
         [ValidateSet("none","fill","uniform","uniformToFill")]
         [AllowNull()]
         [String]$BackgroundImageStretchMode,
+
+        [ValidateSet("visible","hidden")]
+        [string]$ScrollbarState,
 
         [switch]$CloseOnExit,
 
@@ -96,6 +101,8 @@ function Set-MSTerminalProfile {
                 "fontFace",
                 "fontSize",
                 "background",
+                "foreground"
+                "scrollbarState",
                 "acrylicOpacity",
                 "startingDirectory",
                 "icon"
