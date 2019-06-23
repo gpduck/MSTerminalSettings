@@ -28,7 +28,7 @@ This example creates a new profile for the PowerShell 7 preview using the PowerS
 
 ```
 $TerminalFolder = Find-MSTerminalFolder
-Invoke-RestMethod -Uri 'https://github.com/PowerShell/PowerShell/raw/master/assets/StoreLogo-Preview.png' -OutFile "$TerminalFolder\RoamingState\StoreLogo-Preview.png"
+Invoke-RestMethod -Uri 'https://github.com/PowerShell/PowerShell/raw/master/assets/StoreLogo-Preview.png' -OutFile "$TerminalFolder\StoreLogo-Preview.png"
 
 $Pwsh7 = @{
     Name = "pwsh7-preview"
