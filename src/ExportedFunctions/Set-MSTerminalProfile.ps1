@@ -19,6 +19,9 @@ function Set-MSTerminalProfile {
 
         [string]$ColorScheme,
 
+        [ValidateCount(16,16)]
+        [string[]]$ColorTable,
+
         [string]$CursorColor,
 
         [ValidateSet("bar","emptyBox","filledBox","underscore","vintage")]
@@ -36,6 +39,8 @@ function Set-MSTerminalProfile {
 
         [string]$Background,
 
+        [string]$Foreground,
+
         [ValidateRange(0,1)]
         [float]$AcrylicOpacity,
 
@@ -50,6 +55,9 @@ function Set-MSTerminalProfile {
         [AllowNull()]
         [String]$BackgroundImageStretchMode,
 
+        [ValidateSet("visible","hidden")]
+        [string]$ScrollbarState,
+
         [switch]$CloseOnExit,
 
         [string]$Icon,
@@ -61,7 +69,7 @@ function Set-MSTerminalProfile {
     )
     begin {
         $Path = Find-MSTerminalFolder
-        $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
+        $SettingsPath = Join-Path $Path "profiles.json"
         if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
             $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
         } else {
@@ -89,6 +97,7 @@ function Set-MSTerminalProfile {
                 "backgroundImageStretchMode",
                 "commandline",
                 "colorScheme",
+                "colorTable",
                 "cursorColor",
                 "cursorShape",
                 "cursorHeight",
@@ -96,6 +105,8 @@ function Set-MSTerminalProfile {
                 "fontFace",
                 "fontSize",
                 "background",
+                "foreground"
+                "scrollbarState",
                 "acrylicOpacity",
                 "startingDirectory",
                 "icon"
@@ -107,7 +118,13 @@ function Set-MSTerminalProfile {
                     switch($NewValue.Gettype().Fullname) {
                         "System.String" {
                             if([String]::IsNullOrEmpty($NewValue)) {
-                                $TerminalProfile.Remove($Key)
+                                $Keys = $TerminalProfile.Keys | ForEach-Object {$_}
+                                $Keys | ForEach-Object {
+                                    if($_ -eq $Key) {
+                                        $TerminalProfile.Remove($_)
+                                    }
+                                }
+                                #$TerminalProfile.Remove($Key)
                             } else {
                                 $TerminalProfile[$Key] = $NewValue
                             }
@@ -134,7 +151,13 @@ function Set-MSTerminalProfile {
 
             if($Clear) {
                 $Clear | ForEach-Object {
-                    $TerminalProfile.Remove($_)
+                    $ClearKey = $_
+                    $Keys = $TerminalProfile.Keys | ForEach-Object {$_}
+                    $Keys | ForEach-Object {
+                        if($_ -eq $ClearKey) {
+                            $TerminalProfile.Remove($_)
+                        }
+                    }
                 }
             }
 
@@ -142,6 +165,7 @@ function Set-MSTerminalProfile {
                 if($_.guid -eq $TerminalProfile['guid']) {
                     if($PSCmdlet.ShouldProcess("$($_.name) $($_.guid)", "Replace profile")) {
                         $TerminalProfile
+                        Write-Debug (ConvertTo-Json $TerminalProfile)
                         [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignment", "ProfileReplaced")]
                         $ProfileReplaced = $true
                     }
@@ -149,7 +173,6 @@ function Set-MSTerminalProfile {
                     $_
                 }
             })
-
         }
     }
     end {

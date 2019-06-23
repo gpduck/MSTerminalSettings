@@ -3,15 +3,13 @@ $SuppressImportModule = $false
 . $PSScriptRoot\Shared.ps1
 
 Describe "New-MSTerminalProfile" {
-    New-Item -Path $TestDrive/RoamingState -ItemType Directory
-
     Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
         $TestDrive
     }
 
     context "Existing Profile" {
         BeforeEach {
-            Copy-Item $PSScriptRoot/Profiles/OneProfile.json $TestDrive/RoamingState/profiles.json
+            Copy-Item $PSScriptRoot/Profiles/OneProfile.json $TestDrive/profiles.json
         }
 
         It "Adds a new profile" {
@@ -77,7 +75,7 @@ Describe "New-MSTerminalProfile" {
 
     context "No existing profiles" {
         BeforeEach {
-            Copy-Item $PSScriptRoot/Profiles/MainSettings.json $TestDrive/RoamingState/profiles.json
+            Copy-Item $PSScriptRoot/Profiles/MainSettings.json $TestDrive/profiles.json
         }
 
         It "Adds a new profile" {

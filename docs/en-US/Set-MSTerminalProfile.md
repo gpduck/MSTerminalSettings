@@ -15,21 +15,23 @@ Updates a profile setting.
 ### Name (Default)
 ```
 Set-MSTerminalProfile -Name <String> [-CommandLine <String>] [-MakeDefault] [-HistorySize <Int32>]
- [-SnapOnInput] [-ColorScheme <String>] [-CursorColor <String>] [-CursorShape <String>] [-CursorHeight <Int32>]
- [-FontFace <String>] [-StartingDirectory <String>] [-FontSize <Int32>] [-Background <String>]
- [-AcrylicOpacity <Single>] [-UseAcrylic] [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>]
- [-BackgroundImageStretchMode <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>]
- [-Clear <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-SnapOnInput] [-ColorScheme <String>] [-ColorTable <String[]>] [-CursorColor <String>]
+ [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
+ [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
+ [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>]
+ [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### InputObject
 ```
 Set-MSTerminalProfile -InputObject <Object> [-CommandLine <String>] [-MakeDefault] [-HistorySize <Int32>]
- [-SnapOnInput] [-ColorScheme <String>] [-CursorColor <String>] [-CursorShape <String>] [-CursorHeight <Int32>]
- [-FontFace <String>] [-StartingDirectory <String>] [-FontSize <Int32>] [-Background <String>]
- [-AcrylicOpacity <Single>] [-UseAcrylic] [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>]
- [-BackgroundImageStretchMode <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>]
- [-Clear <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-SnapOnInput] [-ColorScheme <String>] [-ColorTable <String[]>] [-CursorColor <String>]
+ [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
+ [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
+ [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>]
+ [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -76,6 +78,74 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -BackgroundImage
+The path to an image to use as the background for the terminal window.  This value is ignored if UseAcrylic is enabled.
+
+Ex: "file:///c:/users/USER/Pictures/background.jpg"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImageOpacity
+The background image opacity, a number between 0 and 1.
+
+```yaml
+Type: Double
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImageStretchMode
+How to resize the background image.
+
+Fill - The background is resized to fill the window.  The aspect ratio is not preserved.
+None - The background image is kept at it's original dimensions.
+Uniform - The background image is resized to fill the window, preserving the aspect ratio.
+UniformToFill - The background image is resized to fill the window, clipping the image to make it fit the window and preserving the aspect ratio.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: none, fill, uniform, uniformToFill
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Clear
+A list of profile settings to remove from the profile.  This takes precedence over any other value being set by this cmdlet.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CloseOnExit
 Should MS Terminal close the tab when the program exits.
 
@@ -96,6 +166,21 @@ The name of the color scheme to use for this profile.
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ColorTable
+Array of colors used in the profile if colorscheme is not set. Colors use hex color format: "#rrggbb". Ordering is as follows: [black, red, green, yellow, blue, magenta, cyan, white, bright black, bright red, bright green, bright yellow, bright blue, bright magenta, bright cyan, bright white]
+
+```yaml
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -212,6 +297,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Foreground
+Sets the foreground color of the profile. Overrides foreground set in color scheme if colorscheme is set. Uses hex color format: "#rrggbb".
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -HistorySize
 The number of lines of history to store.
 
@@ -302,6 +402,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ScrollbarState
+Defines the visibility of the scrollbar. Possible values: "visible", "hidden"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: visible, hidden
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SnapOnInput
 Enable the SnapOnInput setting.
 
@@ -355,73 +471,6 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BackgroundImage
-The path to an image to use as the background for the terminal window.  This value is ignored if UseAcrylic is enabled.
-
-Ex: "file:///c:/users/USER/Pictures/background.jpg"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BackgroundImageOpacity
-The background image opacity, a number between 0 and 1.
-
-```yaml
-Type: Double
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BackgroundImageStretchMode
-How to resize the background image.
-
-Fill - The background is resized to fill the window.  The aspect ratio is not preserved.
-None - The background image is kept at it's original dimensions.
-Uniform - The background image is resized to fill the window, preserving the aspect ratio.
-UniformToFill - The background image is resized to fill the window, clipping the image to make it fit the window and preserving the aspect ratio.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Clear
-A list of profile settings to remove from the profile.  This takes precedence over any other value being set by this cmdlet.
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
 
 Required: False
 Position: Named

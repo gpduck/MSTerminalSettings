@@ -14,11 +14,12 @@ Creates a new MS Terminal profile.
 
 ```
 New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[-HistorySize] <Int32>]
- [-SnapOnInput] [[-ColorScheme] <String>] [[-CursorColor] <String>] [[-CursorShape] <String>]
- [[-CursorHeight] <Int32>] [[-FontFace] <String>] [[-StartingDirectory] <String>] [[-FontSize] <Int32>]
- [[-Background] <String>] [[-AcrylicOpacity] <Single>] [-UseAcrylic] [-BackgroundImage <String>]
- [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>] [[-ScrollbarState] <String>]
- [-CloseOnExit] [[-Icon] <String>] [[-Padding] <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-SnapOnInput] [[-ColorScheme] <String>] [[-ColorTable] <String[]>] [[-CursorColor] <String>]
+ [[-CursorShape] <String>] [[-CursorHeight] <Int32>] [[-FontFace] <String>] [[-StartingDirectory] <String>]
+ [[-FontSize] <Int32>] [[-Background] <String>] [[-Foreground] <String>] [[-AcrylicOpacity] <Single>]
+ [-UseAcrylic] [[-BackgroundImage] <String>] [[-BackgroundImageOpacity] <Double>]
+ [[-BackgroundImageStretchMode] <String>] [[-ScrollbarState] <String>] [-CloseOnExit] [[-Icon] <String>]
+ [[-Padding] <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,7 +45,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 13
 Default value: 0.5
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -59,7 +60,60 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImage
+The path to an image to use as the background for the terminal window.  This value is ignored if UseAcrylic is enabled.
+
+Ex: "file:///c:/users/USER/Pictures/background.jpg"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 14
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImageOpacity
+The background image opacity, a number between 0 and 1.
+
+```yaml
+Type: Double
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 15
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImageStretchMode
+How to resize the background image.
+
+Fill - The background is resized to fill the window.  The aspect ratio is not preserved.
+None - The background image is kept at it's original dimensions.
+Uniform - The background image is resized to fill the window, preserving the aspect ratio.
+UniformToFill - The background image is resized to fill the window, clipping the image to make it fit the window and preserving the aspect ratio.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: none, fill, uniform, uniformToFill
+
+Required: False
+Position: 16
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -91,6 +145,21 @@ Aliases:
 Required: False
 Position: 3
 Default value: Campbell
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ColorTable
+Array of colors used in the profile if colorscheme is not set. Colors use hex color format: "#rrggbb". Ordering is as follows: [black, red, green, yellow, blue, magenta, cyan, white, bright black, bright red, bright green, bright yellow, bright blue, bright magenta, bright cyan, bright white]
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -134,7 +203,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: #ffffff
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -149,7 +218,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -165,7 +234,7 @@ Aliases:
 Accepted values: bar, emptyBox, filledBox, underscore, vintage
 
 Required: False
-Position: 5
+Position: 6
 Default value: Bar
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -180,7 +249,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: Consolas
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -195,8 +264,23 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: 12
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Foreground
+Sets the foreground color of the profile. Overrides foreground set in color scheme if colorscheme is set. Uses hex color format: "#rrggbb".
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 12
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -225,7 +309,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 18
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -270,7 +354,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 14
+Position: 19
 Default value: 0,0,0,0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -286,7 +370,7 @@ Aliases:
 Accepted values: visible, hidden
 
 Required: False
-Position: 12
+Position: 17
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -316,7 +400,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: %USERPROFILE%
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -345,58 +429,6 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BackgroundImage
-The path to an image to use as the background for the terminal window.  This value is ignored if UseAcrylic is enabled.
-
-Ex: "file:///c:/users/USER/Pictures/background.jpg"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BackgroundImageOpacity
-The background image opacity, a number between 0 and 1.
-
-```yaml
-Type: Double
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BackgroundImageStretchMode
-How to resize the background image.
-
-Fill - The background is resized to fill the window.  The aspect ratio is not preserved.
-None - The background image is kept at it's original dimensions.
-Uniform - The background image is resized to fill the window, preserving the aspect ratio.
-UniformToFill - The background image is resized to fill the window, clipping the image to make it fit the window and preserving the aspect ratio.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
 
 Required: False
 Position: Named

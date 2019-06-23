@@ -9,7 +9,7 @@ function Get-MSTerminalProfile {
         return
     }
 
-    $ProfilesJson = Join-Path $Path "RoamingState/profiles.json"
+    $ProfilesJson = Join-Path $Path "profiles.json"
     Get-Content -Path $ProfilesJson -Raw | ConvertFrom-Json | ForEach-Object {
         $_.Profiles
     } | Where-Object {

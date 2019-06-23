@@ -1,6 +1,6 @@
 function New-MSTerminalProfile {
     [CmdletBinding(SupportsShouldProcess=$true)]
-        [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,
@@ -17,7 +17,8 @@ function New-MSTerminalProfile {
 
         [String]$ColorScheme = "Campbell",
 
-        #$ColorTable,
+        [ValidateCount(16,16)]
+        [string[]]$ColorTable,
 
         [String]$CursorColor = "#ffffff",
 
@@ -35,6 +36,8 @@ function New-MSTerminalProfile {
         [int]$FontSize = 10,
 
         [string]$Background,
+
+        [string]$Foreground,
 
         [ValidateRange(0,1)]
         [float]$AcrylicOpacity = 0.5,
@@ -60,7 +63,7 @@ function New-MSTerminalProfile {
         [int[]]$Padding = @(0,0,0,0)
     )
     $Path = Find-MSTerminalFolder
-    $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
+    $SettingsPath = Join-Path $Path "profiles.json"
     $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json
     foreach($p in $Settings.Profiles) {
         if($P.Name -eq $Name) {
@@ -77,7 +80,9 @@ function New-MSTerminalProfile {
     $ValueProperties = @(
         "backgroundImage",
         "backgroundImageOpacity",
-        "backgroundImageStretchMode"
+        "backgroundImageStretchMode",
+        "colorTable",
+        "foreground"
     )
     $ValueProperties | ForEach-Object {
         if($PSBoundParameters.ContainsKey($_)) {
