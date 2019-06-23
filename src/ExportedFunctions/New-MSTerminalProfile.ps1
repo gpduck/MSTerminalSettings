@@ -63,7 +63,7 @@ function New-MSTerminalProfile {
         [int[]]$Padding = @(0,0,0,0)
     )
     $Path = Find-MSTerminalFolder
-    $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
+    $SettingsPath = Join-Path $Path "profiles.json"
     $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json
     foreach($p in $Settings.Profiles) {
         if($P.Name -eq $Name) {

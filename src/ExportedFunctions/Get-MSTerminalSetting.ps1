@@ -3,7 +3,7 @@ function Get-MSTerminalSetting {
         [Switch]$Force
     )
     $Path = Find-MSTerminalFolder
-    $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
+    $SettingsPath = Join-Path $Path "profiles.json"
     $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json
 
     if($Force) {

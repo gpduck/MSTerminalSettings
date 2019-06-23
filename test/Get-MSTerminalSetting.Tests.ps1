@@ -3,13 +3,11 @@ $SuppressImportModule = $false
 . $PSScriptRoot\Shared.ps1
 
 Describe "Get-MSTerminalSetting" {
-    New-Item -Path $TestDrive/RoamingState -ItemType Directory
-
     Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
         $TestDrive
     }
     BeforeEach {
-        Copy-Item $PSScriptRoot/Profiles/MainSettings.json $TestDrive/RoamingState/profiles.json
+        Copy-Item $PSScriptRoot/Profiles/MainSettings.json $TestDrive/profiles.json
     }
     It "Reads alwaysShowTabs" {
         $Value = (Get-MSTerminalSetting).alwaysShowTabs

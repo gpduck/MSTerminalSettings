@@ -3,13 +3,11 @@ $SuppressImportModule = $false
 . $PSScriptRoot\Shared.ps1
 
 Describe "Set-MSTerminalProfile" {
-    New-Item -Path $TestDrive/RoamingState -ItemType Directory
-
     Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
         $TestDrive
     }
     BeforeEach {
-        Copy-Item $PSScriptRoot/Profiles/OneProfile.json $TestDrive/RoamingState/profiles.json
+        Copy-Item $PSScriptRoot/Profiles/OneProfile.json $TestDrive/profiles.json
     }
     Context "Profile by pipeline" {
         It "Updates commandLine" {
@@ -22,7 +20,7 @@ Describe "Set-MSTerminalProfile" {
 
     Context "Wrong Case" {
         BeforeEach {
-            Copy-Item $PSScriptRoot/Profiles/WrongCase.json $TestDrive/RoamingState/profiles.json
+            Copy-Item $PSScriptRoot/Profiles/WrongCase.json $TestDrive/profiles.json
         }
         It "Clear works with wrong case" {
             $P = Get-MSTerminalProfile

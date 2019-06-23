@@ -69,7 +69,7 @@ function Set-MSTerminalProfile {
     )
     begin {
         $Path = Find-MSTerminalFolder
-        $SettingsPath = Join-Path $Path "RoamingState/profiles.json"
+        $SettingsPath = Join-Path $Path "profiles.json"
         if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
             $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
         } else {
