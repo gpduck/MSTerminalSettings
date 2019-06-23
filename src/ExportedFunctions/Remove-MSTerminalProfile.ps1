@@ -24,7 +24,7 @@ function Remove-MSTerminalProfile {
         if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
             $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
         } else {
-            $InputObject = ConvertPSObjectToHashtable
+            $InputObject = ConvertPSObjectToHashtable $InputObject
         }
 
         $InputObject | ForEach-Object {
