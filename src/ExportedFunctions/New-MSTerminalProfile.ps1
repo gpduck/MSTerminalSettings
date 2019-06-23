@@ -1,6 +1,6 @@
 function New-MSTerminalProfile {
     [CmdletBinding(SupportsShouldProcess=$true)]
-        [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidDefaultValueSwitchParameter", "")]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,
@@ -17,7 +17,8 @@ function New-MSTerminalProfile {
 
         [String]$ColorScheme = "Campbell",
 
-        #$ColorTable,
+        [ValidateCount(16,16)]
+        [string[]]$ColorTable,
 
         [String]$CursorColor = "#ffffff",
 
@@ -80,6 +81,7 @@ function New-MSTerminalProfile {
         "backgroundImage",
         "backgroundImageOpacity",
         "backgroundImageStretchMode",
+        "colorTable",
         "foreground"
     )
     $ValueProperties | ForEach-Object {
