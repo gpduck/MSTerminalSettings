@@ -70,22 +70,15 @@ function Set-MSTerminalProfile {
     begin {
         $Path = Find-MSTerminalFolder
         $SettingsPath = Join-Path $Path "profiles.json"
-        if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
-            $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
-        } else {
-            $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
-        }
+        # Don't use -AsHashtable for 5.1 support
+        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
         $ProfileReplaced = $false
     }
     process {
         if($PSCmdlet.ParametersetName -eq "Name") {
             $InputObject = Get-MSTerminalProfile -name $Name
         }
-        if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
-            $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
-        } else {
-            $InputObject = ConvertPSObjectToHashtable $InputObject
-        }
+        $InputObject = ConvertPSObjectToHashtable $InputObject
 
         $InputObject | ForEach-Object {
             $TerminalProfile = $_

@@ -10,38 +10,30 @@ function Remove-MSTerminalProfile {
     begin {
         $Path = Find-MSTerminalFolder
         $SettingsPath = Join-Path $Path "profiles.json"
-        if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
-            $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
-        } else {
-            $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
-        }
-        $ProfileRemoved = $false
+        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json
+        $ProfilesToRemove = @()
     }
     process {
         if($PSCmdlet.ParametersetName -eq "Name") {
             $InputObject = Get-MSTerminalProfile -name $Name
         }
-        if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
-            $InputObject = ConvertTo-Json $InputObject -Depth 10 | ConvertFrom-Json -AsHashtable | ForEach-Object { $_ }
-        } else {
-            $InputObject = ConvertPSObjectToHashtable $InputObject
-        }
 
         $InputObject | ForEach-Object {
             $TerminalProfile = $_
-            $Settings["profiles"] = @($Settings["profiles"] | ForEach-Object {
-                if($_.guid -eq $TerminalProfile['guid'] -and $PSCmdlet.ShouldProcess("$($_.name) $($_.guid)", "Remove profile")) {
-                    Write-Debug "Removing profile $($TerminalProfile['name']) $($TerminalProfile['guid'])"
-                    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignment", "ProfileRemoved")]
-                    $ProfileRemoved = $true
-                } else {
-                    $_
+            $Settings.profiles | ForEach-Object {
+                if($_.guid -eq $TerminalProfile.guid) {
+                    $ProfilesToRemove += $_
                 }
-            })
+            }
         }
     }
     end {
-        if($ProfileRemoved) {
+        if($ProfilesToRemove.Count -gt 0 -and $PSCmdlet.ShouldProcess($ProfilesToRemove.Name, "Remove MS Terminal profiles")) {
+            $RemoveGuids = @($ProfilesToRemove.Guid)
+            $RemainingProfiles = @($Settings.Profiles | Where-Object {
+                $_.Guid -notin $RemoveGuids
+            })
+            $Settings.Profiles = $RemainingProfiles
             ConvertTo-Json $Settings -Depth 10 | Set-Content -Path $SettingsPath
         }
     }

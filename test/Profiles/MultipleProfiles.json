@@ -191,7 +191,27 @@
       "acrylicOpacity": 0.42,
       "cursorShape": "pester",
       "startingDirectory": "pester"
+    },
+    {
+      "name": "pester2",
+      "guid": "{pester2-guid}",
+      "useAcrylic": false,
+      "fontFace": "pester2-font-face",
+      "cursorColor": "#pester2",
+      "padding": "43, 43, 43, 43",
+      "commandline": "pester2.exe",
+      "icon": "ms-appx:///ProfileIcons/pester2.png",
+      "background": "#pester2",
+      "fontSize": 43,
+      "closeOnExit": true,
+      "snapOnInput": true,
+      "colorScheme": "pester2",
+      "historySize": 43,
+      "acrylicOpacity": 0.43,
+      "cursorShape": "pester2",
+      "startingDirectory": "pester2"
     }
   ],
+  "keybindings": [],
   "schemes": []
 }

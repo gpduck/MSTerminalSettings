@@ -22,32 +22,34 @@ function Set-MSTerminalSetting {
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
-    if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
-        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
+    # Don't use -AsHashtable for 5.1 support
+    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+    if($Settings.Globals) {
+        $SettingsRoot = $Settings["globals"]
     } else {
-        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+        $SettingsRoot = $Settings
     }
 
     if($DefaultProfile) {
-        $Settings["defaultProfile"] = $DefaultProfile
+        $SettingsRoot["defaultProfile"] = $DefaultProfile
     }
     if($InitialRows) {
-        $Settings["initialRows"] = $InitialRows
+        $SettingsRoot["initialRows"] = $InitialRows
     }
     if($InitialCols) {
-        $Settings["initialCols"] = $InitialCols
+        $SettingsRoot["initialCols"] = $InitialCols
     }
     if($RequestedTheme) {
-        $Settings["requestedTheme"] = $RequestedTheme
+        $SettingsRoot["requestedTheme"] = $RequestedTheme
     }
     if($PSBoundParameters.ContainsKey("AlwaysShowTabs")) {
-        $Settings["alwaysShowTabs"] = $AlwaysShowTabs.IsPresent
+        $SettingsRoot["alwaysShowTabs"] = $AlwaysShowTabs.IsPresent
     }
     if($PSBoundParameters.ContainsKey("ShowTerminalTitleInTitlebar")) {
-        $Settings["showTerminalTitleInTitlebar"] = $ShowTerminalTitleInTitlebar.IsPresent
+        $SettingsRoot["showTerminalTitleInTitlebar"] = $ShowTerminalTitleInTitlebar.IsPresent
     }
     if($PSBoundParameters.ContainsKey("ShowTabsInTitlebar")) {
-        $Settings["showTabsInTitlebar"] = $ShowTabsInTitlebar.IsPresent
+        $SettingsRoot["showTabsInTitlebar"] = $ShowTabsInTitlebar.IsPresent
     }
     if($PSCmdlet.ShouldProcess("update MS Terminal settings")) {
         ConvertTo-Json $Settings -Depth 10 | Set-Content -Path $SettingsPath

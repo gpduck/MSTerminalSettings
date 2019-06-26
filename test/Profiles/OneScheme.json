@@ -172,26 +172,28 @@
     "showTabsInTitlebar": true,
     "showTerminalTitleInTitlebar": true
   },
-  "profiles": [
+  "profiles": [],
+  "schemes": [
     {
-      "name": "pester",
-      "guid": "{pester-guid}",
-      "useAcrylic": false,
-      "fontFace": "pester-font-face",
-      "cursorColor": "#pester",
-      "padding": "42, 42, 42, 42",
-      "commandline": "pester.exe",
-      "icon": "ms-appx:///ProfileIcons/pester.png",
-      "background": "#pester",
-      "fontSize": 42,
-      "closeOnExit": true,
-      "snapOnInput": true,
-      "colorScheme": "pester",
-      "historySize": 42,
-      "acrylicOpacity": 0.42,
-      "cursorShape": "pester",
-      "startingDirectory": "pester"
+      "brightCyan": "#61D6D6",
+      "brightRed": "#E74856",
+      "brightYellow": "#F9F1A5",
+      "background": "#0C0C0C",
+      "blue": "#0037DA",
+      "white": "#CCCCCC",
+      "name": "Campbell",
+      "foreground": "#F2F2F2",
+      "brightGreen": "#16C60C",
+      "brightPurple": "#B4009E",
+      "green": "#13A10E",
+      "yellow": "#C19C00",
+      "red": "#C50F1F",
+      "cyan": "#3A96DD",
+      "black": "#0C0C0C",
+      "brightBlue": "#3B78FF",
+      "brightWhite": "#F2F2F2",
+      "purple": "#881798",
+      "brightBlack": "#767676"
     }
-  ],
-  "schemes": []
+  ]
 }
