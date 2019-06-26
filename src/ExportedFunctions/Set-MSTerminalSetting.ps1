@@ -26,25 +26,25 @@ function Set-MSTerminalSetting {
     $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
 
     if($DefaultProfile) {
-        $Settings["defaultProfile"] = $DefaultProfile
+        $Settings["globals"]["defaultProfile"] = $DefaultProfile
     }
     if($InitialRows) {
-        $Settings["initialRows"] = $InitialRows
+        $Settings["globals"]["initialRows"] = $InitialRows
     }
     if($InitialCols) {
-        $Settings["initialCols"] = $InitialCols
+        $Settings["globals"]["initialCols"] = $InitialCols
     }
     if($RequestedTheme) {
-        $Settings["requestedTheme"] = $RequestedTheme
+        $Settings["globals"]["requestedTheme"] = $RequestedTheme
     }
     if($PSBoundParameters.ContainsKey("AlwaysShowTabs")) {
-        $Settings["alwaysShowTabs"] = $AlwaysShowTabs.IsPresent
+        $Settings["globals"]["alwaysShowTabs"] = $AlwaysShowTabs.IsPresent
     }
     if($PSBoundParameters.ContainsKey("ShowTerminalTitleInTitlebar")) {
-        $Settings["showTerminalTitleInTitlebar"] = $ShowTerminalTitleInTitlebar.IsPresent
+        $Settings["globals"]["showTerminalTitleInTitlebar"] = $ShowTerminalTitleInTitlebar.IsPresent
     }
     if($PSBoundParameters.ContainsKey("ShowTabsInTitlebar")) {
-        $Settings["showTabsInTitlebar"] = $ShowTabsInTitlebar.IsPresent
+        $Settings["globals"]["showTabsInTitlebar"] = $ShowTabsInTitlebar.IsPresent
     }
     if($PSCmdlet.ShouldProcess("update MS Terminal settings")) {
         ConvertTo-Json $Settings -Depth 10 | Set-Content -Path $SettingsPath

@@ -40,7 +40,11 @@ Returns the current top-level settings for MS Terminal.
 ## PARAMETERS
 
 ### -Force
+*** Deprecated as of Terminal 0.2.1715.0 and will be removed in a future release of the module ***
+
 Use to force output to include the fully deserialized profiles.json file.  If not specified, the 'profiles' and 'schemes' elements will be omitted.
+
+
 
 ```yaml
 Type: SwitchParameter
