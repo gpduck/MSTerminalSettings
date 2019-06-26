@@ -44,4 +44,10 @@ Describe "Set-MSTerminalSetting" {
         $Settings = Get-Content $TestDrive/profiles.json | ConvertFrom-Json
         $Settings.showTerminalTitleInTitlebar | Should -Be $false
     }
+    It "Preserves the property order in the json file" {
+        $OrderBefore = (Get-Content $TestDrive/profiles.json -Raw | ConvertFrom-Json).PSObject.Properties.Name -Join ""
+        Set-MSTerminalSetting -initialCols (Get-MSTerminalSetting).initialCols
+        $OrderAfter = (Get-Content $TestDrive/profiles.json -Raw | ConvertFrom-Json).PSObject.Properties.Name -Join ""
+        $OrderAfter | Should -Be $OrderBefore
+    }
 }

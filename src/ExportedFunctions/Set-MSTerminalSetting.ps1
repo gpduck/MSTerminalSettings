@@ -22,11 +22,8 @@ function Set-MSTerminalSetting {
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
-    if(Get-Command ConvertFrom-Json -ParameterName AsHashtable -ErrorAction SilentlyContinue) {
-        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json -AsHashtable
-    } else {
-        $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
-    }
+    # Don't use -AsHashtable for 5.1 support
+    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
 
     if($DefaultProfile) {
         $Settings["defaultProfile"] = $DefaultProfile

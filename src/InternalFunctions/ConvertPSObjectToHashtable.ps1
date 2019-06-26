@@ -17,7 +17,7 @@ function ConvertPSObjectToHashtable
         }
         elseif ($InputObject -is [System.Management.Automation.PSCustomObject])
         {
-            $hash = @{}
+            $hash = [ordered]@{}
 
             foreach ($property in $InputObject.PSObject.Properties)
             {

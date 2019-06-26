@@ -34,4 +34,11 @@ Describe "Set-MSTerminalProfile" {
             (Get-MSTerminalProfile).colorScheme | Should -Be $Null
         }
     }
+
+    It "Preserves the property order in the json file" {
+        $OrderBefore = (Get-Content $TestDrive/profiles.json -Raw | ConvertFrom-Json).Profiles[0].PSObject.Properties.Name -Join ""
+        Set-MSTerminalProfile -Name pester -background (Get-MSTerminalProfile -Name pester).background
+        $OrderAfter = (Get-Content $TestDrive/profiles.json -Raw | ConvertFrom-Json).Profiles[0].PSObject.Properties.Name -Join ""
+        $OrderAfter | Should -Be $OrderBefore
+    }
 }
