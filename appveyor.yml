@@ -56,7 +56,6 @@ deploy:
     draft: true
     on:
       APPVEYOR_REPO_BRANCH: master
-deploy:
   - provider: GitHub
     tag: $(APPVEYOR_BUILD_VERSION)
     auth_token:
