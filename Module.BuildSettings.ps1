@@ -162,9 +162,12 @@ Task AfterStageFiles -After StageFiles {
     } else {
         "AppVeyor build version not detected"
     }
+    # Write updated manifest
+    Set-Content -Path $ManifestPath -Value $Manifest
 
     # Update prerelase string
-    if($env:APPVEYOR_REPO_COMMIT_MESSAGE -like "pre: *" -and $env:OS -eq "Windows_NT") {
+    if($env:APPVEYOR_REPO_BRANCH -eq "preview" -and $env:OS -eq "Windows_NT") {
+        Update-ModuleManifest -Path $ManifestPath -Prerelease "pre"
         $Manifest = $Manifest -Replace 'Prerelease = \$null', 'Prerelease = "pre"'
         if($env:APPVEYOR_BUILD_VERSION -notlike "*-pre") {
             Update-AppveyorBuild -Version "${env:APPVEYOR_BUILD_VERSION}-pre"
@@ -172,9 +175,6 @@ Task AfterStageFiles -After StageFiles {
     } else {
         "AppVeyor pre-release not detected"
     }
-
-    # Write updated manifest
-    Set-Content -Path $ManifestPath -Value $Manifest
 
     if($env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED) {
         $ReleaseNotesTitle = $env:APPVEYOR_REPO_COMMIT_MESSAGE
