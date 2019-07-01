@@ -164,7 +164,7 @@ Task AfterStageFiles -After StageFiles {
     }
 
     # Update prerelase string
-    if($env:APPVEYOR_REPO_COMMIT_MESSAGE -like "pre: *" -and $env:OS -eq "Windows_NT") {
+    if($env:APPVEYOR_REPO_BRANCH -eq "preview" -and $env:OS -eq "Windows_NT") {
         $Manifest = $Manifest -Replace 'Prerelease = \$null', 'Prerelease = "pre"'
         if($env:APPVEYOR_BUILD_VERSION -notlike "*-pre") {
             Update-AppveyorBuild -Version "${env:APPVEYOR_BUILD_VERSION}-pre"
