@@ -5,6 +5,7 @@ pull_requests:
 branches:
   only:
   - master
+  - preview
 image:
   - Visual Studio 2017
 init:
@@ -40,7 +41,7 @@ install:
       install-module pester,PSScriptAnalyzer,PlatyPS -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
 build_script:
   - pwsh: |
-      if( $env:APPVEYOR_REPO_BRANCH -eq "master" -and !$env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_REPO_COMMIT_MESSAGE -notlike "skip: *" ) {
+      if( $env:APPVEYOR_REPO_BRANCH -in @("master","preview") -and !$env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_REPO_COMMIT_MESSAGE -notlike "skip: *" ) {
         .\Invoke-Build.ps1 build,test,publish
       } else {
         .\Invoke-Build.ps1 build,buildhelp,test
@@ -55,3 +56,10 @@ deploy:
     draft: true
     on:
       APPVEYOR_REPO_BRANCH: master
+  - provider: GitHub
+    tag: $(APPVEYOR_BUILD_VERSION)
+    auth_token:
+      secure: Ae7UlAonkUJIzCwKAcHgI+3AWyzzrrUmZM9HQGn8psNOjYkfbIMDHRPb4N8b8D8x
+    draft: true
+    on:
+      APPVEYOR_REPO_BRANCH: preview

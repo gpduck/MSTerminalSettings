@@ -40,3 +40,9 @@ $Pwsh7 = @{
 }
 New-MSTerminalProfile @Pwsh7
 ```
+
+This example sets all your profiles to use a [programming font](https://app.programmingfonts.org/).  (Note the font must already be installed on your system)
+
+```
+Get-MSTerminalProfile | Set-MSTerminalProfile -FontFace "Fira Code Retina"
+```
