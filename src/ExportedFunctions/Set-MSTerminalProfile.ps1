@@ -58,6 +58,8 @@ function Set-MSTerminalProfile {
         [ValidateSet("visible","hidden")]
         [string]$ScrollbarState,
 
+        [string]$TabTitle,
+
         [switch]$CloseOnExit,
 
         [string]$Icon,
@@ -100,6 +102,7 @@ function Set-MSTerminalProfile {
                 "background",
                 "foreground"
                 "scrollbarState",
+                "tabTitle",
                 "acrylicOpacity",
                 "startingDirectory",
                 "icon"

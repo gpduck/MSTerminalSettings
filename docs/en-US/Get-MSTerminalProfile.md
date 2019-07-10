@@ -12,8 +12,14 @@ Returns the currently defined profiles from the profiles.json file.
 
 ## SYNTAX
 
+### ByName (Default)
 ```
 Get-MSTerminalProfile [[-Name] <Object>] [<CommonParameters>]
+```
+
+### ByGuid
+```
+Get-MSTerminalProfile [-Guid] <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,12 +50,27 @@ Returns any profiles that match *power*.
 
 ## PARAMETERS
 
+### -Guid
+Get the profile with the specified GUID.
+
+```yaml
+Type: Object
+Parameter Sets: ByGuid
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
 The name of a profile or a wildcard pattern
 
 ```yaml
 Type: Object
-Parameter Sets: (All)
+Parameter Sets: ByName
 Aliases:
 
 Required: False

@@ -19,8 +19,8 @@ Set-MSTerminalProfile -Name <String> [-CommandLine <String>] [-MakeDefault] [-Hi
  [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
  [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
  [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>]
- [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-ScrollbarState <String>] [-TabTitle <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>]
+ [-Clear <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InputObject
@@ -30,8 +30,8 @@ Set-MSTerminalProfile -InputObject <Object> [-CommandLine <String>] [-MakeDefaul
  [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
  [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
  [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>]
- [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-ScrollbarState <String>] [-TabTitle <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>]
+ [-Clear <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -435,6 +435,21 @@ Accept wildcard characters: False
 
 ### -StartingDirectory
 The working directory to start in.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TabTitle
+Overrides default title of the tab.
 
 ```yaml
 Type: String

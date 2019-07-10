@@ -18,8 +18,8 @@ New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[
  [[-CursorShape] <String>] [[-CursorHeight] <Int32>] [[-FontFace] <String>] [[-StartingDirectory] <String>]
  [[-FontSize] <Int32>] [[-Background] <String>] [[-Foreground] <String>] [[-AcrylicOpacity] <Single>]
  [-UseAcrylic] [[-BackgroundImage] <String>] [[-BackgroundImageOpacity] <Double>]
- [[-BackgroundImageStretchMode] <String>] [[-ScrollbarState] <String>] [-CloseOnExit] [[-Icon] <String>]
- [[-Padding] <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-BackgroundImageStretchMode] <String>] [[-ScrollbarState] <String>] [[-TabTitle] <String>] [-CloseOnExit]
+ [[-Icon] <String>] [[-Padding] <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -309,7 +309,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 18
+Position: 19
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -354,7 +354,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 19
+Position: 20
 Default value: 0,0,0,0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -402,6 +402,21 @@ Aliases:
 Required: False
 Position: 9
 Default value: %USERPROFILE%
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TabTitle
+Overrides default title of the tab.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 18
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

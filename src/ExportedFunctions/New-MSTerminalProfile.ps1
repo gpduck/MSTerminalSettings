@@ -55,6 +55,8 @@ function New-MSTerminalProfile {
         [ValidateSet("visible","hidden")]
         [string]$ScrollbarState,
 
+        [string]$TabTitle,
+
         [switch]$CloseOnExit = $true,
 
         [String]$Icon,
@@ -82,7 +84,8 @@ function New-MSTerminalProfile {
         "backgroundImageOpacity",
         "backgroundImageStretchMode",
         "colorTable",
-        "foreground"
+        "foreground",
+        "tabTitle"
     )
     $ValueProperties | ForEach-Object {
         if($PSBoundParameters.ContainsKey($_)) {
