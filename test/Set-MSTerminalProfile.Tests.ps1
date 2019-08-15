@@ -18,6 +18,15 @@ Describe "Set-MSTerminalProfile" {
         }
     }
 
+    Context "Arbitrary Setting" {
+        It "Adds an arbitrary setting correctly" {
+            $P = Get-MSTerminalProfile
+            $ExpectedValue = [Guid]::NewGuid().Guid
+            $P | Set-MSTerminalProfile -ExtraSettings @{MyAdditionalArbitrarySetting=$ExpectedValue}
+            (Get-MSTerminalProfile).MyAdditionalArbitrarySetting | Should -Be $ExpectedValue
+        }
+    }
+
     Context "Wrong Case" {
         BeforeEach {
             Copy-Item $PSScriptRoot/Profiles/WrongCase.json $TestDrive/profiles.json

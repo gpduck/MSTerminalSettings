@@ -65,7 +65,9 @@ function Set-MSTerminalProfile {
         [ValidateCount(4,4)]
         [int[]]$Padding,
 
-        [string[]]$Clear
+        [string[]]$Clear,
+
+        [hashtable]$ExtraSettings
     )
     begin {
         $Path = Find-MSTerminalFolder
@@ -140,6 +142,10 @@ function Set-MSTerminalProfile {
             }
             if($Padding.Count -gt 0) {
                 $TerminalProfile["padding"] = $padding -Join ", "
+            }
+
+            $ExtraSettings.keys.foreach{
+                $TerminalProfile["$_"] = $ExtraSettings["$_"]
             }
 
             if($Clear) {

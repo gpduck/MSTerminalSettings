@@ -16,9 +16,7 @@ function Set-MSTerminalSetting {
 
         [Switch]$ShowTerminalTitleInTitlebar,
 
-        [Switch]$ShowTabsInTitlebar,
-
-        [Hashtable]$ExtraSettings
+        [Switch]$ShowTabsInTitlebar
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"

@@ -77,8 +77,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ExtraSettings
-A hashtable of extra settings to set in the profile.
 
 ```yaml
 Type: Hashtable
