@@ -19,8 +19,8 @@ Set-MSTerminalProfile -Name <String> [-CommandLine <String>] [-MakeDefault] [-Hi
  [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
  [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
  [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>]
- [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>]
+ [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InputObject
@@ -30,8 +30,8 @@ Set-MSTerminalProfile -InputObject <Object> [-CommandLine <String>] [-MakeDefaul
  [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
  [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
  [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>]
- [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>]
+ [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -259,6 +259,22 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 Accepted values: bar, emptyBox, filledBox, underscore, vintage
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExtraSettings
+A hashtable of additional settings to set in the profile. These entries are not validated and override other parameter settings, use at your own risk!
+
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
