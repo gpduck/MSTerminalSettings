@@ -4,6 +4,7 @@
     "defaultProfile": "42",
     "initialCols": 42,
     "initialRows": 42,
+    "wordDelimiters": " ./\\()\"'-:,.;<>~!@$%^&*|+=[]{}~?│#",
     "keybindings": [
       {
         "command": "closeTab",
