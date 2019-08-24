@@ -19,7 +19,7 @@ New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[
  [[-FontSize] <Int32>] [[-Background] <String>] [[-Foreground] <String>] [[-AcrylicOpacity] <Single>]
  [-UseAcrylic] [[-BackgroundImage] <String>] [[-BackgroundImageOpacity] <Double>]
  [[-BackgroundImageStretchMode] <String>] [[-ScrollbarState] <String>] [-CloseOnExit] [[-Icon] <String>]
- [[-Padding] <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-Padding] <Int32[]>] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -236,6 +236,21 @@ Accepted values: bar, emptyBox, filledBox, underscore, vintage
 Required: False
 Position: 6
 Default value: Bar
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExtraSettings
+A hashtable of additional settings to set in the profile. These entries are not validated and override other parameter settings, use at your own risk!
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 20
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

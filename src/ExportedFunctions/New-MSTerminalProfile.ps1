@@ -60,7 +60,10 @@ function New-MSTerminalProfile {
         [String]$Icon,
 
         [ValidateCount(4,4)]
-        [int[]]$Padding = @(0,0,0,0)
+        [int[]]$Padding = @(0,0,0,0),
+
+        #Arbitrary properties, no validation occurs here so use at your own risk!
+        [HashTable]$ExtraSettings
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
@@ -133,6 +136,11 @@ function New-MSTerminalProfile {
     }
     if($MakeDefault) {
         $Settings.defaultProfile = $Profile["guid"]
+    }
+
+    #Process arbitrary at-your-own-risk properties at the end
+    $ExtraSettings.keys.foreach{
+        $Profile["$_"] = $ExtraSettings["$_"]
     }
 
     if($PSCmdlet.ShouldProcess($Name, "Add MS Terminal profile")) {

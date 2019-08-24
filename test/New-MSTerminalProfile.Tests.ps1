@@ -31,17 +31,26 @@ Describe "New-MSTerminalProfile" {
                 cursorShape = "vintage"
                 startingDirectory = "new-pester"
             }
-            New-MSTerminalProfile @NewValues
+            $SCRIPT:ExtraSettingValue1 = (New-GUID).guid
+            $SCRIPT:ExtraSettingValue2 = (New-GUID).guid
+            $ExtraSettings = @{
+                ExtraSetting1 = $ExtraSettingValue1
+                ExtraSetting2 = $ExtraSettingValue2
+            }
+            New-MSTerminalProfile @NewValues -ExtraSettings $ExtraSettings
             $NewProfile = Get-MSTerminalProfile -Name new-pester
             $NewProfile | Should -Not -Be $null
             $NewValues.Keys | ForEach-Object {
                 if($_ -eq "padding") {
-                     $ExpectedValue = $NewValues[$_] -Join ", "
+                    $ExpectedValue = $NewValues[$_] -Join ", "
                 } else {
                     $ExpectedValue = $NewValues[$_]
                 }
                 $ActualValue = $NewProfile."$_"
                 $ActualValue | Should -Be $ExpectedValue
+            }
+            1..2 | foreach {
+                (Get-MSTerminalProfile -Name 'new-pester')."ExtraSetting$_" | Should -Be (Get-Variable "ExtraSettingValue$_").value
             }
         }
 
