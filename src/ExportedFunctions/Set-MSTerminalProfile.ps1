@@ -116,13 +116,14 @@ function Set-MSTerminalProfile {
                     switch($NewValue.Gettype().Fullname) {
                         "System.String" {
                             if([String]::IsNullOrEmpty($NewValue)) {
+                                #Build a new collection so remove doesn't modify during enumeration
                                 $Keys = $TerminalProfile.Keys | ForEach-Object {$_}
+                                #Manually enumerate and compare so we get case-insensitive comparisons
                                 $Keys | ForEach-Object {
                                     if($_ -eq $Key) {
                                         $TerminalProfile.Remove($_)
                                     }
                                 }
-                                #$TerminalProfile.Remove($Key)
                             } else {
                                 $TerminalProfile[$Key] = $NewValue
                             }
