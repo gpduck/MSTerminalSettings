@@ -79,7 +79,9 @@ Accept wildcard characters: False
 ```
 
 ### -CopyOnSelect
-{{ Fill CopyOnSelect Description }}
+When set, a selection is immediately copied to your clipboard upon creation. When set to false (-CopyOnSelect:$False), the selection persists and awaits further action.
+
+If not specified or cleared, the terminal default value is $False.
 
 ```yaml
 Type: SwitchParameter
@@ -216,7 +218,9 @@ Accept wildcard characters: False
 ```
 
 ### -WordDelimiters
-{{ Fill WordDelimiters Description }}
+Determines the delimiters used in a double click selection.
+
+Default terminal value: /\()"'-:,.;<>~!@#$%^&*|+=[]{}~?│
 
 ```yaml
 Type: String
