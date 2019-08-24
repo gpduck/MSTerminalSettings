@@ -18,9 +18,10 @@ Set-MSTerminalProfile -Name <String> [-CommandLine <String>] [-MakeDefault] [-Hi
  [-SnapOnInput] [-ColorScheme <String>] [-ColorTable <String[]>] [-CursorColor <String>]
  [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
  [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
- [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>]
- [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>]
- [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-BackgroundImage <String>] [-BackgroundImageAlignment <String>] [-BackgroundImageOpacity <Double>]
+ [-BackgroundImageStretchMode <String>] [-ScrollbarState <String>] [-TabTitle <String>] [-CloseOnExit]
+ [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### InputObject
@@ -29,9 +30,10 @@ Set-MSTerminalProfile -InputObject <Object> [-CommandLine <String>] [-MakeDefaul
  [-SnapOnInput] [-ColorScheme <String>] [-ColorTable <String[]>] [-CursorColor <String>]
  [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
  [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
- [-BackgroundImage <String>] [-BackgroundImageOpacity <Double>] [-BackgroundImageStretchMode <String>]
- [-ScrollbarState <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>]
- [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-BackgroundImage <String>] [-BackgroundImageAlignment <String>] [-BackgroundImageOpacity <Double>]
+ [-BackgroundImageStretchMode <String>] [-ScrollbarState <String>] [-TabTitle <String>] [-CloseOnExit]
+ [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -87,6 +89,22 @@ Ex: "file:///c:/users/USER/Pictures/background.jpg"
 Type: String
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BackgroundImageAlignment
+Sets how the background image aligns to the boundaries of the window.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: center, left, top, right, bottom, topLeft, topRight, bottomLeft, bottomRight
 
 Required: False
 Position: Named
@@ -451,6 +469,21 @@ Accept wildcard characters: False
 
 ### -StartingDirectory
 The working directory to start in.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TabTitle
+Overrides default title of the tab.
 
 ```yaml
 Type: String

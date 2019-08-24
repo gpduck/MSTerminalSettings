@@ -5,76 +5,72 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-MSTerminalProfile
+# Remove-MSTerminalWordDelimiter
 
 ## SYNOPSIS
-Returns the currently defined profiles from the profiles.json file.
+Removes word delimiters from the MS Terminal global settings.
 
 ## SYNTAX
 
-### ByName (Default)
 ```
-Get-MSTerminalProfile [[-Name] <Object>] [<CommonParameters>]
-```
-
-### ByGuid
-```
-Get-MSTerminalProfile [-Guid] <Object> [<CommonParameters>]
+Remove-MSTerminalWordDelimiter [[-Delimiter] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Returns the currently defined profiles from the profiles.json file.
+Removes word delimiters from the MS Terminal global settings.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-MSTerminalProfile
+PS C:\> Remove-MSTerminalWordDelimiter -Delimiter "#"
 ```
 
-Returns all currently defined profiles.
-
-### Example 2
-```powershell
-PS C:\> Get-MSTerminalProfile -Name powershell
-```
-
-Returns any profiles with the name powershell.
-
-### Example 3
-```powershell
-PS C:\> Get-MSTerminalProfile -Name *power*
-```
-
-Returns any profiles that match *power*.
+Removes the delimiter # from the global settings.
 
 ## PARAMETERS
 
-### -Guid
-Get the profile with the specified GUID.
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Delimiter
+A string with the delimiter or delimiters to add.
 
 ```yaml
 Type: Object
-Parameter Sets: ByGuid
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-The name of a profile or a wildcard pattern
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: Object
-Parameter Sets: ByName
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -90,7 +86,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### System.Object
-
 ## NOTES
 
 ## RELATED LINKS

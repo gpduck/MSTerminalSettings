@@ -22,6 +22,7 @@ Describe "Get-MSTerminalProfile" {
             @("commandLine", "pester.exe"),
             @("icon", "ms-appx:///ProfileIcons/pester.png"),
             @("background", "#pester"),
+            @("backgroundImageAlignment", "center")
             @("fontSize", 42),
             @("closeOnExit", $true),
             @("snapOnInput", $true),

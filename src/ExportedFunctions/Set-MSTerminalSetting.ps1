@@ -16,7 +16,15 @@ function Set-MSTerminalSetting {
 
         [Switch]$ShowTerminalTitleInTitlebar,
 
-        [Switch]$ShowTabsInTitlebar
+        [Switch]$ShowTabsInTitlebar,
+
+        [String]$WordDelimiters,
+
+        [switch]$CopyOnSelect,
+
+        [string[]]$Clear,
+
+        [hashtable]$ExtraSettings = @{}
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
@@ -28,27 +36,33 @@ function Set-MSTerminalSetting {
         $SettingsRoot = $Settings
     }
 
-    if($DefaultProfile) {
-        $SettingsRoot["defaultProfile"] = $DefaultProfile
+    $Properties = @(
+        "alwaysShowTabs",
+        "copyOnSelect",
+        "defaultProfile",
+        "initialRows",
+        "initialCols",
+        "requestedTheme",
+        "showTabsInTitlebar",
+        "showTerminalTitleInTitlebar",
+        "wordDelimiters"
+    )
+    CopyHashtable -Source $PSBoundParameters -Destination $SettingsRoot -Keys $Properties
+    if($ExtraSettings.Count -gt 0) {
+        CopyHashtable -Source $Extra -Destination $SettingsRoot
     }
-    if($InitialRows) {
-        $SettingsRoot["initialRows"] = $InitialRows
+    if($Clear) {
+        $Clear | ForEach-Object {
+            $ClearKey = $_
+            $Keys = $SettingsRoot.Keys | ForEach-Object {$_}
+            $Keys | ForEach-Object {
+                if($_ -eq $ClearKey) {
+                    $SettingsRoot.Remove($_)
+                }
+            }
+        }
     }
-    if($InitialCols) {
-        $SettingsRoot["initialCols"] = $InitialCols
-    }
-    if($RequestedTheme) {
-        $SettingsRoot["requestedTheme"] = $RequestedTheme
-    }
-    if($PSBoundParameters.ContainsKey("AlwaysShowTabs")) {
-        $SettingsRoot["alwaysShowTabs"] = $AlwaysShowTabs.IsPresent
-    }
-    if($PSBoundParameters.ContainsKey("ShowTerminalTitleInTitlebar")) {
-        $SettingsRoot["showTerminalTitleInTitlebar"] = $ShowTerminalTitleInTitlebar.IsPresent
-    }
-    if($PSBoundParameters.ContainsKey("ShowTabsInTitlebar")) {
-        $SettingsRoot["showTabsInTitlebar"] = $ShowTabsInTitlebar.IsPresent
-    }
+
     if($PSCmdlet.ShouldProcess("update MS Terminal settings")) {
         ConvertTo-Json $Settings -Depth 10 | Set-Content -Path $SettingsPath
     }

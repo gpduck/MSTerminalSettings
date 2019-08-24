@@ -14,7 +14,8 @@ Updates the top-level settings for MS Terminal.
 
 ```
 Set-MSTerminalSetting [[-DefaultProfile] <String>] [[-InitialRows] <Int32>] [[-InitialCols] <Int32>]
- [-AlwaysShowTabs] [[-RequestedTheme] <String>] [-ShowTerminalTitleInTitlebar] [-ShowTabsInTitlebar] [-WhatIf]
+ [-AlwaysShowTabs] [[-RequestedTheme] <String>] [-ShowTerminalTitleInTitlebar] [-ShowTabsInTitlebar]
+ [[-WordDelimiters] <String>] [-CopyOnSelect] [[-Clear] <String[]>] [[-ExtraSettings] <Hashtable>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
@@ -47,6 +48,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Clear
+A list of global settings to remove.  This takes precedence over any other value being set by this cmdlet.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
 
@@ -54,6 +70,23 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CopyOnSelect
+When set, a selection is immediately copied to your clipboard upon creation. When set to false (-CopyOnSelect:$False), the selection persists and awaits further action.
+
+If not specified or cleared, the terminal default value is $False.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -72,6 +105,21 @@ Aliases:
 
 Required: False
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExtraSettings
+{{ Fill ExtraSettings Description }}
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -164,6 +212,23 @@ Aliases: wi
 
 Required: False
 Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WordDelimiters
+Determines the delimiters used in a double click selection.
+
+Default terminal value: /\()"'-:,.;<>~!@#$%^&*|+=[]{}~?│
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
