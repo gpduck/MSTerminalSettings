@@ -31,8 +31,8 @@ Describe "New-MSTerminalProfile" {
                 cursorShape = "vintage"
                 startingDirectory = "new-pester"
             }
-            $SCRIPT:ExtraSettingValue1 = (New-GUID).guid
-            $SCRIPT:ExtraSettingValue2 = (New-GUID).guid
+            $SCRIPT:ExtraSettingValue1 = [Guid]::NewGuid().guid
+            $SCRIPT:ExtraSettingValue2 = [Guid]::NewGuid().guid
             $ExtraSettings = @{
                 ExtraSetting1 = $ExtraSettingValue1
                 ExtraSetting2 = $ExtraSettingValue2
