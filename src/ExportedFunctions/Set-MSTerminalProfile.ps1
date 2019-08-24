@@ -88,10 +88,11 @@ function Set-MSTerminalProfile {
             $TerminalProfile = $_
             Write-Debug "Editing profile $($TerminalProfile['name']) $($TerminalProfile['guid'])"
 
-            $ValueProperties = @(
+            $Properties = @(
                 "backgroundImage",
                 "backgroundImageOpacity",
                 "backgroundImageStretchMode",
+                "closeOnExit",
                 "commandline",
                 "colorScheme",
                 "colorTable",
@@ -106,50 +107,17 @@ function Set-MSTerminalProfile {
                 "scrollbarState",
                 "tabTitle",
                 "acrylicOpacity",
+                "snapOnInput",
                 "startingDirectory",
+                "useAcrylic",
                 "icon"
             )
-            $ValueProperties | ForEach-Object {
-                if($PSBoundParameters.ContainsKey($_)) {
-                    $Key = $_
-                    $NewValue = $PSBoundParameters[$_]
-                    switch($NewValue.Gettype().Fullname) {
-                        "System.String" {
-                            if([String]::IsNullOrEmpty($NewValue)) {
-                                #Build a new collection so remove doesn't modify during enumeration
-                                $Keys = $TerminalProfile.Keys | ForEach-Object {$_}
-                                #Manually enumerate and compare so we get case-insensitive comparisons
-                                $Keys | ForEach-Object {
-                                    if($_ -eq $Key) {
-                                        $TerminalProfile.Remove($_)
-                                    }
-                                }
-                            } else {
-                                $TerminalProfile[$Key] = $NewValue
-                            }
-                        }
-                        default {
-                            $TerminalProfile[$Key] = $NewValue
-                        }
-                    }
-                }
-            }
-            $SwitchProperties = @(
-                "useAcrylic",
-                "closeOnExit",
-                "snapOnInput"
-            )
-            $SwitchProperties | ForEach-Object {
-                if($PSBoundParameters.ContainsKey($_)) {
-                    $TerminalProfile[$_] = $PSBoundParameters[$_].IsPresent
-                }
-            }
+            CopyHashtable -Source $PSBoundParameters -Destination $TerminalProfile -Keys $Properties
             if($Padding.Count -gt 0) {
                 $TerminalProfile["padding"] = $padding -Join ", "
             }
-
-            $ExtraSettings.keys.foreach{
-                $TerminalProfile["$_"] = $ExtraSettings["$_"]
+            if($ExtraSettings.Count -gt 0) {
+                CopyHashtable -Source $ExtraSettings -Destination $TerminalProfile
             }
 
             if($Clear) {
