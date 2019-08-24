@@ -19,7 +19,8 @@ New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[
  [[-FontSize] <Int32>] [[-Background] <String>] [[-Foreground] <String>] [[-AcrylicOpacity] <Single>]
  [-UseAcrylic] [[-BackgroundImage] <String>] [[-BackgroundImageOpacity] <Double>]
  [[-BackgroundImageStretchMode] <String>] [[-ScrollbarState] <String>] [[-TabTitle] <String>] [-CloseOnExit]
- [[-Icon] <String>] [[-Padding] <Int32[]>] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-Icon] <String>] [[-Padding] <Int32[]>] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -249,7 +250,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 20
+Position: 21
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
