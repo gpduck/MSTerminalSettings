@@ -15,8 +15,8 @@ Updates the top-level settings for MS Terminal.
 ```
 Set-MSTerminalSetting [[-DefaultProfile] <String>] [[-InitialRows] <Int32>] [[-InitialCols] <Int32>]
  [-AlwaysShowTabs] [[-RequestedTheme] <String>] [-ShowTerminalTitleInTitlebar] [-ShowTabsInTitlebar]
- [[-WordDelimiters] <String>] [-CopyOnSelect] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [[-WordDelimiters] <String>] [-CopyOnSelect] [[-Clear] <String[]>] [[-ExtraSettings] <Hashtable>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,6 +43,21 @@ Aliases:
 
 Required: False
 Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Clear
+A list of global settings to remove.  This takes precedence over any other value being set by this cmdlet.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -102,7 +117,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

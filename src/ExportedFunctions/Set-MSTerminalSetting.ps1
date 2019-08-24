@@ -22,6 +22,8 @@ function Set-MSTerminalSetting {
 
         [switch]$CopyOnSelect,
 
+        [string[]]$Clear,
+
         [hashtable]$ExtraSettings = @{}
     )
     $Path = Find-MSTerminalFolder
@@ -48,6 +50,17 @@ function Set-MSTerminalSetting {
     CopyHashtable -Source $PSBoundParameters -Destination $SettingsRoot -Keys $Properties
     if($ExtraSettings.Count -gt 0) {
         CopyHashtable -Source $Extra -Destination $SettingsRoot
+    }
+    if($Clear) {
+        $Clear | ForEach-Object {
+            $ClearKey = $_
+            $Keys = $SettingsRoot.Keys | ForEach-Object {$_}
+            $Keys | ForEach-Object {
+                if($_ -eq $ClearKey) {
+                    $SettingsRoot.Remove($_)
+                }
+            }
+        }
     }
 
     if($PSCmdlet.ShouldProcess("update MS Terminal settings")) {
