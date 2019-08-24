@@ -22,6 +22,7 @@ Describe "New-MSTerminalProfile" {
                 commandLine = "new-pester.exe"
                 icon = "ms-appx:///new-pester.png"
                 background = "#new-pester"
+                backgroundImageAlignment = "bottomRight"
                 fontSize = 11
                 closeOnExit = $true
                 snapOnInput = $true
@@ -51,33 +52,6 @@ Describe "New-MSTerminalProfile" {
             }
             1..2 | foreach {
                 (Get-MSTerminalProfile -Name 'new-pester')."ExtraSetting$_" | Should -Be (Get-Variable "ExtraSettingValue$_").value
-            }
-        }
-
-        @(
-            @("name", "pester"),
-            @("guid", "{pester-guid}"),
-            @("useAcrylic", $false),
-            @("fontFace", "pester-font-face"),
-            @("cursorColor", "#pester"),
-            @("padding", "42, 42, 42, 42"),
-            @("commandLine", "pester.exe"),
-            @("icon", "ms-appx:///ProfileIcons/pester.png"),
-            @("background", "#pester"),
-            @("fontSize", 42),
-            @("closeOnExit", $true),
-            @("snapOnInput", $true),
-            @("colorScheme", "pester"),
-            @("historySize", 42),
-            @("acrylicOpacity", 0.42),
-            @("cursorShape", "pester"),
-            @("startingDirectory", "pester")
-        ) | ForEach-Object {
-            $Name = $_[0]
-            $ExpectedValue = $_[1]
-            It "Reads $Name" {
-                $Value = (Get-MSTerminalprofile)."$Name"
-                $Value | Should -Be $ExpectedValue
             }
         }
     }

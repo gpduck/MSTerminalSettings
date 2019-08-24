@@ -44,6 +44,25 @@ Describe "Set-MSTerminalProfile" {
         }
     }
 
+    Context "Update Settings" {
+        $ExpectedValues = @{
+            "backgroundImageAlignment" = "bottomRight"
+        }
+        $ExpectedValues.Keys | ForEach-Object {
+            $SettingName = $_
+            $ExpectedValue = $ExpectedValues[$_]
+            It "Updates $SettingName" {
+                $P = Get-MSTerminalProfile
+                $Settings = @{
+                    $SettingName = $ExpectedValue
+                }
+                $P | Set-MSTerminalProfile @Settings
+            }
+            (Get-MSTerminalProfile)."$Settingname" | Should -Be $ExpectedValue
+        }
+    }
+
+
     It "Preserves the property order in the json file" {
         $OrderBefore = (Get-Content $TestDrive/profiles.json -Raw | ConvertFrom-Json).Profiles[0].PSObject.Properties.Name -Join ""
         Set-MSTerminalProfile -Name pester -background (Get-MSTerminalProfile -Name pester).background

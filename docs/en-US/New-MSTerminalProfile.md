@@ -17,10 +17,10 @@ New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[
  [-SnapOnInput] [[-ColorScheme] <String>] [[-ColorTable] <String[]>] [[-CursorColor] <String>]
  [[-CursorShape] <String>] [[-CursorHeight] <Int32>] [[-FontFace] <String>] [[-StartingDirectory] <String>]
  [[-FontSize] <Int32>] [[-Background] <String>] [[-Foreground] <String>] [[-AcrylicOpacity] <Single>]
- [-UseAcrylic] [[-BackgroundImage] <String>] [[-BackgroundImageOpacity] <Double>]
- [[-BackgroundImageStretchMode] <String>] [[-ScrollbarState] <String>] [[-TabTitle] <String>] [-CloseOnExit]
- [[-Icon] <String>] [[-Padding] <Int32[]>] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-UseAcrylic] [[-BackgroundImage] <String>] [[-BackgroundImageAlignment] <String>]
+ [[-BackgroundImageOpacity] <Double>] [[-BackgroundImageStretchMode] <String>] [[-ScrollbarState] <String>]
+ [[-TabTitle] <String>] [-CloseOnExit] [[-Icon] <String>] [[-Padding] <Int32[]>] [[-ExtraSettings] <Hashtable>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -84,6 +84,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -BackgroundImageAlignment
+Sets how the background image aligns to the boundaries of the window.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: center, left, top, right, bottom, topLeft, topRight, bottomLeft, bottomRight
+
+Required: False
+Position: 15
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -BackgroundImageOpacity
 The background image opacity, a number between 0 and 1.
 
@@ -93,7 +109,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 15
+Position: 16
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -114,7 +130,7 @@ Aliases:
 Accepted values: none, fill, uniform, uniformToFill
 
 Required: False
-Position: 16
+Position: 17
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -250,7 +266,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 21
+Position: 22
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -325,7 +341,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 19
+Position: 20
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -370,7 +386,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 20
+Position: 21
 Default value: 0,0,0,0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -386,7 +402,7 @@ Aliases:
 Accepted values: visible, hidden
 
 Required: False
-Position: 17
+Position: 18
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -431,7 +447,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 18
+Position: 19
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

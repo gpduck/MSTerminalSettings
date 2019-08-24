@@ -46,6 +46,10 @@ function New-MSTerminalProfile {
 
         [String]$BackgroundImage,
 
+        [ValidateSet("center","left","top","right","bottom","topLeft","topRight","bottomLeft","bottomRight")]
+        [AllowNull()]
+        [string]$BackgroundImageAlignment,
+
         [ValidateRange(0,1)]
         [double]$BackgroundImageOpacity,
 
@@ -82,58 +86,32 @@ function New-MSTerminalProfile {
         guid = "{$([Guid]::NewGuid().Guid)}"
         commandline = $CommandLine
     }
-    $ValueProperties = @(
+    $Properties = @(
+        "acrylicOpacity",
+        "background",
         "backgroundImage",
+        "backgroundImageAlignment",
         "backgroundImageOpacity",
         "backgroundImageStretchMode",
+        "closeOnExit",
+        "colorScheme",
         "colorTable",
+        "cursorColor",
+        "cursorHeight",
+        "cursorShape",
+        "fontFace",
+        "fontSize",
         "foreground",
-        "tabTitle"
+        "historySize",
+        "icon",
+        "scrollbarState",
+        "snapOnInput",
+        "startingDirectory",
+        "tabTitle",
+        "useAcrylic"
     )
-    $ValueProperties | ForEach-Object {
-        if($PSBoundParameters.ContainsKey($_)) {
-            $Profile[$_] = $PSBoundParameters[$_]
-        }
-    }
-    if($ColorScheme) {
-        $Profile["colorScheme"] = $ColorScheme
-    }
-    if($CursorColor) {
-        $Profile["cursorColor"] = $CursorColor
-    }
-    if($CursorShape) {
-        $Profile["cursorShape"] = $cursorShape
-    }
-    if($CursorHeight) {
-        $Profile["cursorHeight"] = $CursorHeight
-    }
-    if($HistorySize) {
-        $Profile["historySize"] = $HistorySize
-    }
-    if($Background) {
-        $Profile["background"] = $Background
-    }
-    if($FontFace) {
-        $Profile["fontFace"] = $FontFace
-    }
-    if($FontSize) {
-        $Profile["fontSize"] = $FontSize
-    }
-    if($AcrylicOpacity) {
-        $Profile["acrylicOpacity"] = $AcrylicOpacity
-    }
-    $Profile["useAcrylic"] = $UseAcrylic.IsPresent
-    $Profile["closeOnExit"] = $CloseOnExit.IsPresent
-    $Profile["snapOnInput"] = $SnapOnInput.IsPresent
-    if($ScrollbarState) {
-        $Profile["scrollbarState"] = $ScrollbarState
-    }
-    if($StartingDirectory) {
-        $Profile["startingDirectory"] = $StartingDirectory
-    }
-    if($Icon) {
-        $Profile["icon"] = $Icon
-    }
+    CopyHashtable -Source $PSBoundParameters -Destination $Profile -Keys $Properties
+
     if($Padding.Count -gt 0) {
         $Profile["padding"] = $padding -Join ", "
     }

@@ -48,6 +48,10 @@ function Set-MSTerminalProfile {
 
         [String]$BackgroundImage,
 
+        [ValidateSet("center","left","top","right","bottom","topLeft","topRight","bottomLeft","bottomRight")]
+        [AllowNull()]
+        [string]$BackgroundImageAlignment,
+
         [ValidateRange(0,1)]
         [double]$BackgroundImageOpacity,
 
@@ -90,6 +94,7 @@ function Set-MSTerminalProfile {
 
             $Properties = @(
                 "backgroundImage",
+                "backgroundImageAlignment",
                 "backgroundImageOpacity",
                 "backgroundImageStretchMode",
                 "closeOnExit",
