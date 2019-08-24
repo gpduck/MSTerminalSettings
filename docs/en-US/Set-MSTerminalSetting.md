@@ -14,8 +14,9 @@ Updates the top-level settings for MS Terminal.
 
 ```
 Set-MSTerminalSetting [[-DefaultProfile] <String>] [[-InitialRows] <Int32>] [[-InitialCols] <Int32>]
- [-AlwaysShowTabs] [[-RequestedTheme] <String>] [-ShowTerminalTitleInTitlebar] [-ShowTabsInTitlebar] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-AlwaysShowTabs] [[-RequestedTheme] <String>] [-ShowTerminalTitleInTitlebar] [-ShowTabsInTitlebar]
+ [[-WordDelimiters] <String>] [-CopyOnSelect] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -62,6 +63,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CopyOnSelect
+{{ Fill CopyOnSelect Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DefaultProfile
 The GUID of the profile to launch when MS Terminal is opened.  Use Get-MSTerminalProfile | Set-MSTerminalProfile -MakeDefault to set the default without using the GUID.
 
@@ -72,6 +88,21 @@ Aliases:
 
 Required: False
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExtraSettings
+{{ Fill ExtraSettings Description }}
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -164,6 +195,21 @@ Aliases: wi
 
 Required: False
 Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WordDelimiters
+{{ Fill WordDelimiters Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
