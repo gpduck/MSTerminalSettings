@@ -30,7 +30,8 @@ install:
       #Remove-Module PowerShellGet -Force
       #Import-Module PowerShellGet -Force
       Get-PackageProvider -Name NuGet -ForceBootstrap
-      install-module pester,PSScriptAnalyzer,PlatyPS -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      Install-Module PSScriptAnalyzer -MaximumVersion 1.18.2 -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      install-module pester,PlatyPS -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
   - pwsh: |
       import-module powershellget
       # cannot update and use new version in the same process
@@ -38,7 +39,8 @@ install:
       #Remove-Module PowerShellGet -Force
       #Import-Module PowerShellGet -Force
       Get-PackageProvider -Name NuGet -ForceBootstrap
-      install-module pester,PSScriptAnalyzer,PlatyPS -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      Install-Module PSScriptAnalyzer -MaximumVersion 1.18.2 -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      install-module pester,PlatyPS -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
 build_script:
   - pwsh: |
       if( $env:APPVEYOR_REPO_BRANCH -in @("master","preview") -and !$env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_REPO_COMMIT_MESSAGE -notlike "skip: *" ) {
