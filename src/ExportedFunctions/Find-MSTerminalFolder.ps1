@@ -6,7 +6,9 @@ function Find-MSTerminalFolder {
         $Paths = @(
             (Join-Path $WellKnownPaths.LocalAppData $Script:RELEASE_PATH),
             (Join-Path $WellKnownPaths.AppData $Script:STANDALONE_PATH),
-            (Join-Path $WellKnownPaths.LocalAppData $Script:DEV_PATH)
+            (Join-Path $WellKnownPaths.LocalAppData $Script:DEV_PATH),
+            (Join-Path $WellKnownPaths.LocalAppData $Script:RELEASE_PATH_ALT),
+            (Join-Path $WellKnownPaths.LocalAppData $Script:DEV_PATH_ALT)
         )
         $FoundPath = $null
         foreach($Path in $Paths) {
