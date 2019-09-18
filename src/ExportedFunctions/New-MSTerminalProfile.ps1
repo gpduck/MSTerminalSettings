@@ -73,7 +73,7 @@ function New-MSTerminalProfile {
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
-    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json
+    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
     if($Settings.Globals) {
         $Global = $Settings["globals"]
     } else {
@@ -122,7 +122,7 @@ function New-MSTerminalProfile {
         $Profile["padding"] = $padding -Join ", "
     }
     if($MakeDefault) {
-        $Global.defaultProfile = $Profile["guid"]
+        $Global["defaultProfile"] = $Profile["guid"]
     }
 
     #Process arbitrary at-your-own-risk properties at the end
