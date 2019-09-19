@@ -80,6 +80,11 @@ function Set-MSTerminalProfile {
         $SettingsPath = Join-Path $Path "profiles.json"
         # Don't use -AsHashtable for 5.1 support
         $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+        if($Settings.Globals) {
+            $Global = $Settings["globals"]
+        } else {
+            $Global = $Settings
+        }
         $ProfileReplaced = $false
     }
     process {
@@ -135,6 +140,12 @@ function Set-MSTerminalProfile {
                         }
                     }
                 }
+            }
+
+            if($MakeDefault -and $PSCmdlet.ShouldProcess($TerminalProfile['name'], "Set default profile")) {
+                $Global.defaultProfile = $TerminalProfile['guid']
+                [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignment", "ProfileReplaced")]
+                $ProfileReplaced = $true
             }
 
             $Settings["profiles"] = @($Settings["profiles"] | ForEach-Object {

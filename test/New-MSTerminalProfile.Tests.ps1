@@ -54,6 +54,14 @@ Describe "New-MSTerminalProfile" {
                 (Get-MSTerminalProfile -Name 'new-pester')."ExtraSetting$_" | Should -Be (Get-Variable "ExtraSettingValue$_").value
             }
         }
+
+        It "Updates the default profile in globals" {
+            $Before = Get-Content $TestDrive/profiles.json | ConvertFrom-Json | ForEach-Object {$_}
+            New-MSTerminalProfile -Name "test default" -CommandLine "default" -MakeDefault
+            $After = Get-Content $TestDrive/profiles.json | ConvertFrom-Json | ForEach-Object {$_}
+            $After.Globals.defaultProfile | Should -Not -Be $Before.Globals.defaultProfile
+
+        }
     }
 
     context "No existing profiles" {
