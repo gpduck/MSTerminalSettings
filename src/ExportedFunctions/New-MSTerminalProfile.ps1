@@ -73,7 +73,13 @@ function New-MSTerminalProfile {
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
-    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json
+    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+    if($Settings.Globals) {
+        $Global = $Settings["globals"]
+    } else {
+        $Global = $Settings
+    }
+
     foreach($p in $Settings.Profiles) {
         if($P.Name -eq $Name) {
             Write-Error "Profile $Name already exists" -ErrorAction Stop
@@ -116,7 +122,7 @@ function New-MSTerminalProfile {
         $Profile["padding"] = $padding -Join ", "
     }
     if($MakeDefault) {
-        $Settings.defaultProfile = $Profile["guid"]
+        $Global["defaultProfile"] = $Profile["guid"]
     }
 
     #Process arbitrary at-your-own-risk properties at the end

@@ -62,6 +62,12 @@ Describe "Set-MSTerminalProfile" {
         }
     }
 
+    It "Updates the default profile guid" {
+        $Before = Get-MSTerminalSetting
+        Set-MSTerminalProfile -Name pester -MakeDefault
+        $After = Get-MSTerminalSetting
+        $After.defaultProfile | Should -Not -Be $Before.defaultProfile
+    }
 
     It "Preserves the property order in the json file" {
         $OrderBefore = (Get-Content $TestDrive/profiles.json -Raw | ConvertFrom-Json).Profiles[0].PSObject.Properties.Name -Join ""
