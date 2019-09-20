@@ -1,7 +1,9 @@
 $Script:ModuleRoot = $PSScriptRoot
 
 $Script:DEV_PATH = "packages/WindowsTerminalDev_8wekyb3d8bbwe/LocalState"
+$Script:DEV_PATH_ALT = "packages/WindowsTerminalDev_8wekyb3d8bbwe/RoamingState"
 $Script:RELEASE_PATH = "packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
+$Script:RELEASE_PATH_ALT = "packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/RoamingState"
 $Script:STANDALONE_PATH = "Microsoft/Windows Terminal"
 
 #Export all scripts as functions in .\ExportedFunctions, The functions must also be listed in the FunctionsToExport variable in the psd1 file.
