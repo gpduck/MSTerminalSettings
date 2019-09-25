@@ -18,9 +18,9 @@ New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[
  [[-CursorShape] <String>] [[-CursorHeight] <Int32>] [[-FontFace] <String>] [[-StartingDirectory] <String>]
  [[-FontSize] <Int32>] [[-Background] <String>] [[-Foreground] <String>] [[-AcrylicOpacity] <Single>]
  [-UseAcrylic] [[-BackgroundImage] <String>] [[-BackgroundImageAlignment] <String>]
- [[-BackgroundImageOpacity] <Double>] [[-BackgroundImageStretchMode] <String>] [[-ScrollbarState] <String>]
- [[-TabTitle] <String>] [-CloseOnExit] [[-Icon] <String>] [[-Padding] <Int32[]>] [[-ExtraSettings] <Hashtable>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-BackgroundImageOpacity] <Double>] [[-BackgroundImageStretchMode] <String>] [-Hidden]
+ [[-ScrollbarState] <String>] [[-TabTitle] <String>] [-CloseOnExit] [[-Icon] <String>] [[-Padding] <Int32[]>]
+ [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -312,6 +312,21 @@ Aliases:
 
 Required: False
 Position: 12
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Hidden
+If set to true, the profile will not appear in the list of profiles. This can be used to hide default profiles and dynamicially generated profiles, while leaving them in your settings file.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
