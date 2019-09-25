@@ -59,6 +59,8 @@ function Set-MSTerminalProfile {
         [AllowNull()]
         [String]$BackgroundImageStretchMode,
 
+        [switch]$Hidden,
+
         [ValidateSet("visible","hidden")]
         [string]$ScrollbarState,
 
@@ -109,6 +111,7 @@ function Set-MSTerminalProfile {
                 "cursorColor",
                 "cursorShape",
                 "cursorHeight",
+                "hidden",
                 "historySize",
                 "fontFace",
                 "fontSize",

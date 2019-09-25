@@ -47,6 +47,7 @@ Describe "Set-MSTerminalProfile" {
     Context "Update Settings" {
         $ExpectedValues = @{
             "backgroundImageAlignment" = "bottomRight"
+            "hidden" = $true
         }
         $ExpectedValues.Keys | ForEach-Object {
             $SettingName = $_

@@ -31,6 +31,7 @@ Describe "New-MSTerminalProfile" {
                 acrylicOpacity = 0.11
                 cursorShape = "vintage"
                 startingDirectory = "new-pester"
+                hidden = $true
             }
             $SCRIPT:ExtraSettingValue1 = [Guid]::NewGuid().guid
             $SCRIPT:ExtraSettingValue2 = [Guid]::NewGuid().guid
@@ -90,6 +91,7 @@ Describe "New-MSTerminalProfile" {
                 acrylicOpacity = 0.11
                 cursorShape = "vintage"
                 startingDirectory = "new-pester"
+                hidden = $true
             }
             New-MSTerminalProfile @NewValues
             $NewProfile = Get-MSTerminalProfile -Name new-pester

@@ -56,6 +56,8 @@ function New-MSTerminalProfile {
         [ValidateSet("none","fill","uniform","uniformToFill")]
         [String]$BackgroundImageStretchMode,
 
+        [switch]$Hidden,
+
         [ValidateSet("visible","hidden")]
         [string]$ScrollbarState,
 
@@ -108,6 +110,7 @@ function New-MSTerminalProfile {
         "fontFace",
         "fontSize",
         "foreground",
+        "hidden",
         "historySize",
         "icon",
         "scrollbarState",
