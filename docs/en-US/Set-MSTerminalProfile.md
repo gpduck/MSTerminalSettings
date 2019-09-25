@@ -19,9 +19,9 @@ Set-MSTerminalProfile -Name <String> [-CommandLine <String>] [-MakeDefault] [-Hi
  [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
  [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
  [-BackgroundImage <String>] [-BackgroundImageAlignment <String>] [-BackgroundImageOpacity <Double>]
- [-BackgroundImageStretchMode <String>] [-ScrollbarState <String>] [-TabTitle <String>] [-CloseOnExit]
- [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-BackgroundImageStretchMode <String>] [-Hidden] [-ScrollbarState <String>] [-Source <String>]
+ [-NewGuid <Guid>] [-TabTitle <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>]
+ [-Clear <String[]>] [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InputObject
@@ -31,9 +31,9 @@ Set-MSTerminalProfile -InputObject <Object> [-CommandLine <String>] [-MakeDefaul
  [-CursorShape <String>] [-CursorHeight <Int32>] [-FontFace <String>] [-StartingDirectory <String>]
  [-FontSize <Int32>] [-Background <String>] [-Foreground <String>] [-AcrylicOpacity <Single>] [-UseAcrylic]
  [-BackgroundImage <String>] [-BackgroundImageAlignment <String>] [-BackgroundImageOpacity <Double>]
- [-BackgroundImageStretchMode <String>] [-ScrollbarState <String>] [-TabTitle <String>] [-CloseOnExit]
- [-Icon <String>] [-Padding <Int32[]>] [-Clear <String[]>] [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-BackgroundImageStretchMode <String>] [-Hidden] [-ScrollbarState <String>] [-Source <String>]
+ [-NewGuid <Guid>] [-TabTitle <String>] [-CloseOnExit] [-Icon <String>] [-Padding <Int32[]>]
+ [-Clear <String[]>] [-ExtraSettings <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -346,6 +346,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Hidden
+If set to true, the profile will not appear in the list of profiles. This can be used to hide default profiles and dynamicially generated profiles, while leaving them in your settings file.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -HistorySize
 The number of lines of history to store.
 
@@ -421,6 +436,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -NewGuid
+A new GUID to use to identify this profile.
+
+```yaml
+Type: Guid
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Padding
 The padding to use between the window edges and the text.
 
@@ -459,6 +489,22 @@ Enable the SnapOnInput setting.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Source
+The source for dynamically generated profiles.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: Windows.Terminal.Azure, Windows.Terminal.PowershellCore, Windows.Terminal.Wsl,
 
 Required: False
 Position: Named

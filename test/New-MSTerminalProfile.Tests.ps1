@@ -31,6 +31,9 @@ Describe "New-MSTerminalProfile" {
                 acrylicOpacity = 0.11
                 cursorShape = "vintage"
                 startingDirectory = "new-pester"
+                hidden = $true
+                source = "Windows.Terminal.PowershellCore"
+                Guid = "{$(([Guid]::NewGuid().Guid))}"
             }
             $SCRIPT:ExtraSettingValue1 = [Guid]::NewGuid().guid
             $SCRIPT:ExtraSettingValue2 = [Guid]::NewGuid().guid
@@ -62,6 +65,11 @@ Describe "New-MSTerminalProfile" {
             $After.Globals.defaultProfile | Should -Not -Be $Before.Globals.defaultProfile
 
         }
+
+        It "Generates a guid when one is not provided" {
+            New-MSTerminalProfile -Name NoGuid -CommandLine NoGuid.exe
+            (Get-MSTerminalProfile -name NoGuid).Guid | Should -Not -Be $null
+        }
     }
 
     context "No existing profiles" {
@@ -90,6 +98,8 @@ Describe "New-MSTerminalProfile" {
                 acrylicOpacity = 0.11
                 cursorShape = "vintage"
                 startingDirectory = "new-pester"
+                hidden = $true
+                source = "Windows.Terminal.PowershellCore"
             }
             New-MSTerminalProfile @NewValues
             $NewProfile = Get-MSTerminalProfile -Name new-pester

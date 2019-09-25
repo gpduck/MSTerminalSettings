@@ -22,6 +22,9 @@ function Set-MSTerminalSetting {
 
         [switch]$CopyOnSelect,
 
+        [ValidateSet("Windows.Terminal.Azure","Windows.Terminal.PowershellCore","Windows.Terminal.Wsl","")]
+        [string[]]$DisabledProfileSources,
+
         [string[]]$Clear,
 
         [hashtable]$ExtraSettings = @{}
@@ -40,6 +43,7 @@ function Set-MSTerminalSetting {
         "alwaysShowTabs",
         "copyOnSelect",
         "defaultProfile",
+        "disabledProfileSources",
         "initialRows",
         "initialCols",
         "requestedTheme",

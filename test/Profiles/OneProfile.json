@@ -190,6 +190,7 @@
       "snapOnInput": true,
       "colorScheme": "pester",
       "historySize": 42,
+      "hidden": false,
       "acrylicOpacity": 0.42,
       "cursorShape": "pester",
       "startingDirectory": "pester"

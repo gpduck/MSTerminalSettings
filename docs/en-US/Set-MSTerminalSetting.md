@@ -15,8 +15,8 @@ Updates the top-level settings for MS Terminal.
 ```
 Set-MSTerminalSetting [[-DefaultProfile] <String>] [[-InitialRows] <Int32>] [[-InitialCols] <Int32>]
  [-AlwaysShowTabs] [[-RequestedTheme] <String>] [-ShowTerminalTitleInTitlebar] [-ShowTabsInTitlebar]
- [[-WordDelimiters] <String>] [-CopyOnSelect] [[-Clear] <String[]>] [[-ExtraSettings] <Hashtable>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [[-WordDelimiters] <String>] [-CopyOnSelect] [[-DisabledProfileSources] <String[]>] [[-Clear] <String[]>]
+ [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -57,7 +57,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -110,6 +110,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DisabledProfileSources
+A list of dynamic profile sources to disable.  This will hide all dynamic profiles created by that source.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+Accepted values: Windows.Terminal.Azure, Windows.Terminal.PowershellCore, Windows.Terminal.Wsl
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ExtraSettings
 {{ Fill ExtraSettings Description }}
 
@@ -119,7 +135,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

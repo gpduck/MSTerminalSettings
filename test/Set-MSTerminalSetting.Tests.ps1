@@ -19,6 +19,11 @@ Describe "Set-MSTerminalSetting" {
         $Settings = (Get-Content $TestDrive/profiles.json | ConvertFrom-Json).Globals
         $Settings.defaultProfile | Should -Be 24
     }
+    It "Sets disabledProfileSources" {
+        Set-MSTerminalSetting -disabledProfileSources @("Windows.Terminal.Azure")
+        $Settings = (Get-Content $TestDrive/profiles.json | ConvertFrom-Json).Globals
+        $Settings.disabledProfileSources -contains "Windows.Terminal.Azure" | Should -Be $true
+    }
     It "Sets showTabsInTitlebar" {
         Set-MSTerminalSetting -showTabsInTitlebar:$false
         $Settings = (Get-Content $TestDrive/profiles.json | ConvertFrom-Json).Globals
