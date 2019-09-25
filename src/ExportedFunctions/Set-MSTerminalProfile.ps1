@@ -64,6 +64,11 @@ function Set-MSTerminalProfile {
         [ValidateSet("visible","hidden")]
         [string]$ScrollbarState,
 
+        [ValidateSet("Windows.Terminal.Azure","Windows.Terminal.PowershellCore","Windows.Terminal.Wsl","")]
+        [string]$Source,
+
+        [guid]$NewGuid,
+
         [string]$TabTitle,
 
         [switch]$CloseOnExit,
@@ -121,6 +126,7 @@ function Set-MSTerminalProfile {
                 "tabTitle",
                 "acrylicOpacity",
                 "snapOnInput",
+                "source",
                 "startingDirectory",
                 "useAcrylic",
                 "icon"
@@ -151,8 +157,13 @@ function Set-MSTerminalProfile {
                 $ProfileReplaced = $true
             }
 
+            $OldGuid = $TerminalProfile['guid']
+            if($NewGuid) {
+                $TerminalProfile['guid'] = "{$NewGuid}"
+            }
+
             $Settings["profiles"] = @($Settings["profiles"] | ForEach-Object {
-                if($_.guid -eq $TerminalProfile['guid']) {
+                if($_.guid -eq $OldGuid) {
                     if($PSCmdlet.ShouldProcess("$($_.name) $($_.guid)", "Replace profile")) {
                         $TerminalProfile
                         Write-Debug (ConvertTo-Json $TerminalProfile)

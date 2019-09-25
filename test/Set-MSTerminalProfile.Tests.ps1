@@ -48,6 +48,7 @@ Describe "Set-MSTerminalProfile" {
         $ExpectedValues = @{
             "backgroundImageAlignment" = "bottomRight"
             "hidden" = $true
+            "source" = "Windows.Terminal.Wsl"
         }
         $ExpectedValues.Keys | ForEach-Object {
             $SettingName = $_
@@ -60,6 +61,14 @@ Describe "Set-MSTerminalProfile" {
                 $P | Set-MSTerminalProfile @Settings
             }
             (Get-MSTerminalProfile)."$Settingname" | Should -Be $ExpectedValue
+        }
+
+        It "Can change a profile's guid" {
+            $Before = Get-MSTerminalProfile -Name pester
+            $NewGuid = "{$([Guid]::NewGuid().Guid)}"
+            $Before | Set-MSTerminalProfile -NewGuid $NewGuid
+            $After = Get-MSTerminalProfile -Name pester
+            $After.Guid | Should -Be $NewGuid
         }
     }
 

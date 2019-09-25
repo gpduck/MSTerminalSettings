@@ -61,6 +61,11 @@ function New-MSTerminalProfile {
         [ValidateSet("visible","hidden")]
         [string]$ScrollbarState,
 
+        [ValidateSet("Windows.Terminal.Azure","Windows.Terminal.PowershellCore","Windows.Terminal.Wsl")]
+        [string]$Source,
+
+        [GUID]$Guid,
+
         [string]$TabTitle,
 
         [switch]$CloseOnExit = $true,
@@ -89,9 +94,14 @@ function New-MSTerminalProfile {
         }
     }
 
+    if(!$Guid) {
+        $Guid = [Guid]::NewGuid()
+    }
+    $GuidString = "{$Guid}"
+
     $Profile = @{
         name = $Name
-        guid = "{$([Guid]::NewGuid().Guid)}"
+        guid = $GuidString
         commandline = $CommandLine
     }
     $Properties = @(
@@ -115,6 +125,7 @@ function New-MSTerminalProfile {
         "icon",
         "scrollbarState",
         "snapOnInput",
+        "source",
         "startingDirectory",
         "tabTitle",
         "useAcrylic"

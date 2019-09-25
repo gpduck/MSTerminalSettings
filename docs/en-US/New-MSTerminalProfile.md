@@ -19,8 +19,9 @@ New-MSTerminalProfile [-Name] <String> [-CommandLine] <String> [-MakeDefault] [[
  [[-FontSize] <Int32>] [[-Background] <String>] [[-Foreground] <String>] [[-AcrylicOpacity] <Single>]
  [-UseAcrylic] [[-BackgroundImage] <String>] [[-BackgroundImageAlignment] <String>]
  [[-BackgroundImageOpacity] <Double>] [[-BackgroundImageStretchMode] <String>] [-Hidden]
- [[-ScrollbarState] <String>] [[-TabTitle] <String>] [-CloseOnExit] [[-Icon] <String>] [[-Padding] <Int32[]>]
- [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-ScrollbarState] <String>] [[-Source] <String>] [[-Guid] <Guid>] [[-TabTitle] <String>] [-CloseOnExit]
+ [[-Icon] <String>] [[-Padding] <Int32[]>] [[-ExtraSettings] <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -266,7 +267,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 22
+Position: 24
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -317,6 +318,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Guid
+A new GUID to uniquely identify this profile.
+
+```yaml
+Type: Guid
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 20
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Hidden
 If set to true, the profile will not appear in the list of profiles. This can be used to hide default profiles and dynamicially generated profiles, while leaving them in your settings file.
 
@@ -356,7 +372,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 20
+Position: 22
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -401,7 +417,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 21
+Position: 23
 Default value: 0,0,0,0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -438,6 +454,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Source
+The source for dynamically generated profiles.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: Windows.Terminal.Azure, Windows.Terminal.PowershellCore, Windows.Terminal.Wsl
+
+Required: False
+Position: 19
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -StartingDirectory
 The working directory to start in.
 
@@ -462,7 +494,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 19
+Position: 21
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
