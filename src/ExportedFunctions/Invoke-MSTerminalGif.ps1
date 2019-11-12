@@ -14,6 +14,7 @@ function Invoke-MSTerminalGif {
 .NOTES
     Requires Windows Terminal Preview
 #>
+    [CmdletBinding()]
     param (
         #The URI of the GIF you want to display
         [Parameter(Mandatory)][uri]$Uri,
