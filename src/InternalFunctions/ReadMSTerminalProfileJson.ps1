@@ -1,6 +1,6 @@
 function ReadMSTerminalProfileJson ([String]$Path) {
 
-    $ProfilePath = Get-Item $Path -ErrorAction Stop
+    $ProfilesPath = Get-Item $Path -ErrorAction Stop
     $JSonCommentsRegex = '(?<!".+)//.+(?!.+")'
     $ProfilesJsonContent = Get-Content -Path $ProfilesPath -Raw
     #Powershell 5 ConvertFrom-Json can't handle single-line comments and they must be stripped
