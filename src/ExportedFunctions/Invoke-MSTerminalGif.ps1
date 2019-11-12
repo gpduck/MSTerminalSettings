@@ -23,7 +23,7 @@ function Invoke-MSTerminalGif {
         #How to resize the background image in the window. Options are None, Fill, Uniform, and UniformToFill
         [ValidateSet('none', 'fill', 'uniform', 'uniformToFill')][String]$StretchMode = 'uniformToFill',
         #How transparent to make the background image. Default is 60% (.6)
-        [float]$BackgroundImageOpacity = $BackgroundImageOpacity,
+        [float]$BackgroundImageOpacity = 0.6,
         #Specify this to use the Acrylic visual effect (semi-transparency)
         [switch]$Acrylic,
         #Maximum duration of the gif invocation in seconds
@@ -76,7 +76,7 @@ function Invoke-MSTerminalGif {
             $erroractionpreference = 'stop'
             try {
                 Set-MSTerminalProfile -InputObject $terminalProfile -BackgroundImage $uri -UseAcrylic:$args.acrylic -BackgroundImageOpacity $args.backgroundimageopacity -BackgroundImageStretchMode $args.StretchMode
-                Start-Sleep $maxduration
+                Start-Sleep $args.maxduration
             } catch { Write-Error $PSItem } finally {
                 #Reset to a blank if for some reason the gif was the background previously.
                 if ($terminalProfile.BackgroundImage -eq $uri) {
