@@ -32,7 +32,7 @@ function Set-MSTerminalSetting {
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
     # Don't use -AsHashtable for 5.1 support
-    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+    $Settings = ReadMSTerminalProfileJson $SettingsPath | ConvertPSObjectToHashtable
     if($Settings.Globals) {
         $SettingsRoot = $Settings["globals"]
     } else {
