@@ -14,7 +14,8 @@ function Get-MSTerminalProfile {
     }
 
     $ProfilesJson = Join-Path $Path "profiles.json"
-    Get-Content -Path $ProfilesJson -Raw | ConvertFrom-Json | ForEach-Object {
+
+    ReadMSTerminalProfileJson $ProfilesJson | ForEach-Object {
         $_.Profiles
     } | Where-Object {
         $Profile = $_
