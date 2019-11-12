@@ -2,7 +2,7 @@
 function Invoke-MSTerminalGif {
     <#
 .SYNOPSIS
-    Plays a gif from a URI to the terminal. Useful when used as part of programs or build scripts to show "reaction gifs" to the terminal to events. Plays in the "Powershell Core" profile by default, you must specify -TerminalProfileName to run in another profile window such as Windows Powershell or WSL
+    Plays a gif from a URI to the terminal. Useful when used as part of programs or build scripts to show "reaction gifs" to the terminal to events.
 .DESCRIPTION
     This command plays animated GIFs on the Windows Terminal. It performs the operation in a background runspace and only allows one playback at a time. It also remembers your previous windows terminal settings and puts them back after it is done
 .EXAMPLE
@@ -57,13 +57,16 @@ function Invoke-MSTerminalGif {
 
     #Prepare arguments for the threadjob
     $TerminalGifJobParams = @{ }
-    ('terminalprofile','uri', 'terminalprofilename', 'maxduration', 'stretchmode','acrylic','backgroundimageopacity').foreach{
+    ('terminalprofile','uri', 'maxduration', 'stretchmode','acrylic','backgroundimageopacity').foreach{
         $TerminalGifJobParams.$PSItem = (Get-Variable $PSItem).value
     }
 
-    if (-not $TerminalGifJobParams.$terminalProfile) { throw "Could not find the terminal profile $($terminalProfile.Name)." }
+    $TerminalGifJobParams.modulePath = (Get-Module msterminalsettings | % path) -replace 'psm1$','psd1'
+
+    if (-not $TerminalGifJobParams.terminalprofile) { throw "Could not find the terminal profile $Name." }
     if (-not $InvokeTerminalGifJob -or ($InvokeTerminalGifJob.state -eq 'Completed')) {
         $null = Start-ThreadJob -Name $InvokeTerminalGifJobName -argumentlist $TerminalGifJobParams {
+            Import-Module $args.modulepath
             $uri = $args.uri
             $terminalProfile = $args.terminalprofile
 
@@ -80,7 +83,13 @@ function Invoke-MSTerminalGif {
                     Write-Warning "Picture was same as previous picture, setting blank background"
                     $terminalProfile.BackgroundImage = $null
                 }
-                Set-MSTerminalProfile -InputObject $terminalProfile -BackgroundImage $TerminalProfile.BackgroundImage -BackgroundImageStretchMode $TerminalProfile.BackgroundImageStretchMode -UseAcrylic:$TerminalProfile.UseAcrylic -BackgroundImageOpacity $TerminalProfile.BackgroundImageOpacity
+
+                $backGroundImageStretchMode = if ($terminalProfile.backgroundImageStretchMode) {
+                    $terminalProfile.backgroundImageStretchMode
+                } else {
+                    'none'
+                }
+                Set-MSTerminalProfile -InputObject $terminalProfile -BackgroundImage $TerminalProfile.BackgroundImage -BackgroundImageStretchMode $backGroundImageStretchMode -UseAcrylic:$TerminalProfile.UseAcrylic -BackgroundImageOpacity $TerminalProfile.BackgroundImageOpacity
             }
         }
     } else {
