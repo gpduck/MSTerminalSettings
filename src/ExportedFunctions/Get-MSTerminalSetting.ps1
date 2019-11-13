@@ -4,7 +4,7 @@ function Get-MSTerminalSetting {
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
-    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json
+    $Settings = ReadMSTerminalProfileJson $SettingsPath
 
     if($Settings.Globals) {
         $Settings = $Settings.Globals

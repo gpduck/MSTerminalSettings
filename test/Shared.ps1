@@ -6,5 +6,5 @@ $ModuleManifestPath = "$PSScriptRoot\..\Release\MSTerminalSettings\$ModuleManife
 if (!$SuppressImportModule) {
     # -Scope Global is needed when running tests from inside of psake, otherwise
     # the module's functions cannot be found in the MSTerminalSettings\ namespace
-    Import-Module $ModuleManifestPath -Scope Global -ErrorAction Stop
+    Import-Module $ModuleManifestPath -Scope Global -ErrorAction Stop -Force
 }

@@ -40,4 +40,15 @@ Describe "Get-MSTerminalProfile" {
             }
         }
     }
+
+    Context "Default Profile" {
+        BeforeEach {
+            Copy-Item $PSScriptRoot/Profiles/NewInstallSettings.json $TestDrive/profiles.json
+        }
+
+        It "Reads the default profile without issues" {
+            $profileResult = Get-MSTerminalProfile -GUID "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}"
+            $profileResult.Name | Should -Be 'Windows Powershell'
+        }
+    }
 }

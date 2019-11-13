@@ -42,7 +42,7 @@ function New-MSTerminalColorScheme {
     )
     $Path = Find-MSTerminalFolder
     $SettingsPath = Join-Path $Path "profiles.json"
-    $Settings = Get-Content -Path $SettingsPath -Raw | ConvertFrom-Json | ConvertPSObjectToHashtable
+    $Settings = ReadMSTerminalProfileJson $SettingsPath | ConvertPSObjectToHashtable
 
     if(!$Settings.Contains("schemes")) {
         $Settings["schemes"] = @()
