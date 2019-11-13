@@ -8,11 +8,6 @@ function Invoke-MSTerminalGif {
 .EXAMPLE
     PS C:\> Invoke-TerminalGif https://media.giphy.com/media/g9582DNuQppxC/giphy.gif
     Triggers a gif in the current Windows Terminal
-.EXAMPLE
-    PS C:\> Invoke-TerminalGif (Search-Giphy -DirectUrl)
-    Triggers a gif in the current Windows Terminal
-.NOTES
-    Requires Windows Terminal Preview
 #>
     [CmdletBinding()]
     param (
