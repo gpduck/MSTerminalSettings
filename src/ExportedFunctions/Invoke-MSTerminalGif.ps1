@@ -18,7 +18,7 @@ function Invoke-MSTerminalGif {
     param (
         #The URI of the GIF you want to display
         [Parameter(Mandatory)][uri]$Uri,
-        #The name or GUID of the Windows Terminal Profile in which to play the Gif. If not specified, attempts to intelligently determine it from the executable name or if $ENV:WT_PROFILE was specified by adding -noexit -command \". {$env:WT_PROFILE='myprofilename'}\" to your terminal profile definition.
+        #The name or GUID of the Windows Terminal Profile in which to play the Gif.
         [String][Alias('GUID')]$Name,
         #How to resize the background image in the window. Options are None, Fill, Uniform, and UniformToFill
         [ValidateSet('none', 'fill', 'uniform', 'uniformToFill')][String]$StretchMode = 'uniformToFill',
