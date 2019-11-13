@@ -56,7 +56,7 @@ function Invoke-MSTerminalGif {
         $TerminalGifJobParams.$PSItem = (Get-Variable $PSItem).value
     }
 
-    $TerminalGifJobParams.modulePath = (Get-Module msterminalsettings | % path) -replace 'psm1$','psd1'
+    $TerminalGifJobParams.modulePath = (Get-Module msterminalsettings).path -replace 'psm1$','psd1'
 
     if (-not $TerminalGifJobParams.terminalprofile) { throw "Could not find the terminal profile $Name." }
     if (-not $InvokeTerminalGifJob -or ($InvokeTerminalGifJob.state -eq 'Completed')) {
