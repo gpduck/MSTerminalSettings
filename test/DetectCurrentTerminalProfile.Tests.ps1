@@ -8,7 +8,7 @@ Describe "DetectCurrentTerminalProfile" {
         $env:WT_SESSION = 'pester'
 
         Mock Get-MSTerminalProfile {
-            $profiles = Import-Clixml ./Profiles/GetMSTerminalDefaultProfile.clixml
+            $profiles = Import-Clixml $PSScriptRoot/Profiles/GetMSTerminalDefaultProfile.clixml
             if ($Name) {
                 $profiles | where name -eq $Name
             }
