@@ -10,18 +10,17 @@ function DetectCurrentTerminalProfile {
     #Detection Method 1: Profile Environment Variable
     if ($env:WT_PROFILE) {
         $profileName = $env:WT_PROFILE
-        write-verbose "Detected WT_PROFILE is set to $($env:WT_PROFILE), fetching if profile exists"
-        if ($env:WT_PROFILE -as [Guid]) {
-            return Get-MSTerminalProfile -Guid $env:WT_PROFILE -ErrorAction Stop
+        write-verbose "Detected WT_PROFILE is set to $profileName, fetching if profile exists"
+        if ($profileName -as [Guid]) {
+            return Get-MSTerminalProfile -Guid $profileName -ErrorAction Stop
         } else {
-            return Get-MSTerminalProfile -Name $env:WT_PROFILE -ErrorAction Stop
+            return Get-MSTerminalProfile -Name $profileName -ErrorAction Stop
         }
     }
 
     #Detection Method 2: Check the powershell executable type and if only one profile that doesn't have WT_PROFILE already defined matches, return that.
     $psExe = Get-Process -PID $pid
     $psExePath = $psExe.Path
-    $psExeFullName = Split-Path -Path $psExePath -Leaf
     $psExeName = $psExe.ProcessName
     $profiles = Get-MSTerminalProfile
 
@@ -50,7 +49,7 @@ function DetectCurrentTerminalProfile {
 
     #If there were multiple results, try matching by absolute path, otherwise fail with ambiguous
     if ($candidateProfiles.count -gt 1) {
-        $absolutePathProfile = $candidateProfiles | where commandline -eq $PSExePath
+        $absolutePathProfile = $candidateProfiles | Where-Object commandline -eq $PSExePath
         if ($absolutePathProfile.count -eq 1) {return $absolutePathProfile}
 
         #Fail if multiple profiles were found but could not be determined which was ours
