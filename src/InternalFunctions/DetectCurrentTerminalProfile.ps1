@@ -32,13 +32,14 @@ function DetectCurrentTerminalProfile {
     } else {
         $candidateProfiles = $profiles.where{$PSItem.commandline -match [regex]::Escape($psExeName)}
     }
-    #The array cast is to enable count to work properly in PS5.1. Unnecessary PS6+
+
+    #The PSCustomObject array cast is to enable count to work properly in PS5.1 (it returns nothing on a non-array). Unnecessary in PS6+
     [PSCustomObject[]]$candidateProfiles = $candidateProfiles | where commandline -notmatch 'WT_PROFILE'
 
-    #If there were no matches, bail out
+    #If there were no matches, bail out gracefully
     if (-not $candidateprofiles) {
         write-debug "Terminal Detection: No profiles found that match $psExeName"
-        return
+        throw "Unable to detect your currently running profile. Please specify the -Name parameter, or set the WT_PROFILE environment variable"
     }
 
     #If there was only one result, return it
