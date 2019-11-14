@@ -33,7 +33,7 @@ function DetectCurrentTerminalProfile {
     }
 
     #The PSCustomObject array cast is to enable count to work properly in PS5.1 (it returns nothing on a non-array). Unnecessary in PS6+
-    [PSCustomObject[]]$candidateProfiles = $candidateProfiles | where commandline -notmatch 'WT_PROFILE'
+    [PSCustomObject[]]$candidateProfiles = $candidateProfiles | Where-Object commandline -notmatch 'WT_PROFILE'
 
     #If there were no matches, bail out gracefully
     if (-not $candidateprofiles) {
