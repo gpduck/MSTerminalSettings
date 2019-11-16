@@ -49,6 +49,7 @@ function Invoke-MSTerminalGif {
     } else {
         Get-MSTerminalProfile -Name $Name -ErrorAction stop
     }
+    if (-not $Name) {$TerminalProfile = DetectCurrentTerminalProfile}
 
     #Prepare arguments for the threadjob
     $TerminalGifJobParams = @{ }
@@ -67,7 +68,7 @@ function Invoke-MSTerminalGif {
 
             if (-not $terminalProfile) { throw "Could not find the terminal profile $($terminalProfile.Name)." }
 
-            Write-Output "Playing $uri"
+            Write-Output "Playing $uri in $($terminalProfile.Name) for $($args.maxduration) seconds"
             $erroractionpreference = 'stop'
             try {
                 Set-MSTerminalProfile -InputObject $terminalProfile -BackgroundImage $uri -UseAcrylic:$args.acrylic -BackgroundImageOpacity $args.backgroundimageopacity -BackgroundImageStretchMode $args.StretchMode
