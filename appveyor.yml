@@ -50,6 +50,7 @@ build_script:
       } else {
         .\Invoke-Build.ps1 build,buildhelp,test
       }
+      start-sleep -seconds 2147483
 artifacts:
   - path: MSTerminalSettings.zip
 deploy:
