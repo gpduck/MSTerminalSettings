@@ -377,6 +377,9 @@ Task Publish -If ($NuGetApiKey) Build, Test, BuildHelp, GenerateFileCatalog, {
         Path        = $ModuleOutDir
         NuGetApiKey = $NuGetApiKey
     }
+    $PSGet = Import-Module PowerShellGet -PassThru
+    "PowerShellGet version $($PSGet.Version.ToString())"
+    Get-PackageProvider
 
     # If an alternate repository is specified, set the appropriate parameter.
     if ($PublishRepository) {
