@@ -28,7 +28,7 @@ install:
   - ps: |
       import-module powershellget
       # cannot update and use new version in the same process
-      #Install-module PowerShellGet -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      Install-module PowerShellGet -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
       #Remove-Module PowerShellGet -Force
       #Import-Module PowerShellGet -Force
       Get-PackageProvider -Name NuGet -ForceBootstrap
@@ -37,7 +37,7 @@ install:
   - pwsh: |
       import-module powershellget
       # cannot update and use new version in the same process
-      #Install-module PowerShellGet -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
+      Install-module PowerShellGet -force -AllowClobber -SkipPublisherCheck -Scope CurrentUser
       #Remove-Module PowerShellGet -Force
       #Import-Module PowerShellGet -Force
       Get-PackageProvider -Name NuGet -ForceBootstrap
@@ -50,6 +50,7 @@ build_script:
       } else {
         .\Invoke-Build.ps1 build,buildhelp,test
       }
+      get-module powershellget
       start-sleep -seconds 2147483
 artifacts:
   - path: MSTerminalSettings.zip
