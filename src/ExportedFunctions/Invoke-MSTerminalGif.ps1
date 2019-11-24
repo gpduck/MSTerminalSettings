@@ -43,13 +43,13 @@ function Invoke-MSTerminalGif {
             Remove-Job $InvokeTerminalGifJob
         }
     }
-
     $TerminalProfile = if ($Name -as [Guid]) {
         Get-MSTerminalProfile -Guid $Name -ErrorAction stop
     } else {
         Get-MSTerminalProfile -Name $Name -ErrorAction stop
     }
     if (-not $Name) {$TerminalProfile = DetectCurrentTerminalProfile}
+    if ($TerminalProfile.count -gt 1) {throw "Multiple terminal profiles were detected with the Name $Name. Please rename one of the profiles or specify by GUID."}
 
     #Prepare arguments for the threadjob
     $TerminalGifJobParams = @{ }
