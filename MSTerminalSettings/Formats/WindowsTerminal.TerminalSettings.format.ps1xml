@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+format type data generated 04/16/2020 02:22:28 by TINYGOD\JGrote
+-->
+<Configuration>
+  <ViewDefinitions>
+    <View>
+      <!--Created 04/16/2020 02:22:28 by TINYGOD\JGrote-->
+      <Name>default</Name>
+      <ViewSelectedBy>
+        <TypeName>WindowsTerminal.TerminalSettings</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <!--Delete the AutoSize node if you want to use the defined widths.-->
+        <AutoSize />
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Profiles</Label>
+            <Width>33</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Keybindings</Label>
+            <Width>64</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Schemes</Label>
+            <Width>64</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Path</Label>
+            <Width>106</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <!--
+            By default the entries use property names, but you can replace them with scriptblocks.
+            <ScriptBlock>$_.foo /1mb -as [int]</ScriptBlock>
+-->
+              <TableColumnItem>
+                <ScriptBlock>[int]$_.profiles.list.count</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>[int]$_.keybindings.count</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>[int]$_.schemes.count</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Path</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+  </ViewDefinitions>
+</Configuration>

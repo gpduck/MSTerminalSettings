@@ -1,0 +1,143 @@
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "keybindings": [
+      {
+        "command": "copy",
+        "keys": [
+          "ctrl+c"
+        ]
+      }
+    ],
+    "wordDelimiters": " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?│",
+    "tabWidthMode": "titleLength",
+    "profiles": {
+      "defaults": {
+        "colorScheme": "Dark Plus",
+        "fontFace": "CaskaydiaCove NF",
+        "fontSize": 10,
+        "acrylicOpacity": 0.8,
+        "backgroundImageAlignment": "bottomRight",
+        "backgroundImageOpacity": 0.5,
+        "backgroundImageStretchMode": "none",
+        "startingDirectory": "%USERPROFILE%",
+        "useAcrylic": true,
+        "tabTitle": " ",
+        "suppressApplicationTitle": true,
+        "hidden": false
+      },
+      "list": [
+        {
+          "backgroundImage": "ms-appdata:///roaming/pwsh-pulse.gif",
+          "commandline": "pwsh.exe -nologo -noexit -c $env:WT_PROFILE_ID='Powershell'",
+          "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+          "icon": "ms-appdata:///roaming/pwsh.png",
+          "name": "PowerShell"
+        },
+        {
+          "background": "#0E0419",
+          "backgroundImage": "ms-appdata:///roaming/pwshpreview-pulse.gif",
+          "commandline": "pwsh-preview.exe -NoExit -c $env:WT_PROFILE_ID='Powershell Preview'",
+          "guid": "{61c54bbd-c2c6-5271-96e7-009a87ffaaaa}",
+          "icon": "ms-appdata:///roaming/pwsh-preview.png",
+          "name": "Powershell Preview"
+        },
+        {
+          "backgroundImage": "ms-appdata:///roaming/psremotingbg.png",
+          "commandline": "pwsh -noprofile -noexit -i -c \"$ENV:WT_PROFILE_ID='Powershell Remoting (SSH)';$hn = Read-Host '[User@]Hostname';cls;etsn -SSHTransport $hn;sleep 2\"",
+          "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441a4}",
+          "icon": "ms-appdata:///roaming/psremoting.png",
+          "name": "Powershell Remoting (SSH)"
+        },
+        {
+          "commandline": "powershell.exe -nologo",
+          "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+          "name": "Windows PowerShell",
+          "colorScheme": "Campbell Powershell"
+        },
+        {
+          "backgroundImage": "ms-appdata:///roaming/ssh.png",
+          "commandline": "pwsh -noprofile -c \"$ENV:WT_PROFILE_ID='SSH';$hn = Read-Host '[User@]Hostname';cls;ssh $hn;sleep 2\"",
+          "guid": "{b453ae62-4e3d-5e58-b989-0afffec441a4}",
+          "icon": "ms-appdata:///roaming/putty.png",
+          "name": "SSH"
+        },
+        {
+          "backgroundImage": "ms-appdata:///roaming/cmd-pulse.gif",
+          "commandline": "cmd.exe /K",
+          "fontSize": 10,
+          "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+          "name": "cmd",
+          "colorScheme": "Campbell"
+        },
+        {
+          "backgroundImage": "ms-appdata:///roaming/cloudshell-pulse.gif",
+          "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+          "background": "#000033",
+          "name": "Azure Cloud Shell",
+          "source": "Windows.Terminal.Azure"
+        },
+        {
+          "background": "#18474e",
+          "backgroundImage": "ms-appdata:///roaming/wsl-pulse.gif",
+          "guid": "{1777cdf0-b2c4-5a63-a204-eb60f349ea7c}",
+          "icon": "ms-appdata:///roaming/wsl.png",
+          "name": "Alpine",
+          "source": "Windows.Terminal.Wsl"
+        },
+        {
+          "background": "#2C001E",
+          "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+          "name": "Ubuntu",
+          "source": "Windows.Terminal.Wsl",
+          "icon": "ms-appdata:///roaming/ubuntu.png",
+          "backgroundImage": "ms-appdata:///roaming/wsl-pulse.gif"
+        },
+        {
+          "background": "#4d0034",
+          "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
+          "name": "Ubuntu-18.04",
+          "source": "Windows.Terminal.Wsl",
+          "icon": "ms-appdata:///roaming/ubuntu-server.png",
+          "backgroundImage": "ms-appdata:///roaming/wsl-pulse.gif"
+        },
+        {
+          "backgroundImage": "ms-appdata:///roaming/pwsh-pulse.gif",
+          "commandline": "pwsh.exe -nologo -noexit -c $env:WT_PROFILE_ID='Powershell Demo'",
+          "guid": "{574e775e-4f2a-5b96-ac1e-a2962a40233a}",
+          "icon": "ms-appdata:///roaming/pwsh.png",
+          "name": "PowerShell Demo",
+          "useAcrylic": false
+        },
+        {
+          "guid": "{fe66f4b8-350f-56bb-adb0-c2ce745f6db5}",
+          "hidden": false,
+          "name": "PowerShell (scoop)",
+          "source": "Windows.Terminal.PowershellCore"
+        }
+      ]
+    },
+    "schemes": [
+      {
+        "name": "Dark Plus",
+        "background": "#1E1E1E",
+        "black": "#000000",
+        "blue": "#2472C8",
+        "brightBlack": "#666666",
+        "brightBlue": "#569CD6",
+        "brightCyan": "#9CDCFE",
+        "brightGreen": "#B5CEA8",
+        "brightPurple": "#DAADD6",
+        "brightRed": "#F14C4C",
+        "brightWhite": "#E5E5E5",
+        "brightYellow": "#DCDCAA",
+        "cyan": "#11A8CD",
+        "foreground": "#D4D4D4",
+        "green": "#6A9955",
+        "purple": "#C586C0",
+        "red": "#CD3131",
+        "white": "#E5E5E5",
+        "yellow": "#CE9178"
+      }
+    ]
+  }

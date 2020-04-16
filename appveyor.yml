@@ -49,7 +49,7 @@ build_script:
         .\Invoke-Build.ps1 build,buildhelp,test
       }
 artifacts:
-  - path: MSTerminalSettings.zip
+  - path: MSTerminalConfig.zip
 deploy:
   - provider: GitHub
     tag: $(APPVEYOR_BUILD_VERSION)

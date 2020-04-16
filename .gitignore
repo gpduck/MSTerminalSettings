@@ -9,3 +9,6 @@ PesterResults.xml
 paket-files/
 .paket/paket.exe
 src/bin/
+
+#Documentation (this should be saved separately
+docs/

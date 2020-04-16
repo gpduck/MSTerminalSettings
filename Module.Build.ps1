@@ -349,12 +349,12 @@ Task Test -If (Get-Module Pester -ListAvailable) Build,{
             $testing.CodeCoverage = $CodeCoverageFiles
         }
 
-        $PowerShell = powershell { param($p) Import-Module Pester; Invoke-Pester @p } -Args $testing
+        # $PowerShell = powershell { param($p) Import-Module Pester; Invoke-Pester @p } -Args $testing
         $pwsh = pwsh { param($p) Import-Module Pester; Invoke-Pester @p } -Args $testing
 
-        Assert -Condition (
-            $PowerShell.FailedCount -eq 0
-        ) -Message "One or more PowerShell Pester tests failed, build cannot continue."
+        # Assert -Condition (
+        #     $PowerShell.FailedCount -eq 0
+        # ) -Message "One or more PowerShell Pester tests failed, build cannot continue."
 
         Assert -Condition (
             $pwsh.FailedCount -eq 0
@@ -585,7 +585,7 @@ function RemoveSetting {
 
     if (Test-Path -LiteralPath $Path) {
         $storedSettings = Import-Clixml -Path $Path
-        $storedSettings.Remove($Key)
+        [void]$storedSettings.Remove($Key)
         if ($storedSettings.Count -eq 0) {
             Remove-Item -Path $Path
         }

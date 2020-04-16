@@ -1,0 +1,905 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Microsoft's Windows Terminal Settings Profile Schema'",
+  "$id": "https://github.com/microsoft/terminal/blob/master/doc/cascadia/profiles.schema.json",
+  "definitions": {
+    "MoveFocusAction": {
+      "required": [
+        "direction"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShortcutAction"
+        },
+        {
+          "properties": {
+            "action": {
+              "type": "string",
+              "pattern": "moveFocus"
+            },
+            "direction": {
+              "default": "left",
+              "description": "The direction to move focus in, between panes",
+              "$ref": "#/definitions/Direction"
+            }
+          }
+        }
+      ],
+      "description": "Arguments corresponding to a Move Focus Action"
+    },
+    "ProfileList": {
+      "type": "array",
+      "description": "A list of profiles and the properties specific to each.",
+      "items": {
+        "$ref": "#/definitions/Profile",
+        "required": [
+          "guid",
+          "name"
+        ]
+      }
+    },
+    "Globals": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "snapToGridOnResize": {
+          "default": false,
+          "type": "boolean",
+          "description": "When set to true, the window will snap to the nearest character boundary on resize. When false, the window will resize 'smoothly'"
+        },
+        "showTabsInTitlebar": {
+          "default": true,
+          "type": "boolean",
+          "description": "When set to true, the tabs are moved into the titlebar and the titlebar disappears. When set to false, the titlebar sits above the tabs."
+        },
+        "tabWidthMode": {
+          "default": "equal",
+          "type": "string",
+          "description": "Sets the width of the tabs.",
+          "enum": [
+            "equal",
+            "titleLength"
+          ]
+        },
+        "launchMode": {
+          "default": "default",
+          "type": "string",
+          "description": "Defines whether the Terminal will launch as maximized or not.",
+          "enum": [
+            "maximized",
+            "default"
+          ]
+        },
+        "theme": {
+          "default": "system",
+          "type": "string",
+          "description": "Sets the theme of the application.",
+          "enum": [
+            "light",
+            "dark",
+            "system"
+          ]
+        },
+        "initialCols": {
+          "default": 120,
+          "maximum": 999,
+          "type": "integer",
+          "minimum": 1,
+          "description": "The number of columns displayed in the window upon first load."
+        },
+        "defaultProfile": {
+          "$ref": "#/definitions/ProfileGuid",
+          "description": "Sets the default profile. Opens by clicking the '+' icon or typing the key binding assigned to 'newTab'. The guid of the desired default profile is used as the value."
+        },
+        "keybindings": {
+          "type": "array",
+          "description": "Properties are specific to each custom key binding.",
+          "items": {
+            "$ref": "#/definitions/Keybinding"
+          }
+        },
+        "rowsToScroll": {
+          "default": "system",
+          "maximum": 999,
+          "type": [
+            "integer",
+            "string"
+          ],
+          "minimum": 0,
+          "description": "The number of rows to scroll at a time with the mouse wheel. This will override the system setting if the value is not zero or 'system'."
+        },
+        "copyFormatting": {
+          "default": true,
+          "type": "boolean",
+          "description": "When set to `true`, the color and font formatting of selected text is also copied to your clipboard. When set to `false`, only plain text is copied to your clipboard."
+        },
+        "copyOnSelect": {
+          "default": false,
+          "type": "boolean",
+          "description": "When set to true, a selection is immediately copied to your clipboard upon creation. When set to false, the selection persists and awaits further action."
+        },
+        "confirmCloseAllTabs": {
+          "default": true,
+          "type": "boolean",
+          "description": " When set to `true` closing a window with multiple tabs open WILL require confirmation.  When set to `false` closing a window with multiple tabs open WILL NOT require confirmation."
+        },
+        "alwaysShowTabs": {
+          "default": true,
+          "type": "boolean",
+          "description": "When set to true, tabs are always displayed. When set to false and showTabsInTitlebar is set to false, tabs only appear after opening a new tab."
+        },
+        "wordDelimiters": {
+          "default": " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~????",
+          "type": "string",
+          "description": "Determines the delimiters used in a double click selection."
+        },
+        "showTerminalTitleInTitlebar": {
+          "default": true,
+          "type": "boolean",
+          "description": "When set to true, titlebar displays the title of the selected tab. When set to false, titlebar displays 'Windows Terminal'."
+        },
+        "initialPosition": {
+          "$ref": "#/definitions/Coordinates",
+          "description": "The position of the top left corner of the window upon first load. On a system with multiple displays, these coordinates are relative to the top left of the primary display. If launchMode is set to maximized, the window will be maximized on the monitor specified by those coordinates."
+        },
+        "initialRows": {
+          "default": 30,
+          "maximum": 999,
+          "type": "integer",
+          "minimum": 1,
+          "description": "The number of rows displayed in the window upon first load."
+        }
+      },
+      "description": "Properties that affect the entire window, regardless of the profile settings.",
+      "required": [
+        "defaultProfile"
+      ]
+    },
+    "Coordinates": {
+      "type": "string",
+      "pattern": "^(-?\\d+)?(,\\s?(-?\\d+)?)?$"
+    },
+    "SplitState": {
+      "type": "string",
+      "enum": [
+        "vertical",
+        "horizontal",
+        "auto"
+      ]
+    },
+    "ProfilesObject": {
+      "properties": {
+        "list": {
+          "$ref": "#/definitions/ProfileList"
+        },
+        "defaults": {
+          "$ref": "#/definitions/Profile",
+          "description": "The default settings that apply to every profile."
+        }
+      },
+      "type": "object",
+      "description": "A list of profiles and default settings that apply to all of them"
+    },
+    "SchemeList": {
+      "type": "array",
+      "description": "Properties are specific to each color scheme. ColorTool is a great tool you can use to create and explore new color schemes. All colors use hex color format.",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "cursorColor": {
+            "default": "#FFFFFF",
+            "description": "Sets the cursor color of the color scheme.",
+            "$ref": "#/definitions/Color"
+          },
+          "blue": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI blue."
+          },
+          "brightCyan": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI bright cyan."
+          },
+          "purple": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI purple."
+          },
+          "brightWhite": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI bright white."
+          },
+          "cyan": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI cyan."
+          },
+          "yellow": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI yellow."
+          },
+          "brightBlack": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI bright black."
+          },
+          "red": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI red."
+          },
+          "green": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI green."
+          },
+          "selectionBackground": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the selection background color of the color scheme."
+          },
+          "black": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI black."
+          },
+          "white": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI white."
+          },
+          "brightGreen": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI bright green."
+          },
+          "brightBlue": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI bright blue."
+          },
+          "background": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the background color of the color scheme."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Name of the color scheme."
+          },
+          "foreground": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the foreground color of the color scheme."
+          },
+          "brightYellow": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI bright yellow."
+          },
+          "brightRed": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI bright red."
+          },
+          "brightPurple": {
+            "$ref": "#/definitions/Color",
+            "description": "Sets the color used as ANSI bright purple."
+          }
+        },
+        "type": "object"
+      }
+    },
+    "Keybinding": {
+      "additionalProperties": false,
+      "properties": {
+        "keys": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/KeyChordSegment"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/definitions/KeyChordSegment"
+              }
+            }
+          ],
+          "description": "Defines the key combinations used to call the command."
+        },
+        "command": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/AdjustFontSizeAction"
+            },
+            {
+              "$ref": "#/definitions/CopyAction"
+            },
+            {
+              "$ref": "#/definitions/ShortcutActionName"
+            },
+            {
+              "$ref": "#/definitions/NewTabAction"
+            },
+            {
+              "$ref": "#/definitions/SwitchToTabAction"
+            },
+            {
+              "$ref": "#/definitions/MoveFocusAction"
+            },
+            {
+              "$ref": "#/definitions/ResizePaneAction"
+            },
+            {
+              "$ref": "#/definitions/SplitPaneAction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The action executed when the associated key bindings are pressed."
+        }
+      },
+      "type": "object",
+      "required": [
+        "command",
+        "keys"
+      ]
+    },
+    "ShortcutAction": {
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/ShortcutActionName",
+          "description": "The action to execute"
+        }
+      },
+      "type": "object",
+      "required": [
+        "action"
+      ]
+    },
+    "Profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "guid": {
+          "$ref": "#/definitions/ProfileGuid",
+          "description": "Unique identifier of the profile. Written in registry format: \"{00000000-0000-0000-0000-000000000000}\"."
+        },
+        "cursorColor": {
+          "$ref": "#/definitions/Color",
+          "description": "Sets the cursor color of the profile. Overrides cursor color set in color scheme if colorscheme is set. Uses hex color format: \"#rrggbb\"."
+        },
+        "colorTable": {
+          "type": "array",
+          "description": "Array of colors used in the profile if colorscheme is not set. Colors use hex color format: \"#rrggbb\". Ordering is as follows: [black, red, green, yellow, blue, magenta, cyan, white, bright black, bright red, bright green, bright yellow, bright blue, bright magenta, bright cyan, bright white]",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "foreground": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the foreground color of the color table."
+              },
+              "white": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI white."
+              },
+              "blue": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI blue."
+              },
+              "brightYellow": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI bright yellow."
+              },
+              "brightRed": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI bright red."
+              },
+              "brightBlack": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI bright black."
+              },
+              "red": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI red."
+              },
+              "brightGreen": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI bright green."
+              },
+              "brightWhite": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI bright white."
+              },
+              "brightCyan": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI bright cyan."
+              },
+              "cyan": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI cyan."
+              },
+              "black": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI black."
+              },
+              "yellow": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI yellow."
+              },
+              "brightPurple": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI bright purple."
+              },
+              "purple": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI purple."
+              },
+              "brightBlue": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI bright blue."
+              },
+              "green": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the color used as ANSI green."
+              },
+              "background": {
+                "$ref": "#/definitions/Color",
+                "description": "Sets the background color of the color table."
+              }
+            },
+            "type": "object"
+          }
+        },
+        "antialiasingMode": {
+          "default": "grayscale",
+          "type": "string",
+          "description": "Controls how text is antialiased in the renderer. Possible values are \"grayscale\", \"cleartype\" and \"aliased\". Note that changing this setting will require starting a new terminal instance.",
+          "enum": [
+            "grayscale",
+            "cleartype",
+            "aliased"
+          ]
+        },
+        "tabTitle": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "If set, will replace the name as the title to pass to the shell on startup. Some shells (like bash) may choose to ignore this initial value, while others (cmd, powershell) may use this value over the lifetime of the application."
+        },
+        "historySize": {
+          "default": 9001,
+          "type": "integer",
+          "minimum": -1,
+          "description": "The number of lines above the ones displayed in the window you can scroll back to."
+        },
+        "padding": {
+          "default": "8, 8, 8, 8",
+          "type": "string",
+          "pattern": "^-?[0-9]+(\\.[0-9]+)?( *, *-?[0-9]+(\\.[0-9]+)?|( *, *-?[0-9]+(\\.[0-9]+)?){3})?$",
+          "description": "Sets the padding around the text within the window. Can have three different formats: \"#\" sets the same padding for all sides, \"#, #\" sets the same padding for left-right and top-bottom, and \"#, #, #, #\" sets the padding individually for left, top, right, and bottom."
+        },
+        "backgroundImage": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Sets the file location of the Image to draw over the window background."
+        },
+        "cursorHeight": {
+          "maximum": 100,
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 25,
+          "description": "Sets the percentage height of the cursor starting from the bottom. Only works when cursorShape is set to \"vintage\". Accepts values from 25-100."
+        },
+        "acrylicOpacity": {
+          "default": 0.5,
+          "maximum": 1,
+          "type": "number",
+          "minimum": 0,
+          "description": "When useAcrylic is set to true, it sets the transparency of the window for the profile. Accepts floating point values from 0-1 (default 0.5)."
+        },
+        "closeOnExit": {
+          "description": "Sets how the profile reacts to termination or failure to launch. Possible values: \"graceful\" (close when exit is typed or the process exits normally), \"always\" (always close) and \"never\" (never close). true and false are accepted as synonyms for \"graceful\" and \"never\" respectively.",
+          "default": "graceful",
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "never",
+                "graceful",
+                "always"
+              ]
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "backgroundImageAlignment": {
+          "default": "center",
+          "type": "string",
+          "enum": [
+            "bottom",
+            "bottomLeft",
+            "bottomRight",
+            "center",
+            "left",
+            "right",
+            "top",
+            "topLeft",
+            "topRight"
+          ]
+        },
+        "commandline": {
+          "type": "string",
+          "description": "Executable used in the profile."
+        },
+        "colorScheme": {
+          "default": "Campbell",
+          "type": "string",
+          "description": "Name of the terminal color scheme to use. Color schemes are defined under \"schemes\"."
+        },
+        "suppressApplicationTitle": {
+          "type": "boolean",
+          "description": "When set to true, tabTitle overrides the default title of the tab and any title change messages from the application will be suppressed. When set to false, tabTitle behaves as normal."
+        },
+        "experimental.retroTerminalEffect": {
+          "type": "boolean",
+          "description": "When set to true, enable retro terminal effects. This is an experimental feature, and its continued existence is not guaranteed."
+        },
+        "foreground": {
+          "default": "#cccccc",
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Sets the foreground color of the profile. Overrides foreground set in color scheme if colorscheme is set. Uses hex color format: \"#rrggbb\".",
+          "$ref": "#/definitions/Color"
+        },
+        "fontSize": {
+          "default": 12,
+          "type": "integer",
+          "minimum": 1,
+          "description": "Sets the font size."
+        },
+        "backgroundImageStretchMode": {
+          "default": "uniformToFill",
+          "type": "string",
+          "description": "Sets how the background image is resized to fill the window.",
+          "enum": [
+            "fill",
+            "none",
+            "uniform",
+            "uniformToFill"
+          ]
+        },
+        "useAcrylic": {
+          "default": false,
+          "type": "boolean",
+          "description": "When set to true, the window will have an acrylic background. When set to false, the window will have a plain, untextured background."
+        },
+        "backgroundImageOpacity": {
+          "maximum": 1,
+          "type": "number",
+          "minimum": 0,
+          "description": "(Not in SettingsSchema.md)"
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Stores the name of the profile generator that originated this profile."
+        },
+        "icon": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Image file location of the icon used in the profile. Displays within the tab and the dropdown menu."
+        },
+        "cursorShape": {
+          "default": "bar",
+          "type": "string",
+          "description": "Sets the cursor shape for the profile. Possible values: \"vintage\" ( ??? ), \"bar\" ( ???, default ), \"underscore\" ( ??? ), \"filledBox\" ( ??? ), \"emptyBox\" ( ??? )",
+          "enum": [
+            "bar",
+            "emptyBox",
+            "filledBox",
+            "underscore",
+            "vintage"
+          ]
+        },
+        "fontFace": {
+          "default": "Cascadia Code",
+          "type": "string",
+          "description": "Name of the font face used in the profile."
+        },
+        "hidden": {
+          "default": false,
+          "type": "boolean",
+          "description": "If set to true, the profile will not appear in the list of profiles. This can be used to hide default profiles and dynamically generated profiles, while leaving them in your settings file."
+        },
+        "selectionBackground": {
+          "$ref": "#/definitions/Color",
+          "description": "Sets the selection background color of the profile. Overrides selection background set in color scheme if colorscheme is set. Uses hex color format: \"#rrggbb\"."
+        },
+        "scrollbarState": {
+          "default": "visible",
+          "type": "string",
+          "description": "Defines the visibility of the scrollbar.",
+          "enum": [
+            "visible",
+            "hidden"
+          ]
+        },
+        "background": {
+          "default": "#0c0c0c",
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Sets the background color of the profile. Overrides background set in color scheme if colorscheme is set. Uses hex color format: \"#rrggbb\".",
+          "$ref": "#/definitions/Color"
+        },
+        "startingDirectory": {
+          "type": "string",
+          "description": "The directory the shell starts in when it is loaded."
+        },
+        "snapOnInput": {
+          "default": true,
+          "type": "boolean",
+          "description": "When set to true, the window will scroll to the command input line when typing. When set to false, the window will not scroll when you start typing."
+        },
+        "connectionType": {
+          "$ref": "#/definitions/ProfileGuid",
+          "description": "A GUID reference to a connection type. Currently undocumented as of 0.3, this is used for Azure Cloud Shell"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Name of the profile. Displays in the dropdown menu."
+        }
+      },
+      "description": "Properties specific to a unique profile."
+    },
+    "NewTerminalArgs": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "description": "The index of the profile in the new tab dropdown to open"
+        },
+        "tabTitle": {
+          "type": "string",
+          "description": "An initial tabTitle to use instead of the profile's"
+        },
+        "commandline": {
+          "type": "string",
+          "description": "A commandline to use instead of the profile's"
+        },
+        "startingDirectory": {
+          "type": "string",
+          "description": "A startingDirectory to use instead of the profile's"
+        },
+        "profile": {
+          "type": "string",
+          "description": "Either the GUID or name of a profile to use, instead of launching the default"
+        }
+      }
+    },
+    "Color": {
+      "default": "#",
+      "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "type": "string",
+      "format": "color"
+    },
+    "ResizePaneAction": {
+      "required": [
+        "direction"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShortcutAction"
+        },
+        {
+          "properties": {
+            "action": {
+              "type": "string",
+              "pattern": "resizePane"
+            },
+            "direction": {
+              "default": "left",
+              "description": "The direction to move the pane separator in",
+              "$ref": "#/definitions/Direction"
+            }
+          }
+        }
+      ],
+      "description": "Arguments corresponding to a Resize Pane Action"
+    },
+    "SplitPaneAction": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShortcutAction"
+        },
+        {
+          "$ref": "#/definitions/NewTerminalArgs"
+        },
+        {
+          "properties": {
+            "splitMode": {
+              "description": "Control how the pane splits. Only accepts `duplicate` which will duplicate the focused pane's profile into a new pane.",
+              "default": "duplicate"
+            },
+            "action": {
+              "type": "string",
+              "pattern": "splitPane"
+            },
+            "split": {
+              "default": "auto",
+              "description": "The orientation to split the pane in, either vertical (think [|]), horizontal (think [-]), or auto (splits pane based on remaining space)",
+              "$ref": "#/definitions/SplitState"
+            }
+          }
+        }
+      ],
+      "description": "Arguments corresponding to a Split Pane Action"
+    },
+    "NewTabAction": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShortcutAction"
+        },
+        {
+          "$ref": "#/definitions/NewTerminalArgs"
+        },
+        {
+          "properties": {
+            "action": {
+              "type": "string",
+              "pattern": "newTab"
+            }
+          }
+        }
+      ],
+      "description": "Arguments corresponding to a New Tab Action"
+    },
+    "KeyChordSegment": {
+      "description": "The string should fit the format \"[ctrl+][alt+][shift+]<keyName>\", where each modifier is optional, separated by + symbols, and keyName is either one of the names listed in the table below, or any single key character. The string should be written in full lowercase.\nbackspace\tBACKSPACE key\ntab\tTAB key\nenter\tENTER key\nesc, escape\tESC key\nspace\tSPACEBAR\npgup, pageup\tPAGE UP key\npgdn, pagedown\tPAGE DOWN key\nend\tEND key\nhome\tHOME key\nleft\tLEFT ARROW key\nup\tUP ARROW key\nright\tRIGHT ARROW key\ndown\tDOWN ARROW key\ninsert\tINS key\ndelete\tDEL key\nnumpad_0-numpad_9, numpad0-numpad9\tNumeric keypad keys 0 to 9. Can't be combined with the shift modifier.\nnumpad_multiply\tNumeric keypad MULTIPLY key (*)\nnumpad_plus, numpad_add\tNumeric keypad ADD key (+)\nnumpad_minus, numpad_subtract\tNumeric keypad SUBTRACT key (-)\nnumpad_period, numpad_decimal\tNumeric keypad DECIMAL key (.). Can't be combined with the shift modifier.\nnumpad_divide\tNumeric keypad DIVIDE key (/)\nf1-f24\tF1 to F24 function keys\nplus\tADD key (+)",
+      "pattern": "^(?<modifier>(ctrl|alt|shift)(?:\\+(ctrl|alt|shift)(?<!\\2))?(?:\\+(ctrl|alt|shift)(?<!\\2|\\3))?\\+)?(?<key>[^\\s+]|backspace|tab|enter|esc|escape|space|pgup|pageup|pgdn|pagedown|end|home|left|up|right|down|insert|delete|(?<!shift.+)(?:numpad_?[0-9]|numpad_(?:period|decimal))|numpad_(?:multiply|plus|add|minus|subtract|divide)|f[1-9]|f1[0-9]|f2[0-4]|plus)$",
+      "type": "string"
+    },
+    "ProfileGuid": {
+      "default": "{}",
+      "pattern": "^\\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\}$",
+      "type": "string"
+    },
+    "AdjustFontSizeAction": {
+      "required": [
+        "delta"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShortcutAction"
+        },
+        {
+          "properties": {
+            "action": {
+              "type": "string",
+              "pattern": "adjustFontSize"
+            },
+            "delta": {
+              "default": 0,
+              "type": "integer",
+              "description": "How much to change the current font point size"
+            }
+          }
+        }
+      ],
+      "description": "Arguments corresponding to an Adjust Font Size Action"
+    },
+    "ShortcutActionName": {
+      "type": "string",
+      "enum": [
+        "adjustFontSize",
+        "closePane",
+        "closeTab",
+        "closeWindow",
+        "copy",
+        "decreaseFontSize",
+        "duplicateTab",
+        "moveFocus",
+        "newTab",
+        "nextTab",
+        "openNewTabDropdown",
+        "openSettings",
+        "paste",
+        "prevTab",
+        "resetFontSize",
+        "resizePane",
+        "scrollDown",
+        "scrollDownPage",
+        "scrollUp",
+        "scrollUpPage",
+        "splitPane",
+        "switchToTab",
+        "toggleFullscreen",
+        "find",
+        "unbound"
+      ]
+    },
+    "SwitchToTabAction": {
+      "required": [
+        "index"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShortcutAction"
+        },
+        {
+          "properties": {
+            "action": {
+              "type": "string",
+              "pattern": "switchToTab"
+            },
+            "index": {
+              "default": 0,
+              "type": "integer",
+              "description": "Which tab to switch to, with the first being 0"
+            }
+          }
+        }
+      ],
+      "description": "Arguments corresponding to a Switch To Tab Action"
+    },
+    "CopyAction": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShortcutAction"
+        },
+        {
+          "properties": {
+            "action": {
+              "type": "string",
+              "pattern": "copy"
+            },
+            "singleLine": {
+              "default": false,
+              "type": "boolean",
+              "description": "If true, newlines are removed and whitespace is maintained. If false, whitespace is removed and newlines are maintained."
+            }
+          }
+        }
+      ],
+      "description": "Arguments corresponding to a Copy Text Action"
+    },
+    "Direction": {
+      "type": "string",
+      "enum": [
+        "left",
+        "right",
+        "up",
+        "down"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/definitions/Globals"
+    },
+    {
+      "properties": {
+        "schemes": {
+          "$ref": "#/definitions/SchemeList"
+        },
+        "profiles": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ProfilesObject"
+            }
+          ]
+        }
+      },
+      "additionalItems": true,
+      "required": [
+        "profiles",
+        "schemes",
+        "defaultProfile"
+      ]
+    }
+  ]
+}

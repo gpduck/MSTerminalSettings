@@ -7,9 +7,9 @@
 # The root directories for the module's docs, src and test.
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
 $DocsRootDir = "$PSScriptRoot/docs"
-$SrcRootDir  = "$PSScriptRoot/src"
+$SrcRootDir  = "$PSScriptRoot/MSTerminalSettings"
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-$TestRootDir = "$PSScriptRoot/test"
+$TestRootDir = "$PSScriptRoot/Tests"
 
 # The name of your module should match the basename of the PSD1 file.
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
@@ -182,6 +182,12 @@ Task AfterStageFiles -After StageFiles {
         $ReleaseNotes = "$ReleaseNotesTitle`n`n$ReleaseNotesBody"
         Update-ModuleManifest -Path $ManifestPath -ReleaseNotes $ReleaseNotes
     }
+
+    #Add the function exports to the manifest
+    $PublicFunctions = Get-ChildItem $outDir\$ModuleName\Public | Foreach-Object {
+        $PSItem.BaseName
+    }
+    Update-ModuleManifest -FunctionsToExport $PublicFunctions -Path $outDir\$ModuleName\$ModuleName.psd1
 }
 
 ###############################################################################
@@ -194,6 +200,10 @@ Task BeforeBuild -Before Build {
 
 # Executes after the Build task.
 Task AfterBuild -if (!$CopyOnly) -After Build {
+    #Compile and output the dll
+    . $PSScriptRoot\MSTerminalSettings\Private\Build-TerminalSettingsAssembly.ps1
+    Build-TerminalSettingsAssembly -OutputAssembly $outDir\$ModuleName\Lib\TerminalSettings.dll
+
     try {
         Microsoft.PowerShell.Management\Push-Location -LiteralPath $OutDir
         Import-Module microsoft.powershell.archive

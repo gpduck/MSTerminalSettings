@@ -1,0 +1,33 @@
+. $PSScriptRoot\Shared.ps1
+
+Describe 'Save-MSTerminalConfig' {
+    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
+        $TestDrive
+    }
+    BeforeEach {
+        Copy-Item $Mocks/DefaultUserSettings.json $TestDrive/settings.json
+        $testConfig = Get-MSTerminalConfig
+        $testConfig.CopyFormatting = $true
+    }
+    Context 'Scenarios' {
+        It 'No Parameters' {
+            $testConfig | Save-MSTerminalConfig | Should -BeNullOrEmpty
+            (Get-MSTerminalConfig).CopyFormatting | Should -BeTrue
+        }
+        It 'TerminalConfig Parameter' {
+            (Save-MSTerminalConfig -TerminalConfig $testConfig -PassThru).CopyFormatting | Should -BeTrue
+        }
+        It 'TerminalConfig Positional Parameter' {
+            (Save-MSTerminalConfig $testConfig -PassThru).CopyFormatting | Should -BeTrue
+        }
+        It 'TerminalConfig via Pipeline' {
+            ($testConfig | Save-MSTerminalConfig -PassThru).CopyFormatting | Should -BeTrue
+        }
+        It 'Custom Output Path' {
+            $customPath = "$TestDrive/customPath.json"
+            Save-MSTerminalConfig $testConfig -Path $customPath
+            Test-Path $customPath | Should -Be $true
+            (Get-Content -Raw $CustomPath | ConvertFrom-Json).CopyFormatting | Should -Not -BeNullOrEmpty
+        }
+    }
+}

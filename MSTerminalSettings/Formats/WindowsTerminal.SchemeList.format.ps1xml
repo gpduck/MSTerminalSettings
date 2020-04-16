@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+format type data generated 04/18/2020 11:27:48 by ADSL-S-JGROTE\jgrote
+-->
+<Configuration>
+  <ViewDefinitions>
+    <View>
+      <!--Created 04/18/2020 11:27:48 by ADSL-S-JGROTE\jgrote-->
+      <Name>default</Name>
+      <ViewSelectedBy>
+        <TypeName>WindowsTerminal.SchemeList</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <!--
+            By default the entries use property names, but you can replace them with scriptblocks.
+            <ScriptBlock>$_.foo /1mb -as [int]</ScriptBlock>
+-->
+              <ListItem>
+                <Label>Name</Label>
+                <PropertyName>Name</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Foreground</Label>
+                <ScriptBlock>
+                  [String]$b=$_.foreground;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>Background</Label>
+                <ScriptBlock>
+                  [String]$b=$_.background;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>SelectionBackground</Label>
+                <ScriptBlock>
+                  [String]$b=$_.SelectionBackground;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>Black</Label>
+                <ScriptBlock>
+                  [String]$b=$_.background;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>Blue</Label>
+                <ScriptBlock>
+                  [String]$b=$_.blue;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>BrightBlack</Label>
+                <ScriptBlock>
+                  [String]$b=$_.brightblack;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>BrightBlue</Label>
+                <ScriptBlock>
+                  [String]$b=$_.brightblue;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>BrightCyan</Label>
+                <ScriptBlock>
+                  [String]$b=$_.brightcyan;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>BrightGreen</Label>
+                <ScriptBlock>
+                  [String]$b=$_.brightgreen;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>BrightPurple</Label>
+                <ScriptBlock>
+                  [String]$b=$_.brightpurple;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>BrightRed</Label>
+                <ScriptBlock>
+                  [String]$b=$_.brightred;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>BrightWhite</Label>
+                <ScriptBlock>
+                  [String]$b=$_.brightwhite;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>BrightYellow</Label>
+                <ScriptBlock>
+                  [String]$b=$_.brightyellow;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>Cyan</Label>
+                <ScriptBlock>
+                  [String]$b=$_.cyan;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>Green</Label>
+                <ScriptBlock>
+                  [String]$b=$_.green;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>Purple</Label>
+                <ScriptBlock>
+                  [String]$b=$_.purple;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>Red</Label>
+                <ScriptBlock>
+                  [String]$b=$_.red;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>White</Label>
+                <ScriptBlock>
+                  [String]$b=$_.white;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>Yellow</Label>
+                <ScriptBlock>
+                  [String]$b=$_.white;
+                  "`e[38;2;{0};{1};{2}m$b`e[39;49m" -f [int]"0x$($b.substring(1,2))",[int]"0x$($b.substring(3,2))",[int]"0x$($b.substring(5,2))"
+                </ScriptBlock>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+  </ViewDefinitions>
+</Configuration>

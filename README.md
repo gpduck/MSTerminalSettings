@@ -1,10 +1,10 @@
 # Description
 
-This module updates the profiles.json file for the new [Microsoft Terminal](https://github.com/microsoft/terminal).
+This module updates the settings.json file for the new [Windows Terminal](https://github.com/microsoft/terminal).
 
 # Installation
 
-The module is available from the [PowerShell Gallery](https://www.powershellgallery.com/packages/MSTerminalSettings) and can be installed using PowerShellGet
+The module is available from the [PowerShell Gallery](https://www.powershellgallery.com/packages/MSTerminalConfig) and can be installed using PowerShellGet
 
 ```
 Install-Module -Name MSTerminalSettings
