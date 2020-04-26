@@ -27,7 +27,7 @@ Describe 'Save-MSTerminalConfig' {
             $customPath = "$TestDrive/customPath.json"
             Save-MSTerminalConfig $testConfig -Path $customPath
             Test-Path $customPath | Should -Be $true
-            (Get-Content -Raw $CustomPath | ConvertFrom-Json).CopyFormatting | Should -Not -BeNullOrEmpty
+            (Import-JsonWithComments $CustomPath).CopyFormatting | Should -Not -BeNullOrEmpty
         }
     }
 }

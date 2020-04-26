@@ -30,7 +30,10 @@ Retrieves an MS Terminal Color Scheme
                     write-warning "Unable to detect default settings file, skipping the include of the default themes"
                 }
             } else {
-                [List[SchemeList]]$ColorScheme = (Get-Content -Raw $DefaultSettingsPath | ConvertFrom-Json).schemes
+                #Powershell 5.1 doesn't support comments in Json
+                #TODO: Remove Replace statement after deprecating 5.1 support
+                #FIXME: Replace this with Get-MSTerminalConfig when this is fixed:  https://github.com/microsoft/terminal/issues/5276
+                [List[SchemeList]]$ColorScheme = (Import-JsonWithComments $DefaultSettingsPath).schemes
             }
         } else {
             [List[SchemeList]]$ColorScheme = @()

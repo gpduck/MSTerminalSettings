@@ -9,7 +9,7 @@ Describe "Get-MSTerminalProfile" {
     Copy-Item $Mocks/DefaultSettings.json $TestDrive/settings.json
     $profileToTest = Get-MSTerminalProfile -Name $profileNameToTest
 
-    $valuesToTest = (Get-Content $TestDrive/settings.json | ConvertFrom-Json).profiles.list | Where-Object name -match $profileNameToTest
+    $valuesToTest = (Import-JsonWithComments $TestDrive/settings.json).profiles.list | Where-Object name -match $profileNameToTest
 
     $valuesToTest.psobject.properties.foreach{
         It "Reads $($PSItem.Name)" {

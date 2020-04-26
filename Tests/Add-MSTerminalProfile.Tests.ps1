@@ -43,9 +43,9 @@ Describe "Add-MSTerminalProfile" {
     }
 
     It "Updates the default profile in globals" {
-        $Before = Get-Content $TestDrive/settings.json | ConvertFrom-Json | ForEach-Object {$_}
+        $Before = Import-JsonWithComments $TestDrive/settings.json | ForEach-Object {$_}
         Add-MSTerminalProfile -Name "test default" -CommandLine "default" -MakeDefault
-        $After = Get-Content $TestDrive/settings.json | ConvertFrom-Json | ForEach-Object {$_}
+        $After = Import-JsonWithComments $TestDrive/settings.json | ForEach-Object {$_}
         $After.defaultProfile | Should -Not -Be $Before.defaultProfile
     }
 

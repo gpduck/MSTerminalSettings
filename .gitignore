@@ -12,3 +12,7 @@ src/bin/
 
 #Documentation (this should be saved separately
 docs/
+
+#CSProj Folders
+MSTerminalSettings/src/bin
+MSTerminalSettings/src/obj

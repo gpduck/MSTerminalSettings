@@ -200,9 +200,8 @@ Task BeforeBuild -Before Build {
 
 # Executes after the Build task.
 Task AfterBuild -if (!$CopyOnly) -After Build {
-    #Compile and output the dll
-    . $PSScriptRoot\MSTerminalSettings\Private\Build-TerminalSettingsAssembly.ps1
-    Build-TerminalSettingsAssembly -OutputAssembly $outDir\$ModuleName\Lib\TerminalSettings.dll
+    if (-not (get-command dotnet)) {throw 'This build requires dotnet SDK 3.0 or greater installed'}
+    dotnet publish -o $outDir\$moduleName\lib $srcRootDir\src\TerminalSettings.csproj
 
     try {
         Microsoft.PowerShell.Management\Push-Location -LiteralPath $OutDir

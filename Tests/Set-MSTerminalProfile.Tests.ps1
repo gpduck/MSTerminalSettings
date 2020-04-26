@@ -72,9 +72,9 @@ Describe "Set-MSTerminalProfile" {
     }
 
     It "Preserves the property order in the json file" {
-        $OrderBefore = (Get-Content $TestDrive/settings.json -Raw | ConvertFrom-Json).Profiles[0].PSObject.Properties.Name -Join ""
+        $OrderBefore = (Import-JsonWithComments $TestDrive/settings.json).Profiles[0].PSObject.Properties.Name -Join ""
         Set-MSTerminalProfile -Name pester -background (Get-MSTerminalProfile -Name pester).background
-        $OrderAfter = (Get-Content $TestDrive/settings.json -Raw | ConvertFrom-Json).Profiles[0].PSObject.Properties.Name -Join ""
+        $OrderAfter = (Import-JsonWithComments $TestDrive/settings.json).Profiles[0].PSObject.Properties.Name -Join ""
         $OrderAfter | Should -Be $OrderBefore
     }
 }

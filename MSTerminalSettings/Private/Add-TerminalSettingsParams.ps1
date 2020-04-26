@@ -12,7 +12,7 @@ function Add-TerminalSettingsParams {
 
     begin {
         #Gather important schema dictionaries and settings
-        $WTSchema = (Get-Content -Raw -Path $SchemaPath | ConvertFrom-Json).definitions
+        $WTSchema = (Import-JsonWithComments $SchemaPath).definitions
     }
 
     process {

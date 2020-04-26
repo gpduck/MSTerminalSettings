@@ -13,7 +13,7 @@ try {
 } catch [Management.Automation.RuntimeException] {
 	if ([String]$psitem -match 'Unable to find type') {
         if (Test-Path "$PSSCRIPTROOT/lib/TerminalSettings.dll") {
-            Add-Type -Path "$PSSCRIPTROOT/lib/TerminalSettings.dll"
+            Add-Type -Path "$PSSCRIPTROOT/lib/*.dll"
         } elseif (Test-Path "$PSSCRIPTROOT/Private/Build-TerminalSettingsAssembly.ps1") {
             . $PSSCRIPTROOT/Private/Build-TerminalSettingsAssembly.ps1
             Build-TerminalSettingsAssembly
