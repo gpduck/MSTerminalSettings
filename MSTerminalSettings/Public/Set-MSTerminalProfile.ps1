@@ -14,69 +14,64 @@ function Set-MSTerminalProfile {
         }
     }
     begin {
-        [List[TerminalSettings]]$terminalConfig = @()
+        $terminalConfig = @{}
         [int]$profileCount = 0
     }
-    process {
+    process { foreach ($ProfileItem in $InputObject) {
         $profilecount++
         #Resolve the input object
         switch ($true) {
-            ($InputObject -is [Profile]) {break}
-            ($InputObject -is [ProfileList]) {break}
-            ($null -ne ($InputObject -as [Guid])) {$InputObject=Get-MSTerminalProfile -Guid $InputObject;break}
-            ($null -ne ($InputObject -as [String])) {$InputObject=Get-MSTerminalProfile -Name $InputObject;break}
+            ($ProfileItem -is [Profile]) {break}
+            ($ProfileItem -is [ProfileList]) {break}
+            ($null -ne ($ProfileItem -as [Guid])) {$ProfileItem=Get-MSTerminalProfile -Guid $ProfileItem;break}
+            ($null -ne ($ProfileItem -as [String])) {$ProfileItem=Get-MSTerminalProfile -Name $ProfileItem;break}
         }
-        #If no profile was specified, operate on the "defaults" profile
-        if (-not $InputObject) { $InputObject = Get-MSTerminalProfile -Default }
-        if ($makeDefault -and $InputObject -is [Profile]) {
+
+        if ($makeDefault -and $ProfileItem -is [Profile]) {
             throwUser 'You cannot set the defaultsettings as the default profile'
         }
 
-        foreach ($ProfileItem in $InputObject) {
-            $settings = [HashTable]$PSBoundParameters
+        $settings = [HashTable]$PSBoundParameters
 
-            #Translate 'New' parameters back to settings parameters
-            $PSBoundParameters.keys.where{$PSItem -match '^New(\w+)$'}.foreach{
-                $settings.($matches[1]) = $Settings.$PSItem
-            }
-
-            if ($settings.NewGuid) {$settings.Guid = $settings.NewGuid}
-            if ($settings.NewName) {$settings.Name = $settings.NewName}
-
-            foreach ($settingItem in $settings.keys) {
-                #Skip any custom parameters we may have added in the param block
-                if ($settingItem -notin [ProfileList].DeclaredProperties.Name) { continue }
-
-                #Better message for the profile defaults
-                $ProfileMessageName = if ($InputObject -is [WindowsTerminal.Profile]) {'[Default Settings]'} else {$ProfileItem.Name}
-
-                #Prevent a blank space in the message
-                $settingMessageValue = if ($null -eq $settings[$settingItem]) {'[null]'} else {$settings[$settingItem]}
-
-                if ($PSCmdlet.ShouldProcess("Profile $ProfileMessageName","Set $settingItem to $settingMessageValue")) {
-                    $ProfileItem.$settingItem = $settings[$settingItem]
-                }
-            }
-            $TerminalConfig.Add($InputObject.TerminalConfig)
+        #Translate 'New' parameters back to settings parameters
+        $PSBoundParameters.keys.where{$PSItem -match '^New(\w+)$'}.foreach{
+            $settings.($matches[1]) = $Settings.$PSItem
         }
-    }
+
+        if ($settings.NewGuid) {$settings.Guid = $settings.NewGuid}
+        if ($settings.NewName) {$settings.Name = $settings.NewName}
+
+        $TerminalConfig[$ProfileItem.TerminalConfig.Path] = $ProfileItem.TerminalConfig
+        #Operate on the TerminalConfig-Bound Object because foreach created a clone.
+        $ProfileItem = $ProfileItem.TerminalConfig.profiles.list.where{$PSItem.Guid -eq $ProfileItem.Guid}[0]
+
+        foreach ($settingItem in $settings.keys) {
+            #Skip any custom parameters we may have added in the param block
+            if ($settingItem -notin [ProfileList].DeclaredProperties.Name) { continue }
+
+            #Better message for the profile defaults
+            $ProfileMessageName = if ($ProfileItem -is [WindowsTerminal.Profile]) {'[Default Settings]'} else {$ProfileItem.Name}
+
+            #Prevent a blank space in the message
+            $settingMessageValue = if ($null -eq $settings[$settingItem]) {'[null]'} else {$settings[$settingItem]}
+
+            if ($PSCmdlet.ShouldProcess("Profile $ProfileMessageName","Set $settingItem to $settingMessageValue")) {
+                $ProfileItem.$settingItem = $settings[$settingItem]
+            }
+        }
+    }}
     end {
-        $terminalConfig = $terminalConfig | Sort-Object path -unique
-
         #Sanity Checks
-        if ($terminalConfig.count -gt 1) {
-            throwUser 'You cannot operate on multiple windows terminal configurations at the same time'
-        }
         if ($makeDefault -and $profileCount -gt 1) {
             throwUser 'You cannot specify -MakeDefault with more than one profile'
         }
-        if ($MakeDefault -and $PSCmdlet.ShouldProcess($ProfileItem.Name, 'Setting as Default Profile')) {
-            $terminalConfig[0].DefaultProfile = $InputObject.Guid
-        }
 
-        if ($PSCmdlet.ShouldProcess($terminalConfig.path,'Saving Configuration')) {
-            $terminalConfig | Foreach-Object {
-                Save-MSTerminalConfig $PSItem
+        $terminalConfig.keys.foreach{
+            if ($MakeDefault -and $PSCmdlet.ShouldProcess($ProfileItem.Name, 'Setting as Default Profile')) {
+                $terminalConfig[$PSItem].DefaultProfile = $InputObject.Guid
+            }
+            if ($PSCmdlet.ShouldProcess($PSItem,'Saving Configuration')) {
+                Save-MSTerminalConfig $terminalConfig[$PSItem]
             }
         }
     }
