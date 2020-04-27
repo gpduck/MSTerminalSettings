@@ -10,7 +10,38 @@ The module is available from the [PowerShell Gallery](https://www.powershellgall
 Install-Module -Name MSTerminalSettings
 ```
 
-I've been developing the module on PowerShell 6 but have been trying to ensure it will also run on Windows PowerShell 5.1.
+The module is supported on Powershell 5.1+
+
+# 2.0 What's New
+
+## QuickType-Powered Configuration
+Object Types are generated from the [official Windows Terminal schema](https://aka.ms/terminal-profiles-schema), so configuration parameters are generated dynamically and input validated.
+
+## Summary Views
+Config and Profile objects have summary views by default, and Color Schemes auto-highlight the color being used
+
+![](Images\README-SummaryViews.gif)
+
+## `Get-MSTerminalProfile` Autocompletion and Filter
+`Get-MSTerminalProfile` will autocomplete the `Name` parameter with available profiles. You can also filter on any property with wildcard syntax.
+
+![](Images\README-NameAutoComplete.gif)
+
+## Full Parameter Validation
+Parameters are validated based on the validation in the json schema. True/False parameters are implemented as switches.
+
+
+## Support for defaults and globals
+
+
+# 2.0 Breaking Changes
+
+###
+
+### No Comment Support
+Comments will be removed from configs by the parsing engine.
+
+
 
 # Examples
 
