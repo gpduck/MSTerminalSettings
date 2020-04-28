@@ -11,6 +11,9 @@ function Save-MSTerminalConfig {
     if (-not $Path -and $TerminalConfig.Path) {$Path = $TerminalConfig.Path}
     if ($PSCmdlet.ShouldProcess($TerminalConfig.Path,'Saving Terminal Settings to File')) {
         [Serialize]::ToJson($TerminalConfig) > $Path
+        #Slight pause to allow Windows Terminal to catch up
+        #TODO: Some sort of event maybe?
+        sleep 0.1
     }
     if ($PassThru) {$TerminalConfig}
     #TODO: Parse the error and find where the errors are
