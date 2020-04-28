@@ -37,7 +37,7 @@ function Add-TerminalSettingsParams {
         foreach ($paramName in $InputObject.keys) {
             $paramItem = $propertyList.$ParamName
             $paramAttributes = $inputObject[$paramName].Attributes
-            $paramAttributes[0].ValueFromPipelineByPropertyName = $true
+            #$paramAttributes[0].ValueFromPipelineByPropertyName = $true
             if ($paramItem.description) {
                 $parameterAttribute = $inputObject[$paramName].Attributes.where{$PSItem -is [ParameterAttribute]}
                 $parameterAttribute[0].HelpMessage = $paramItem.description
@@ -46,18 +46,18 @@ function Add-TerminalSettingsParams {
             if (($paramItem.maximum -or $paramItem.minimum) -and $paramItem.Type.Count -eq 1) {
                 if ('integer' -in $ParamItem.Type) {
                     $maxValue = [long]::MaxValue
-                    $minValue = [long]::MaxValue
+                    $minValue = [long]::MinValue
                     $paramMax = [long]$paramItem.maximum
                     $paramMin = [long]$paramItem.minimum
                 } elseif ('number' -in $ParamItem.Type) {
                     $maxValue = [decimal]::MaxValue
-                    $minValue = [decimal]::MaxValue
+                    $minValue = [decimal]::MinValue
                     $paramMax = [decimal]$paramItem.maximum
                     $paramMin = [decimal]$paramItem.minimum
                 }
 
-                $minimum = if ($null -eq $paramMin) {$minValue} else {$paramMin}
-                $maximum =  if ($null -eq $paramMax) {$maxValue} else {$paramMax}
+                $minimum = if ($null -eq $paramItem.minimum) {$minValue} else {$paramMin}
+                $maximum =  if ($null -eq $paramItem.maximum) {$maxValue} else {$paramMax}
                 $paramAttributes.Add([ValidateRange]::new($minimum,$maximum))
             }
             if ($ParamItem.minlength -or $paramItem.maxlength) {

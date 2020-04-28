@@ -1,10 +1,14 @@
 using namespace WindowsTerminal
 function Add-MSTerminalColorScheme {
+    [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][TerminalSettings]$TerminalSettings = (Get-MSTerminalConfig)
+        [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][TerminalSettings]$TerminalSettings = (Get-MSTerminalConfig),
+        [Switch]$Force
     )
     DynamicParam {
-        Get-ObjectDynamicParameters 'WindowsTerminal.SchemeList' -MandatoryParameters 'Name' -ParameterOrder 'Name'
+        $dynamicParams = Get-ObjectDynamicParameters 'WindowsTerminal.SchemeList' -MandatoryParameters 'Name' -ParameterOrder 'Name'
+        $dynamicParams | Add-TerminalSettingsParams
+        $dynamicParams
     }
     process {
         $settings = [HashTable]$PSBoundParameters
@@ -14,7 +18,17 @@ function Add-MSTerminalColorScheme {
         }
 
         $newScheme = [SchemeList]$settings
-        $TerminalSettings.Schemes.add($newScheme) > $null
-        Save-MSTerminalConfig -TerminalConfig $TerminalSettings
+        if ($PSCmdlet.ShouldProcess($TerminalSettings.Path, "Adding Color Scheme $nameToCompare")) {
+            $nameToCompare = $newScheme.Name
+            $ExistingSchema = $TerminalSettings.Schemes | Where-Object Name -eq $nameToCompare
+            if ($ExistingSchema) {
+                if (-not $Force) {
+                    throwUser "$nameToCompare already exists as a color scheme, please specify -Force to overwrite."
+                }
+                [Void]$TerminalSettings.Schemes.Remove($ExistingSchema)
+            }
+            $TerminalSettings.Schemes.Add($newScheme) > $null
+            Save-MSTerminalConfig -TerminalConfig $TerminalSettings
+        }
     }
 }

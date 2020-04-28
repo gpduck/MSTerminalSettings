@@ -18,14 +18,9 @@ function Set-MSTerminalProfile {
         [int]$profileCount = 0
     }
     process { foreach ($ProfileItem in $InputObject) {
-        $profilecount++
+        $profileCount++
         #Resolve the input object
-        switch ($true) {
-            ($ProfileItem -is [Profile]) {break}
-            ($ProfileItem -is [ProfileList]) {break}
-            ($null -ne ($ProfileItem -as [Guid])) {$ProfileItem=Get-MSTerminalProfile -Guid $ProfileItem;break}
-            ($null -ne ($ProfileItem -as [String])) {$ProfileItem=Get-MSTerminalProfile -Name $ProfileItem;break}
-        }
+        $ProfileItem = Resolve-MSTerminalProfile $ProfileItem
 
         if ($makeDefault -and $ProfileItem -is [Profile]) {
             throwUser 'You cannot set the defaultsettings as the default profile'
@@ -43,7 +38,11 @@ function Set-MSTerminalProfile {
 
         $TerminalConfig[$ProfileItem.TerminalConfig.Path] = $ProfileItem.TerminalConfig
         #Operate on the TerminalConfig-Bound Object because foreach created a clone.
-        $ProfileItem = $ProfileItem.TerminalConfig.profiles.list.where{$PSItem.Guid -eq $ProfileItem.Guid}[0]
+        if ($ProfileItem -is [Profile]) {
+            $ProfileItem = $ProfileItem.TerminalConfig.profiles.defaults
+        } else {
+            $ProfileItem = $ProfileItem.TerminalConfig.profiles.list.where{$PSItem.Guid -eq $ProfileItem.Guid}[0]
+        }
 
         foreach ($settingItem in $settings.keys) {
             #Skip any custom parameters we may have added in the param block

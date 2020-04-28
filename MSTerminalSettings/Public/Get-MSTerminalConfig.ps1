@@ -1,3 +1,4 @@
+using namespace WindowsTerminal
 function Get-MSTerminalConfig {
     [CmdletBinding()]
     param (

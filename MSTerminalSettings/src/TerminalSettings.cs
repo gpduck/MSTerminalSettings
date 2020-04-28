@@ -8,7 +8,8 @@
 
 namespace WindowsTerminal
 {
-    using System;
+    using System; 
+    using System.ComponentModel;
     using System.Collections.Generic;
 
     using System.Globalization;
@@ -54,7 +55,14 @@ namespace WindowsTerminal
         /// assigned to 'newTab'. The guid of the desired default profile is used as the value.
         /// </summary>
         [JsonProperty("defaultProfile")]
-        public string DefaultProfile { get; set; }
+        [DefaultValue("")]         public string DefaultProfile { get; set; }
+
+        /// <summary>
+        /// Disables all the dynamic profile generators in this list, preventing them from adding
+        /// their profiles to the list of profiles on startup.
+        /// </summary>
+        [JsonProperty("disabledProfileSources", NullValueHandling = NullValueHandling.Ignore)]
+        public List<DynamicProfileSource> DisabledProfileSources { get; set; }
 
         /// <summary>
         /// The number of columns displayed in the window upon first load.
@@ -69,7 +77,7 @@ namespace WindowsTerminal
         /// by those coordinates.
         /// </summary>
         [JsonProperty("initialPosition", NullValueHandling = NullValueHandling.Ignore)]
-        public string InitialPosition { get; set; }
+        [DefaultValue("")]         public string InitialPosition { get; set; }
 
         /// <summary>
         /// The number of rows displayed in the window upon first load.
@@ -133,7 +141,7 @@ namespace WindowsTerminal
         /// Determines the delimiters used in a double click selection.
         /// </summary>
         [JsonProperty("wordDelimiters", NullValueHandling = NullValueHandling.Ignore)]
-        public string WordDelimiters { get; set; }
+        [DefaultValue("")]         public string WordDelimiters { get; set; }
 
         [JsonProperty("profiles")]
         public ProfilesObject Profiles { get; set; }
@@ -197,7 +205,7 @@ namespace WindowsTerminal
         /// A commandline to use instead of the profile's
         /// </summary>
         [JsonProperty("commandline", NullValueHandling = NullValueHandling.Ignore)]
-        public string Commandline { get; set; }
+        [DefaultValue("")]         public string Commandline { get; set; }
 
         /// <summary>
         /// The index of the profile in the new tab dropdown to open
@@ -211,19 +219,19 @@ namespace WindowsTerminal
         /// Either the GUID or name of a profile to use, instead of launching the default
         /// </summary>
         [JsonProperty("profile", NullValueHandling = NullValueHandling.Ignore)]
-        public string Profile { get; set; }
+        [DefaultValue("")]         public string Profile { get; set; }
 
         /// <summary>
         /// A startingDirectory to use instead of the profile's
         /// </summary>
         [JsonProperty("startingDirectory", NullValueHandling = NullValueHandling.Ignore)]
-        public string StartingDirectory { get; set; }
+        [DefaultValue("")]         public string StartingDirectory { get; set; }
 
         /// <summary>
         /// An initial tabTitle to use instead of the profile's
         /// </summary>
         [JsonProperty("tabTitle", NullValueHandling = NullValueHandling.Ignore)]
-        public string TabTitle { get; set; }
+        [DefaultValue("")]         public string TabTitle { get; set; }
 
         /// <summary>
         /// The direction to move focus in, between panes
@@ -291,19 +299,24 @@ namespace WindowsTerminal
         /// colorscheme is set. Uses hex color format: "#rrggbb".
         /// </summary>
         [JsonProperty("background", NullValueHandling = NullValueHandling.Ignore)]
-        public string Background { get; set; }
+        [DefaultValue("")]         public string Background { get; set; }
 
         /// <summary>
         /// Sets the file location of the Image to draw over the window background.
         /// </summary>
         [JsonProperty("backgroundImage")]
-        public string BackgroundImage { get; set; }
+        [DefaultValue("")]         public string BackgroundImage { get; set; }
 
+        /// <summary>
+        /// Sets how the background image aligns to the boundaries of the window. Possible values:
+        /// "center", "left", "top", "right", "bottom", "topLeft", "topRight", "bottomLeft",
+        /// "bottomRight"
+        /// </summary>
         [JsonProperty("backgroundImageAlignment", NullValueHandling = NullValueHandling.Ignore)]
         public BackgroundImageAlignment? BackgroundImageAlignment { get; set; }
 
         /// <summary>
-        /// (Not in SettingsSchema.md)
+        /// Sets the transparency of the background image. Accepts floating point values from 0-1.
         /// </summary>
         [JsonProperty("backgroundImageOpacity", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(MinMaxValueCheckConverter))]
@@ -328,7 +341,7 @@ namespace WindowsTerminal
         /// Name of the terminal color scheme to use. Color schemes are defined under "schemes".
         /// </summary>
         [JsonProperty("colorScheme", NullValueHandling = NullValueHandling.Ignore)]
-        public string ColorScheme { get; set; }
+        [DefaultValue("")]         public string ColorScheme { get; set; }
 
         /// <summary>
         /// Array of colors used in the profile if colorscheme is not set. Colors use hex color
@@ -343,21 +356,21 @@ namespace WindowsTerminal
         /// Executable used in the profile.
         /// </summary>
         [JsonProperty("commandline", NullValueHandling = NullValueHandling.Ignore)]
-        public string Commandline { get; set; }
+        [DefaultValue("")]         public string Commandline { get; set; }
 
         /// <summary>
         /// A GUID reference to a connection type. Currently undocumented as of 0.3, this is used for
         /// Azure Cloud Shell
         /// </summary>
         [JsonProperty("connectionType", NullValueHandling = NullValueHandling.Ignore)]
-        public string ConnectionType { get; set; }
+        [DefaultValue("")]         public string ConnectionType { get; set; }
 
         /// <summary>
         /// Sets the cursor color of the profile. Overrides cursor color set in color scheme if
         /// colorscheme is set. Uses hex color format: "#rrggbb".
         /// </summary>
         [JsonProperty("cursorColor", NullValueHandling = NullValueHandling.Ignore)]
-        public string CursorColor { get; set; }
+        [DefaultValue("")]         public string CursorColor { get; set; }
 
         /// <summary>
         /// Sets the percentage height of the cursor starting from the bottom. Only works when
@@ -384,7 +397,7 @@ namespace WindowsTerminal
         /// Name of the font face used in the profile.
         /// </summary>
         [JsonProperty("fontFace", NullValueHandling = NullValueHandling.Ignore)]
-        public string FontFace { get; set; }
+        [DefaultValue("")]         public string FontFace { get; set; }
 
         /// <summary>
         /// Sets the font size.
@@ -397,14 +410,14 @@ namespace WindowsTerminal
         /// colorscheme is set. Uses hex color format: "#rrggbb".
         /// </summary>
         [JsonProperty("foreground", NullValueHandling = NullValueHandling.Ignore)]
-        public string Foreground { get; set; }
+        [DefaultValue("")]         public string Foreground { get; set; }
 
         /// <summary>
         /// Unique identifier of the profile. Written in registry format:
         /// "{00000000-0000-0000-0000-000000000000}".
         /// </summary>
         [JsonProperty("guid", NullValueHandling = NullValueHandling.Ignore)]
-        public string Guid { get; set; }
+        [DefaultValue("")]         public string Guid { get; set; }
 
         /// <summary>
         /// If set to true, the profile will not appear in the list of profiles. This can be used to
@@ -425,14 +438,14 @@ namespace WindowsTerminal
         /// dropdown menu.
         /// </summary>
         [JsonProperty("icon")]
-        public string Icon { get; set; }
+        [DefaultValue("")]         public string Icon { get; set; }
 
         /// <summary>
         /// Name of the profile. Displays in the dropdown menu.
         /// </summary>
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(MinMaxLengthCheckConverter))]
-        public string Name { get; set; }
+        [DefaultValue("")]         public string Name { get; set; }
 
         /// <summary>
         /// Sets the padding around the text within the window. Can have three different formats: "#"
@@ -441,7 +454,7 @@ namespace WindowsTerminal
         /// bottom.
         /// </summary>
         [JsonProperty("padding", NullValueHandling = NullValueHandling.Ignore)]
-        public string Padding { get; set; }
+        [DefaultValue("")]         public string Padding { get; set; }
 
         /// <summary>
         /// Defines the visibility of the scrollbar.
@@ -454,7 +467,7 @@ namespace WindowsTerminal
         /// color scheme if colorscheme is set. Uses hex color format: "#rrggbb".
         /// </summary>
         [JsonProperty("selectionBackground", NullValueHandling = NullValueHandling.Ignore)]
-        public string SelectionBackground { get; set; }
+        [DefaultValue("")]         public string SelectionBackground { get; set; }
 
         /// <summary>
         /// When set to true, the window will scroll to the command input line when typing. When set
@@ -467,13 +480,13 @@ namespace WindowsTerminal
         /// Stores the name of the profile generator that originated this profile.
         /// </summary>
         [JsonProperty("source")]
-        public string Source { get; set; }
+        [DefaultValue("")]         public string Source { get; set; }
 
         /// <summary>
         /// The directory the shell starts in when it is loaded.
         /// </summary>
         [JsonProperty("startingDirectory", NullValueHandling = NullValueHandling.Ignore)]
-        public string StartingDirectory { get; set; }
+        [DefaultValue("")]         public string StartingDirectory { get; set; }
 
         /// <summary>
         /// When set to true, tabTitle overrides the default title of the tab and any title change
@@ -489,7 +502,7 @@ namespace WindowsTerminal
         /// use this value over the lifetime of the application.
         /// </summary>
         [JsonProperty("tabTitle")]
-        public string TabTitle { get; set; }
+        [DefaultValue("")]         public string TabTitle { get; set; }
 
         /// <summary>
         /// When set to true, the window will have an acrylic background. When set to false, the
@@ -505,109 +518,109 @@ namespace WindowsTerminal
         /// Sets the background color of the color table.
         /// </summary>
         [JsonProperty("background", NullValueHandling = NullValueHandling.Ignore)]
-        public string Background { get; set; }
+        [DefaultValue("")]         public string Background { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI black.
         /// </summary>
         [JsonProperty("black", NullValueHandling = NullValueHandling.Ignore)]
-        public string Black { get; set; }
+        [DefaultValue("")]         public string Black { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI blue.
         /// </summary>
         [JsonProperty("blue", NullValueHandling = NullValueHandling.Ignore)]
-        public string Blue { get; set; }
+        [DefaultValue("")]         public string Blue { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright black.
         /// </summary>
         [JsonProperty("brightBlack", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightBlack { get; set; }
+        [DefaultValue("")]         public string BrightBlack { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright blue.
         /// </summary>
         [JsonProperty("brightBlue", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightBlue { get; set; }
+        [DefaultValue("")]         public string BrightBlue { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright cyan.
         /// </summary>
         [JsonProperty("brightCyan", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightCyan { get; set; }
+        [DefaultValue("")]         public string BrightCyan { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright green.
         /// </summary>
         [JsonProperty("brightGreen", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightGreen { get; set; }
+        [DefaultValue("")]         public string BrightGreen { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright purple.
         /// </summary>
         [JsonProperty("brightPurple", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightPurple { get; set; }
+        [DefaultValue("")]         public string BrightPurple { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright red.
         /// </summary>
         [JsonProperty("brightRed", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightRed { get; set; }
+        [DefaultValue("")]         public string BrightRed { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright white.
         /// </summary>
         [JsonProperty("brightWhite", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightWhite { get; set; }
+        [DefaultValue("")]         public string BrightWhite { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright yellow.
         /// </summary>
         [JsonProperty("brightYellow", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightYellow { get; set; }
+        [DefaultValue("")]         public string BrightYellow { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI cyan.
         /// </summary>
         [JsonProperty("cyan", NullValueHandling = NullValueHandling.Ignore)]
-        public string Cyan { get; set; }
+        [DefaultValue("")]         public string Cyan { get; set; }
 
         /// <summary>
         /// Sets the foreground color of the color table.
         /// </summary>
         [JsonProperty("foreground", NullValueHandling = NullValueHandling.Ignore)]
-        public string Foreground { get; set; }
+        [DefaultValue("")]         public string Foreground { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI green.
         /// </summary>
         [JsonProperty("green", NullValueHandling = NullValueHandling.Ignore)]
-        public string Green { get; set; }
+        [DefaultValue("")]         public string Green { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI purple.
         /// </summary>
         [JsonProperty("purple", NullValueHandling = NullValueHandling.Ignore)]
-        public string Purple { get; set; }
+        [DefaultValue("")]         public string Purple { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI red.
         /// </summary>
         [JsonProperty("red", NullValueHandling = NullValueHandling.Ignore)]
-        public string Red { get; set; }
+        [DefaultValue("")]         public string Red { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI white.
         /// </summary>
         [JsonProperty("white", NullValueHandling = NullValueHandling.Ignore)]
-        public string White { get; set; }
+        [DefaultValue("")]         public string White { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI yellow.
         /// </summary>
         [JsonProperty("yellow", NullValueHandling = NullValueHandling.Ignore)]
-        public string Yellow { get; set; }
+        [DefaultValue("")]         public string Yellow { get; set; }
     }
 
     /// <summary>
@@ -624,14 +637,14 @@ namespace WindowsTerminal
         /// "{00000000-0000-0000-0000-000000000000}".
         /// </summary>
         [JsonProperty("guid")]
-        public string Guid { get; set; }
+        [DefaultValue("")]         public string Guid { get; set; }
 
         /// <summary>
         /// Name of the profile. Displays in the dropdown menu.
         /// </summary>
         [JsonProperty("name")]
         [JsonConverter(typeof(MinMaxLengthCheckConverter))]
-        public string Name { get; set; }
+        [DefaultValue("")]         public string Name { get; set; }
 
         /// <summary>
         /// When useAcrylic is set to true, it sets the transparency of the window for the profile.
@@ -654,19 +667,24 @@ namespace WindowsTerminal
         /// colorscheme is set. Uses hex color format: "#rrggbb".
         /// </summary>
         [JsonProperty("background", NullValueHandling = NullValueHandling.Ignore)]
-        public string Background { get; set; }
+        [DefaultValue("")]         public string Background { get; set; }
 
         /// <summary>
         /// Sets the file location of the Image to draw over the window background.
         /// </summary>
         [JsonProperty("backgroundImage")]
-        public string BackgroundImage { get; set; }
+        [DefaultValue("")]         public string BackgroundImage { get; set; }
 
+        /// <summary>
+        /// Sets how the background image aligns to the boundaries of the window. Possible values:
+        /// "center", "left", "top", "right", "bottom", "topLeft", "topRight", "bottomLeft",
+        /// "bottomRight"
+        /// </summary>
         [JsonProperty("backgroundImageAlignment", NullValueHandling = NullValueHandling.Ignore)]
         public BackgroundImageAlignment? BackgroundImageAlignment { get; set; }
 
         /// <summary>
-        /// (Not in SettingsSchema.md)
+        /// Sets the transparency of the background image. Accepts floating point values from 0-1.
         /// </summary>
         [JsonProperty("backgroundImageOpacity", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(MinMaxValueCheckConverter))]
@@ -691,7 +709,7 @@ namespace WindowsTerminal
         /// Name of the terminal color scheme to use. Color schemes are defined under "schemes".
         /// </summary>
         [JsonProperty("colorScheme", NullValueHandling = NullValueHandling.Ignore)]
-        public string ColorScheme { get; set; }
+        [DefaultValue("")]         public string ColorScheme { get; set; }
 
         /// <summary>
         /// Array of colors used in the profile if colorscheme is not set. Colors use hex color
@@ -706,21 +724,21 @@ namespace WindowsTerminal
         /// Executable used in the profile.
         /// </summary>
         [JsonProperty("commandline", NullValueHandling = NullValueHandling.Ignore)]
-        public string Commandline { get; set; }
+        [DefaultValue("")]         public string Commandline { get; set; }
 
         /// <summary>
         /// A GUID reference to a connection type. Currently undocumented as of 0.3, this is used for
         /// Azure Cloud Shell
         /// </summary>
         [JsonProperty("connectionType", NullValueHandling = NullValueHandling.Ignore)]
-        public string ConnectionType { get; set; }
+        [DefaultValue("")]         public string ConnectionType { get; set; }
 
         /// <summary>
         /// Sets the cursor color of the profile. Overrides cursor color set in color scheme if
         /// colorscheme is set. Uses hex color format: "#rrggbb".
         /// </summary>
         [JsonProperty("cursorColor", NullValueHandling = NullValueHandling.Ignore)]
-        public string CursorColor { get; set; }
+        [DefaultValue("")]         public string CursorColor { get; set; }
 
         /// <summary>
         /// Sets the percentage height of the cursor starting from the bottom. Only works when
@@ -747,7 +765,7 @@ namespace WindowsTerminal
         /// Name of the font face used in the profile.
         /// </summary>
         [JsonProperty("fontFace", NullValueHandling = NullValueHandling.Ignore)]
-        public string FontFace { get; set; }
+        [DefaultValue("")]         public string FontFace { get; set; }
 
         /// <summary>
         /// Sets the font size.
@@ -760,7 +778,7 @@ namespace WindowsTerminal
         /// colorscheme is set. Uses hex color format: "#rrggbb".
         /// </summary>
         [JsonProperty("foreground", NullValueHandling = NullValueHandling.Ignore)]
-        public string Foreground { get; set; }
+        [DefaultValue("")]         public string Foreground { get; set; }
 
         /// <summary>
         /// If set to true, the profile will not appear in the list of profiles. This can be used to
@@ -781,7 +799,7 @@ namespace WindowsTerminal
         /// dropdown menu.
         /// </summary>
         [JsonProperty("icon")]
-        public string Icon { get; set; }
+        [DefaultValue("")]         public string Icon { get; set; }
 
         /// <summary>
         /// Sets the padding around the text within the window. Can have three different formats: "#"
@@ -790,7 +808,7 @@ namespace WindowsTerminal
         /// bottom.
         /// </summary>
         [JsonProperty("padding", NullValueHandling = NullValueHandling.Ignore)]
-        public string Padding { get; set; }
+        [DefaultValue("")]         public string Padding { get; set; }
 
         /// <summary>
         /// Defines the visibility of the scrollbar.
@@ -803,7 +821,7 @@ namespace WindowsTerminal
         /// color scheme if colorscheme is set. Uses hex color format: "#rrggbb".
         /// </summary>
         [JsonProperty("selectionBackground", NullValueHandling = NullValueHandling.Ignore)]
-        public string SelectionBackground { get; set; }
+        [DefaultValue("")]         public string SelectionBackground { get; set; }
 
         /// <summary>
         /// When set to true, the window will scroll to the command input line when typing. When set
@@ -816,13 +834,13 @@ namespace WindowsTerminal
         /// Stores the name of the profile generator that originated this profile.
         /// </summary>
         [JsonProperty("source")]
-        public string Source { get; set; }
+        [DefaultValue("")]         public string Source { get; set; }
 
         /// <summary>
         /// The directory the shell starts in when it is loaded.
         /// </summary>
         [JsonProperty("startingDirectory", NullValueHandling = NullValueHandling.Ignore)]
-        public string StartingDirectory { get; set; }
+        [DefaultValue("")]         public string StartingDirectory { get; set; }
 
         /// <summary>
         /// When set to true, tabTitle overrides the default title of the tab and any title change
@@ -838,7 +856,7 @@ namespace WindowsTerminal
         /// use this value over the lifetime of the application.
         /// </summary>
         [JsonProperty("tabTitle")]
-        public string TabTitle { get; set; }
+        [DefaultValue("")]         public string TabTitle { get; set; }
 
         /// <summary>
         /// When set to true, the window will have an acrylic background. When set to false, the
@@ -858,129 +876,131 @@ namespace WindowsTerminal
         /// Sets the background color of the color scheme.
         /// </summary>
         [JsonProperty("background", NullValueHandling = NullValueHandling.Ignore)]
-        public string Background { get; set; }
+        [DefaultValue("")]         public string Background { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI black.
         /// </summary>
         [JsonProperty("black", NullValueHandling = NullValueHandling.Ignore)]
-        public string Black { get; set; }
+        [DefaultValue("")]         public string Black { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI blue.
         /// </summary>
         [JsonProperty("blue", NullValueHandling = NullValueHandling.Ignore)]
-        public string Blue { get; set; }
+        [DefaultValue("")]         public string Blue { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright black.
         /// </summary>
         [JsonProperty("brightBlack", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightBlack { get; set; }
+        [DefaultValue("")]         public string BrightBlack { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright blue.
         /// </summary>
         [JsonProperty("brightBlue", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightBlue { get; set; }
+        [DefaultValue("")]         public string BrightBlue { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright cyan.
         /// </summary>
         [JsonProperty("brightCyan", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightCyan { get; set; }
+        [DefaultValue("")]         public string BrightCyan { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright green.
         /// </summary>
         [JsonProperty("brightGreen", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightGreen { get; set; }
+        [DefaultValue("")]         public string BrightGreen { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright purple.
         /// </summary>
         [JsonProperty("brightPurple", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightPurple { get; set; }
+        [DefaultValue("")]         public string BrightPurple { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright red.
         /// </summary>
         [JsonProperty("brightRed", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightRed { get; set; }
+        [DefaultValue("")]         public string BrightRed { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright white.
         /// </summary>
         [JsonProperty("brightWhite", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightWhite { get; set; }
+        [DefaultValue("")]         public string BrightWhite { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI bright yellow.
         /// </summary>
         [JsonProperty("brightYellow", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrightYellow { get; set; }
+        [DefaultValue("")]         public string BrightYellow { get; set; }
 
         /// <summary>
         /// Sets the cursor color of the color scheme.
         /// </summary>
         [JsonProperty("cursorColor", NullValueHandling = NullValueHandling.Ignore)]
-        public string CursorColor { get; set; }
+        [DefaultValue("")]         public string CursorColor { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI cyan.
         /// </summary>
         [JsonProperty("cyan", NullValueHandling = NullValueHandling.Ignore)]
-        public string Cyan { get; set; }
+        [DefaultValue("")]         public string Cyan { get; set; }
 
         /// <summary>
         /// Sets the foreground color of the color scheme.
         /// </summary>
         [JsonProperty("foreground", NullValueHandling = NullValueHandling.Ignore)]
-        public string Foreground { get; set; }
+        [DefaultValue("")]         public string Foreground { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI green.
         /// </summary>
         [JsonProperty("green", NullValueHandling = NullValueHandling.Ignore)]
-        public string Green { get; set; }
+        [DefaultValue("")]         public string Green { get; set; }
 
         /// <summary>
         /// Name of the color scheme.
         /// </summary>
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(MinMaxLengthCheckConverter))]
-        public string Name { get; set; }
+        [DefaultValue("")]         public string Name { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI purple.
         /// </summary>
         [JsonProperty("purple", NullValueHandling = NullValueHandling.Ignore)]
-        public string Purple { get; set; }
+        [DefaultValue("")]         public string Purple { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI red.
         /// </summary>
         [JsonProperty("red", NullValueHandling = NullValueHandling.Ignore)]
-        public string Red { get; set; }
+        [DefaultValue("")]         public string Red { get; set; }
 
         /// <summary>
         /// Sets the selection background color of the color scheme.
         /// </summary>
         [JsonProperty("selectionBackground", NullValueHandling = NullValueHandling.Ignore)]
-        public string SelectionBackground { get; set; }
+        [DefaultValue("")]         public string SelectionBackground { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI white.
         /// </summary>
         [JsonProperty("white", NullValueHandling = NullValueHandling.Ignore)]
-        public string White { get; set; }
+        [DefaultValue("")]         public string White { get; set; }
 
         /// <summary>
         /// Sets the color used as ANSI yellow.
         /// </summary>
         [JsonProperty("yellow", NullValueHandling = NullValueHandling.Ignore)]
-        public string Yellow { get; set; }
+        [DefaultValue("")]         public string Yellow { get; set; }
     }
+
+    public enum DynamicProfileSource { WindowsTerminalAzure, WindowsTerminalPowershellCore, WindowsTerminalWsl };
 
     /// <summary>
     /// The action to execute
@@ -1017,6 +1037,11 @@ namespace WindowsTerminal
     /// </summary>
     public enum AntialiasingMode { Aliased, Cleartype, Grayscale };
 
+    /// <summary>
+    /// Sets how the background image aligns to the boundaries of the window. Possible values:
+    /// "center", "left", "top", "right", "bottom", "topLeft", "topRight", "bottomLeft",
+    /// "bottomRight"
+    /// </summary>
     public enum BackgroundImageAlignment { Bottom, BottomLeft, BottomRight, Center, Left, Right, Top, TopLeft, TopRight };
 
     /// <summary>
@@ -1116,10 +1141,12 @@ namespace WindowsTerminal
         {
             Formatting = Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters =
             {
+                DynamicProfileSourceConverter.Singleton,
                 CommandConverter.Singleton,
                 ActionEnumConverter.Singleton,
                 DirectionConverter.Singleton,
@@ -1140,6 +1167,52 @@ namespace WindowsTerminal
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };
+    }
+
+    internal class DynamicProfileSourceConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(DynamicProfileSource) || t == typeof(DynamicProfileSource?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "Windows.Terminal.Azure":
+                    return DynamicProfileSource.WindowsTerminalAzure;
+                case "Windows.Terminal.PowershellCore":
+                    return DynamicProfileSource.WindowsTerminalPowershellCore;
+                case "Windows.Terminal.Wsl":
+                    return DynamicProfileSource.WindowsTerminalWsl;
+            }
+            throw new Exception("Cannot unmarshal type DynamicProfileSource");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (DynamicProfileSource)untypedValue;
+            switch (value)
+            {
+                case DynamicProfileSource.WindowsTerminalAzure:
+                    serializer.Serialize(writer, "Windows.Terminal.Azure");
+                    return;
+                case DynamicProfileSource.WindowsTerminalPowershellCore:
+                    serializer.Serialize(writer, "Windows.Terminal.PowershellCore");
+                    return;
+                case DynamicProfileSource.WindowsTerminalWsl:
+                    serializer.Serialize(writer, "Windows.Terminal.Wsl");
+                    return;
+            }
+            throw new Exception("Cannot marshal type DynamicProfileSource");
+        }
+
+        public static readonly DynamicProfileSourceConverter Singleton = new DynamicProfileSourceConverter();
     }
 
     internal class CommandConverter : JsonConverter

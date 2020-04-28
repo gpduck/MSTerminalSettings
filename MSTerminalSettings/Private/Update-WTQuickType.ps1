@@ -24,7 +24,24 @@ function Update-WTQuickType {
 
             Formatting = Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
 '@
 
-    $settingsRegex.Replace((Get-Content -raw $Destination), "`$1$formattingCode") | Out-File $Destination
+    $TerminalSettingsCode = Get-Content -raw $Destination
+
+    $TerminalSettingsCode = $settingsRegex.Replace($TerminalSettingsCode, "`$1$formattingCode")
+
+    $stringDefaultRegex = [Regex]::new('( +?public string \w+ \{ get\; set\; \})','SingleLine')
+    $stringDefaultCode = @'
+        [DefaultValue("")]
+'@
+    $TerminalSettingsCode = $stringDefaultRegex.Replace($TerminalSettingsCode, "$stringDefaultCode `$1")
+
+    $CMRegex = [Regex]::new('(using System;)','SingleLine')
+    $CMCode = '
+    using System.ComponentModel;'
+    $TerminalSettingsCode = $CMRegex.Replace($TerminalSettingsCode, "`$1 $CMCode")
+
+    $TerminalSettingsCode | Out-File -FilePath $Destination
+
 }

@@ -14,7 +14,7 @@ function Invoke-MSTerminalGif {
         #The URI of the GIF you want to display
         [Parameter(ParameterSetName='Uri',Position=0,Mandatory)][uri]$Uri,
         #The name or GUID of the Windows Terminal Profile in which to play the Gif.
-        [Parameter(ParameterSetName='Uri',ValueFromPipelineByPropertyName)][String][Alias('Guid')]$Name,
+        [Parameter(ParameterSetName='URI',ValueFromPipeline)][Alias('Name','Guid')]$InputObject = (Get-MSTerminalProfile -Current),
         #How to resize the background image in the window. Options are None, Fill, Uniform, and UniformToFill
         [Parameter(ParameterSetName='Uri')][BackgroundImageStretchMode]$StretchMode = 'uniformToFill',
         #How transparent to make the background image. Default is 60% (.6)
@@ -35,14 +35,9 @@ function Invoke-MSTerminalGif {
         return
     }
 
-    $TerminalProfile = if ($Name -as [Guid]) {
-        Get-MSTerminalProfile -Guid $Name -ErrorAction stop
-    } else {
-        Get-MSTerminalProfile -Name $Name -ErrorAction stop
-    }
-    if (-not $Name) {$TerminalProfile = Find-CurrentTerminalProfile}
+    $wtProfile = Resolve-MSTerminalProfile $InputObject
 
-    $profileBackupPath = Join-Path ([io.path]::GetTempPath()) "WTBackup-$($terminalprofile.Guid).clixml"
+    $profileBackupPath = Join-Path ([io.path]::GetTempPath()) "WTBackup-$($wtProfile.Guid).clixml"
     $ProfileBackupPathExists = Test-Path $ProfileBackupPath
 
     if ($Restore -or $ProfileBackupPathExists) {
@@ -52,9 +47,8 @@ function Invoke-MSTerminalGif {
         if (-not $ProfileBackupPathExists) {
             throwUser "Restore was requested but no backup file was found at $ProfileBackupPath. This usually means it was already restored and you can continue normally."
         }
-        Write-Verbose "Restoring $profilebackupPath Profile"
+        Write-Verbose "Restoring $profileBackupPath Profile"
         $existingProfileSettings = Import-Clixml $profileBackupPath
-        $wtProfile = $TerminalProfile
         $existingProfileSettings.keys.foreach{
             $wtProfile.$PSItem = $existingProfileSettings[$PSItem]
         }
@@ -68,7 +62,7 @@ function Invoke-MSTerminalGif {
     }
 
     #Pseudo Singleton to ensure only one prompt job is running at a time
-    $InvokeTerminalGifJobName = 'InvokeTerminalGif'
+    $InvokeTerminalGifJobName = $InputObject.Guid
     $InvokeTerminalGifJob = Get-Job $InvokeTerminalGifJobName -Erroraction SilentlyContinue
     if ($invokeTerminalGifJob) {
         if ($invokeTerminalGifJob.state -notmatch 'Completed|Failed') {
@@ -83,16 +77,11 @@ function Invoke-MSTerminalGif {
             Remove-Job $InvokeTerminalGifJob
         }
     }
-    $TerminalProfile = if ($Name -as [Guid]) {
-        Get-MSTerminalProfile -Guid $Name -ErrorAction stop
-    } else {
-        Get-MSTerminalProfile -Name $Name -ErrorAction stop
-    }
-    if (-not $Name) {$TerminalProfile = Find-CurrentTerminalProfile}
 
     #Prepare arguments for the threadjob
     $TerminalGifJobParams = @{ }
-    ('terminalprofile','uri', 'maxduration', 'stretchmode','acrylic','backgroundimageopacity','profileBackupPath').foreach{
+    $terminalProfile = $wtProfile
+    ('terminalProfile','Uri', 'MaxDuration', 'StretchMode','Acrylic','BackgroundImageOpacity','profileBackupPath').foreach{
         $TerminalGifJobParams.$PSItem = (Get-Variable $PSItem).value
     }
     $TerminalGifJobParams.ModulePath = Join-Path $ModuleRoot 'MSTerminalSettings.psd1'
@@ -127,7 +116,7 @@ function Invoke-MSTerminalGif {
                 Write-Output "Reverting to the previous settings"
                 $ExistingProfileSettings | Out-String
                 #Revert the previous settings
-                $wtProfile = Get-MSTerminalProfile -Guid $terminalProfile.Guid.ToString('B')
+                $wtProfile = Get-MSTerminalProfile -Guid ([Guid]$terminalProfile.Guid).ToString('B')
                 $existingProfileSettings.keys.foreach{
                     $wtProfile.$PSItem = $existingProfileSettings[$PSItem]
                 }
