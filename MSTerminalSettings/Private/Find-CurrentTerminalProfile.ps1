@@ -10,7 +10,7 @@ function Find-CurrentTerminalProfile {
     #Detection Method 1: Profile Environment Variable
     if ($env:WT_PROFILE_ID) {
         $profileName = $env:WT_PROFILE_ID
-        write-debug "Terminal Detection: Detected WT_PROFILE is set to $profileName, fetching if profile exists"
+        write-debug "Terminal Detection: Detected WT_PROFILE_ID is set to $profileName, fetching if profile exists"
         if ($profileName -as [Guid]) {
             return Get-MSTerminalProfile -Guid $profileName
         } else {
