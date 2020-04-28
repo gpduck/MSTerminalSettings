@@ -37,13 +37,27 @@ function Add-TerminalSettingsParams {
         foreach ($paramName in $InputObject.keys) {
             $paramItem = $propertyList.$ParamName
             $paramAttributes = $inputObject[$paramName].Attributes
+            $paramAttributes[0].ValueFromPipelineByPropertyName = $true
             if ($paramItem.description) {
                 $parameterAttribute = $inputObject[$paramName].Attributes.where{$PSItem -is [ParameterAttribute]}
                 $parameterAttribute[0].HelpMessage = $paramItem.description
             }
-            if ($paramItem.maximum -or $paramItem.minimum) {
-                $minimum = if ($null -eq $paramItem.minimum) {[double]::MinValue} else {$paramItem.minimum}
-                $maximum =  if ($null -eq $paramItem.maximum) {[double]::MaxValue} else {$paramItem.maximum}
+            #TODO: Multiple type struct support
+            if (($paramItem.maximum -or $paramItem.minimum) -and $paramItem.Type.Count -eq 1) {
+                if ('integer' -in $ParamItem.Type) {
+                    $maxValue = [long]::MaxValue
+                    $minValue = [long]::MaxValue
+                    $paramMax = [long]$paramItem.maximum
+                    $paramMin = [long]$paramItem.minimum
+                } elseif ('number' -in $ParamItem.Type) {
+                    $maxValue = [decimal]::MaxValue
+                    $minValue = [decimal]::MaxValue
+                    $paramMax = [decimal]$paramItem.maximum
+                    $paramMin = [decimal]$paramItem.minimum
+                }
+
+                $minimum = if ($null -eq $paramMin) {$minValue} else {$paramMin}
+                $maximum =  if ($null -eq $paramMax) {$maxValue} else {$paramMax}
                 $paramAttributes.Add([ValidateRange]::new($minimum,$maximum))
             }
             if ($ParamItem.minlength -or $paramItem.maxlength) {
