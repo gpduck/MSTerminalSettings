@@ -20,7 +20,7 @@ Object Types are generated from the [official Windows Terminal schema](https://a
 ## Summary Views
 Config and Profile objects have summary views by default, and Color Schemes auto-highlight the color being used
 
-![](Images\README\SummaryViews.gif)
+![](.\Images\README\SummaryViews.gif)
 
 ## `Get-MSTerminalProfile` Autocompletion and Filter
 `Get-MSTerminalProfile` will autocomplete the `Name` parameter with available profiles. You can also filter on any property with wildcard syntax.
