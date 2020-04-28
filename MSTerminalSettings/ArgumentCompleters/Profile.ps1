@@ -12,5 +12,5 @@ $ProfileCompleter = {
     $PSBoundParameters.ParameterName = 'Name'
     Get-ArgumentCompleter @PSBoundParameters
 }
-Register-ArgumentCompleter -CommandName 'Get-MSTerminalProfile','Set-MSTerminalProfile' -ParameterName Name -ScriptBlock $ProfileCompleter
-# Register-ArgumentCompleter -CommandName 'Set-MSTermianlProfile'
+Register-ArgumentCompleter -CommandName 'Get-MSTerminalProfile','Add-MSTerminalProfile' -ParameterName Name -ScriptBlock $ProfileCompleter
+Register-ArgumentCompleter -CommandName 'Set-MSTerminalProfile','Remove-MSTerminalProfile' -ParameterName InputObject -ScriptBlock $ProfileCompleter

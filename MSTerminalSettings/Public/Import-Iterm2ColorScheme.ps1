@@ -22,11 +22,11 @@ function Import-Iterm2ColorScheme {
         [Alias('PSPath')]
         [string[]]$LiteralPath,
 
-        $Name
+        $Name,
+
+        [Switch]$Force
     )
     process {
-                #FIXME: Remove When Refactored
-                throwuser $QuickTypeNotImplementedException
         if ($PSCmdlet.ParameterSetName -eq 'Path') {
             $ResolvedPaths = Resolve-Path -Path $Path
         } elseif ($PSCmdlet.ParameterSetName -eq 'LiteralPath') {
@@ -39,7 +39,7 @@ function Import-Iterm2ColorScheme {
             if(!$PSBoundParameters.ContainsKey("Name")) {
                 $Name = $FileInfo.BaseName
             }
-            Add-MSTerminalColorScheme -Name $Name @Colors
+            Add-MSTerminalColorScheme -Name $Name @Colors -Force:$Force
         }
     }
 }

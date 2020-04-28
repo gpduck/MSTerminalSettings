@@ -2,20 +2,19 @@ using namespace WindowsTerminal
 function Remove-MSTerminalProfile {
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(ValueFromPipelineByPropertyName)][Guid]$Guid,
-        [ValidateNotNullOrEmpty()][TerminalSettings]$TerminalSettings = (Get-MSTerminalConfig)
+        [Parameter(Mandatory,ValueFromPipeline)][Alias('Name','Guid')]$InputObject
     )
     process {
-        $ProfileList = $TerminalSettings.Profiles.List
-        $ProfileToRemove = $ProfileList.Where{[guid]$_.Guid -eq $Guid}
-        if (-not $ProfileToRemove) {throw "Could not find profile with guid $Guid"}
-        if ($ProfileToRemove.count -gt 1) {throw "Multiple profiles found with guid $Guid. Please check your configuration and remove the duplicate"}
+        $ProfileToRemove = Resolve-MSTerminalProfile $InputObject
+
+        if (-not $ProfileToRemove) {throw "Could not find matching profile to remove"}
+        $TerminalConfig = $ProfileToRemove.TerminalConfig
         if ($PSCmdlet.ShouldProcess(
-            $TerminalSettings.Path,
+            $TerminalConfig.Path,
             "Removing Profile $($ProfileToRemove.Name) $($ProfileToRemove.Guid)"
         )) {
-            [void]$ProfileList.Remove($ProfileToRemove[0])
-            Save-MSTerminalConfig -TerminalConfig $TerminalSettings
+            [void]$TerminalConfig.Profiles.List.Remove($ProfileToRemove[0])
+            Save-MSTerminalConfig -TerminalConfig $TerminalConfig
         }
     }
 }

@@ -12,4 +12,5 @@ $ColorSchemeCompleter = {
     $PSBoundParameters.ParameterName = 'Name'
     Get-ArgumentCompleter @PSBoundParameters
 }
-Register-ArgumentCompleter -CommandName "Get-MSTerminalColorScheme" -ParameterName Name -ScriptBlock $ColorSchemeCompleter
+Register-ArgumentCompleter -CommandName "Get-MSTerminalColorScheme","Add-MSTerminalColorScheme","Remove-MSTerminalColorScheme" -ParameterName Name -ScriptBlock $ColorSchemeCompleter
+Register-ArgumentCompleter -CommandName "Set-MSTerminalProfile","Add-MSTerminalProfile" -ParameterName ColorScheme -ScriptBlock $ColorSchemeCompleter
