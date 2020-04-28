@@ -25,7 +25,7 @@ Config and Profile objects have summary views by default, and Color Schemes auto
 ## `Get-MSTerminalProfile` Autocompletion and Filter
 `Get-MSTerminalProfile` will autocomplete the `Name` parameter with available profiles. You can also filter on any property with wildcard syntax.
 
-![](Images\README\NameAutoComplete.gif)
+![NameAutoComplete](Images/README/NameAutoComplete.gif)
 
 ## Full Parameter Validation
 Parameters are validated based on the validation in the json schema. True/False parameters are implemented as switches.
@@ -33,13 +33,11 @@ Parameters are validated based on the validation in the json schema. True/False 
 ## Support for defaults and globals
 Ability to apply settings for all profiles and "global" config settings
 
-![](Images\README\DefaultProfileSetting.gif)
+![DefaultProfileSetting](Images/README/DefaultProfileSetting.gif)
 
 ## Full Pipeline Support
 `Get` commands can be piped to `Set`, `Add`, and `Remove` commands
-![](Images\README\Pipeline.gif)
-
-##Retrieve Configurations from online
+![Pipeline](Images/README/Pipeline.gif)
 
 # 2.0 Breaking Changes
 
