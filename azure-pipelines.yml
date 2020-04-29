@@ -1,0 +1,128 @@
+trigger:
+  - ci
+  - refactor/QuickType
+
+name: 'MSTerminalSettings 2.0'
+
+variables:
+  major: 2
+  minor: 0
+  patch: 0
+  buildVer: $(major).$(minor).$(patch)
+
+stages:
+- stage: Build
+  pool:
+    vmImage: windows-latest
+  jobs:
+  - job: Build
+    displayName: Powershell Module
+    steps:
+    - pwsh: ./Invoke-Build.ps1 -File ./Module.Build.ps1 -Task Clean,Build,BuildHelp
+      displayName: Build Module
+    - pwsh: |
+        $ErrorView='NormalView'
+        Set-Location Release\MSTerminalSettings
+        $manifestPath = Resolve-Path -Path ".\MSTerminalSettings.psd1"
+        $Prerelease = 'beta{0:D4}' -f [int]$ENV:Build_BuildId
+        Update-ModuleManifest -Path $manifestPath -ModuleVersion $ENV:BUILDVER -Prerelease $PRERELEASE
+        gc -raw $manifestPath
+
+      displayName: Set Module Version
+    - pwsh: |
+        function ConvertFrom-PSManifestToNuspec {
+            param (
+                [IO.FileInfo]$Path,
+                $Version
+            )
+            $manifest = Import-PowerShellDataFile $Path
+            if ($manifest.privatedata.psdata.prerelease) {
+              $ModuleVersion = $manifest.ModuleVersion,$manifest.privatedata.psdata.prerelease -join '-'
+            } else {
+              $ModuleVersion = $manifest.ModuleVersion
+            }
+
+            $nuspecParams = @{
+                Id = $Path.BaseName
+                Version = $ModuleVersion
+                Description = $manifest.Description
+                Authors = $manifest.Author
+                Copyright = $manifest.Copyright
+            }
+            New-Nuspec @nuspecParams
+        }
+
+        function New-Nuspec {
+            param (
+                [Parameter(Mandatory,ValueFromPipelineByPropertyName)]$Id,
+                [Parameter(Mandatory,ValueFromPipelineByPropertyName)]$Version,
+                [Parameter(Mandatory,ValueFromPipelineByPropertyName)]$Description,
+                [Parameter(Mandatory,ValueFromPipelineByPropertyName)]$Authors,
+                [Switch]$requireLicenseAcceptance,
+                $ReleaseNotes,
+                $Copyright,
+                $Tags
+            )
+
+            $doc = [xml]::new()
+            #Add XML Declaration
+            [void]$doc.AppendChild($doc.CreateXmlDeclaration("1.0","UTF-8",$null))
+            #Add XML Root Node
+            $package = $doc.AppendChild($doc.CreateElement('package'))
+            $metadata = $package.AppendChild($doc.CreateElement('metadata'))
+
+            $PSBoundParameters.keys.tolower().foreach{
+                $metadataItem = $doc.CreateElement($PSItem)
+                $metadataItem.InnerText = $PSBoundParameters[$PSItem]
+                [void]$metadata.AppendChild($metadataItem)
+            }
+
+            $doc.outerxml
+        }
+        Set-Location Release\MSTerminalSettings
+        ConvertFrom-PSManifestToNuspec .\MSTerminalSettings.psd1 > .\psmodule.nuspec
+        iwr -useb https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe -outfile nuget.exe
+        ./nuget.exe pack -Exclude nuget.exe -OutputDirectory $env:Build_ArtifactStagingDirectory
+      displayName: Create Nuget Package
+    - task: PublishBuildArtifacts@1
+      displayName: Capture Nuget Package
+      inputs:
+        ArtifactName: 'PSModule'
+    - task: NuGetAuthenticate@0
+      displayName: 'Connect to Azure Artifacts'
+    - task: NuGetCommand@2
+      displayName: 'Publish Nuget Package'
+      inputs:
+        command: push
+        publishVstsFeed: 'github/MSTerminalSettings'
+# - stage: Test
+#   jobs:
+#   - job: Test
+#     steps:
+#     - task: Pester@0
+#       inputs:
+#         scriptFolder: "@{Path='$(System.DefaultWorkingDirectory)/PowerShellModuleProject.Tests.ps1'"
+#         resultsFile: "$(System.DefaultWorkingDirectory)/PowerShellModuleProject.Tests.XML"
+#         usePSCore: true
+#         run32Bit: False
+#     - task: PublishTestResults@2
+#       inputs:
+#         testResultsFormat: "NUnit"
+#         testResultsFiles: "$(System.DefaultWorkingDirectory)/PowerShellModuleProject.Tests.XML"
+#         failTaskOnFailedTests: true
+# - stage: Deploy
+#   jobs:
+#   - job: Deploy
+#     steps:
+#       - task: DownloadPipelineArtifact@2
+#         inputs:
+#           buildType: 'current'
+#           artifactName: 'NuGetPackage'
+#           itemPattern: '**'
+#           targetPath: '$(Pipeline.Workspace)'
+#       - task: NuGetCommand@2
+#         inputs:
+#           command: 'push'
+#           packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+#           nuGetFeedType: 'internal'
+#           publishVstsFeed: 'adbertram'
