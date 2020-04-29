@@ -58,6 +58,9 @@ handling. It also now includes a -NoAsync option to run outside of a threadjob
 Now that parameters are dynamically retrieved and typed, their behavior may be different than 1.x. In general, they are
 much stricter about what you can enter and things you could "get away with" in 1.x will now throw validation errors.
 
+### ExtraSettings Options Removed
+Now that the schema is firming up, the ExtraSettings options have been removed due to the strict typing being used. Settings not part of the schema will be silently removed on future saves.
+
 ### Latest Windows Terminal Config Format Required
 You must be using the 0.11+ style config format, previous config formats may not be parseable. Opening your config in
 the latest version of Windows Terminal is usually sufficient to convert it to the correct format.
@@ -81,19 +84,20 @@ Invoke-MSTerminalGif is more robust and takes a backup of the config prior to ex
 # Examples
 
 This example downloads the Pandora color scheme from [https://iterm2colorschemes.com/](https://iterm2colorschemes.com/)
-and sets it as the color scheme for the PowerShell Core terminal profile.
+and sets it as the color scheme for the "current" terminal profile (assuming you run this from a powershell tab in
+Windows Terminal)
 
 ```powershell
 Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Pandora.itermcolors' -OutFile .\Pandora.itermcolors
 
 Import-Iterm2ColorScheme -Path .\Pandora.itermcolors -Name Pandora
 
-Get-MSTerminalProfile -Name "PowerShell Core" | Set-MSTerminalProfile -ColorScheme Pandora
+Get-MSTerminalProfile -Current | Set-MSTerminalProfile -ColorScheme Pandora
 ```
 
 This example creates a new profile for the PowerShell 7 preview using the PowerShell Hero logo.
 
-```
+```powershell
 $TerminalFolder = Find-MSTerminalFolder
 Invoke-RestMethod -Uri 'https://github.com/PowerShell/PowerShell/raw/master/assets/StoreLogo-Preview.png' -OutFile "$TerminalFolder\StoreLogo-Preview.png"
 
@@ -110,6 +114,6 @@ New-MSTerminalProfile @Pwsh7
 
 This example sets all your profiles to use a [programming font](https://app.programmingfonts.org/).  (Note the font must already be installed on your system)
 
-```
-Get-MSTerminalProfile | Set-MSTerminalProfile -FontFace "Fira Code Retina"
+```powershell
+Set-MSTerminalProfile -FontFace "Fira Code Retina"
 ```
