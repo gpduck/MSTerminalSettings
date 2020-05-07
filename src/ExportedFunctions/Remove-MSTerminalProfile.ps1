@@ -8,8 +8,7 @@ function Remove-MSTerminalProfile {
         $InputObject
     )
     begin {
-        $Path = Find-MSTerminalFolder
-        $SettingsPath = Join-Path $Path "profiles.json"
+        $SettingsPath = DetectTerminalConfigFile
         $Settings = ReadMSTerminalProfileJson $SettingsPath
         $ProfilesToRemove = @()
     }

@@ -40,8 +40,7 @@ function New-MSTerminalColorScheme {
 
         [string]$yellow = "#C19C00"
     )
-    $Path = Find-MSTerminalFolder
-    $SettingsPath = Join-Path $Path "profiles.json"
+    $SettingsPath = DetectTerminalConfigFile
     $Settings = ReadMSTerminalProfileJson $SettingsPath | ConvertPSObjectToHashtable
 
     if(!$Settings.Contains("schemes")) {

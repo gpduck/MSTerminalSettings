@@ -20,7 +20,7 @@ function Find-MSTerminalFolder {
         if($FoundPath) {
             $FoundPath
         } else {
-            Write-Error "Unable to locate Terminal profiles.json file." -ErrorAction Stop
+            Write-Error "Unable to locate Terminal $(Split-Path (DetectTerminalConfigFile) -Leaf) file." -ErrorAction Stop
         }
     }
 }
