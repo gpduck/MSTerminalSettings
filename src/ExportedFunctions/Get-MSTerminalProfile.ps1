@@ -13,7 +13,7 @@ function Get-MSTerminalProfile {
         return
     }
 
-    $ProfilesJson = Join-Path $Path "profiles.json"
+    $ProfilesJson = DetectTerminalConfigFile
 
     ReadMSTerminalProfileJson $ProfilesJson | ForEach-Object {
         $_.Profiles

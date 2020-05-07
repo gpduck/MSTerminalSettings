@@ -83,8 +83,7 @@ function Set-MSTerminalProfile {
         [hashtable]$ExtraSettings
     )
     begin {
-        $Path = Find-MSTerminalFolder
-        $SettingsPath = Join-Path $Path "profiles.json"
+        $SettingsPath = DetectTerminalConfigFile
         # Don't use -AsHashtable for 5.1 support
         $Settings = ReadMSTerminalProfileJson $SettingsPath | ConvertPSObjectToHashtable
         if($Settings.Globals) {

@@ -2,8 +2,7 @@ function Get-MSTerminalColorScheme {
     param(
         $Name
     )
-    $Path = Find-MSTerminalFolder
-    $SettingsPath = Join-Path $Path "profiles.json"
+    $SettingsPath = DetectTerminalConfigFile
     $Settings = ReadMSTerminalProfileJson $SettingsPath
 
     $Settings.Schemes | Where-Object {
