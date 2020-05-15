@@ -108,6 +108,9 @@ PrivateData = @{
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/gpduck/MSTerminalConfig'
 
+        # A tag indicating this is a prerelease
+        Prerelease = 'NotBuiltYet'
+
         # A URL to an icon representing this module.
         # IconUri = ''
 

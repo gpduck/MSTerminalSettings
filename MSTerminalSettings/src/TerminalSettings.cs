@@ -64,6 +64,20 @@ namespace WindowsTerminal
         public List<DynamicProfileSource> DisabledProfileSources { get; set; }
 
         /// <summary>
+        /// When set to true, we will redraw the entire screen each frame. When set to false, we will
+        /// render only the updates to the screen between frames.
+        /// </summary>
+        [JsonProperty("experimental.rendering.forceFullRepaint", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? ExperimentalRenderingForceFullRepaint { get; set; }
+
+        /// <summary>
+        /// When set to true, we will use the software renderer (a.k.a. WARP) instead of the hardware
+        /// one.
+        /// </summary>
+        [JsonProperty("experimental.rendering.software", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? ExperimentalRenderingSoftware { get; set; }
+
+        /// <summary>
         /// The number of columns displayed in the window upon first load.
         /// </summary>
         [JsonProperty("initialCols", NullValueHandling = NullValueHandling.Ignore)]
@@ -878,12 +892,12 @@ namespace WindowsTerminal
     /// <summary>
     /// The action to execute
     /// </summary>
-    public enum CommandEnum { AdjustFontSize, ClosePane, CloseTab, CloseWindow, Copy, DecreaseFontSize, DuplicateTab, Find, MoveFocus, NewTab, NextTab, OpenNewTabDropdown, OpenSettings, Paste, PrevTab, ResetFontSize, ResizePane, ScrollDown, ScrollDownPage, ScrollUp, ScrollUpPage, SplitPane, SwitchToTab, ToggleFullscreen, Unbound };
+    public enum CommandEnum { AdjustFontSize, ClosePane, CloseTab, CloseWindow, Copy, DuplicateTab, Find, MoveFocus, NewTab, NextTab, OpenNewTabDropdown, OpenSettings, Paste, PrevTab, ResetFontSize, ResizePane, ScrollDown, ScrollDownPage, ScrollUp, ScrollUpPage, SplitPane, SwitchToTab, ToggleFullscreen, Unbound };
 
     /// <summary>
     /// The action to execute
     /// </summary>
-    public enum ActionEnum { AdjustFontSize, ClosePane, CloseTab, CloseWindow, Copy, DecreaseFontSize, DuplicateTab, Find, MoveFocus, NewTab, NextTab, OpenNewTabDropdown, OpenSettings, Paste, PrevTab, ResetFontSize, ResizePane, ScrollDown, ScrollDownPage, ScrollUp, ScrollUpPage, SplitPane, SwitchToTab, ToggleFullscreen, Unbound };
+    public enum ActionEnum { AdjustFontSize, ClosePane, CloseTab, CloseWindow, Copy, DuplicateTab, Find, MoveFocus, NewTab, NextTab, OpenNewTabDropdown, OpenSettings, Paste, PrevTab, ResetFontSize, ResizePane, ScrollDown, ScrollDownPage, ScrollUp, ScrollUpPage, SplitPane, SwitchToTab, ToggleFullscreen, Unbound };
 
     /// <summary>
     /// The direction to move focus in, between panes
@@ -1125,8 +1139,6 @@ namespace WindowsTerminal
                             return new Command { Enum = CommandEnum.CloseWindow };
                         case "copy":
                             return new Command { Enum = CommandEnum.Copy };
-                        case "decreaseFontSize":
-                            return new Command { Enum = CommandEnum.DecreaseFontSize };
                         case "duplicateTab":
                             return new Command { Enum = CommandEnum.DuplicateTab };
                         case "find":
@@ -1200,9 +1212,6 @@ namespace WindowsTerminal
                         return;
                     case CommandEnum.Copy:
                         serializer.Serialize(writer, "copy");
-                        return;
-                    case CommandEnum.DecreaseFontSize:
-                        serializer.Serialize(writer, "decreaseFontSize");
                         return;
                     case CommandEnum.DuplicateTab:
                         serializer.Serialize(writer, "duplicateTab");
@@ -1294,8 +1303,6 @@ namespace WindowsTerminal
                     return ActionEnum.CloseWindow;
                 case "copy":
                     return ActionEnum.Copy;
-                case "decreaseFontSize":
-                    return ActionEnum.DecreaseFontSize;
                 case "duplicateTab":
                     return ActionEnum.DuplicateTab;
                 case "find":
@@ -1362,9 +1369,6 @@ namespace WindowsTerminal
                     return;
                 case ActionEnum.Copy:
                     serializer.Serialize(writer, "copy");
-                    return;
-                case ActionEnum.DecreaseFontSize:
-                    serializer.Serialize(writer, "decreaseFontSize");
                     return;
                 case ActionEnum.DuplicateTab:
                     serializer.Serialize(writer, "duplicateTab");
@@ -1547,8 +1551,6 @@ namespace WindowsTerminal
                     return CommandEnum.CloseWindow;
                 case "copy":
                     return CommandEnum.Copy;
-                case "decreaseFontSize":
-                    return CommandEnum.DecreaseFontSize;
                 case "duplicateTab":
                     return CommandEnum.DuplicateTab;
                 case "find":
@@ -1615,9 +1617,6 @@ namespace WindowsTerminal
                     return;
                 case CommandEnum.Copy:
                     serializer.Serialize(writer, "copy");
-                    return;
-                case CommandEnum.DecreaseFontSize:
-                    serializer.Serialize(writer, "decreaseFontSize");
                     return;
                 case CommandEnum.DuplicateTab:
                     serializer.Serialize(writer, "duplicateTab");
