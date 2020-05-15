@@ -1,4 +1,4 @@
-#Requires -Modules @{ ModuleName="Pester"; ModuleVersion="4.10.1"; MaximumVersion="4.999.999" }
+#Requires -Modules @{ ModuleName="Pester"; ModuleVersion="4.999.999" }
 # Dot source this script in any Pester test script that requires the module to be imported.
 param (
     [Switch]$SkipImportModule,
@@ -18,7 +18,6 @@ if (-not $ModuleManifestPath) {
     $ModuleManifestPath = "$PSScriptRoot\..\MSTerminalSettings\$ModuleManifestName"
 }
 
-
 if (!$SkipImportModule) {
     # -Scope Global is needed when running tests from inside of psake, otherwise
     # the module's functions cannot be found in the MSTerminalConfig\ namespace
@@ -26,3 +25,8 @@ if (!$SkipImportModule) {
 }
 
 $GLOBAL:Mocks = "$PSScriptRoot\Mocks"
+
+Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
+    if (-not $TestDrive) {throw 'TestDrive could not be detected, this should not happen!'}
+    return $TestDrive
+}

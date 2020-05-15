@@ -1,5 +1,5 @@
 # Output files
-Release/
+BuildOutput/
 *.zip
 
 # Test results
