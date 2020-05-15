@@ -1,0 +1,58 @@
+# See http://www.appveyor.com/docs/appveyor-yml for many more options
+version: '{build}-{branch}'
+branches:
+  only:
+    - master
+    - production
+    - ci
+
+image:
+  - Visual Studio 2019
+  # - Ubuntu
+  # You can enable newer builds by uncommenting these lines
+  # - Visual Studio 2017
+  # - Ubuntu1804
+
+#Encrypted Variables - https://ci.appveyor.com/tools/encrypt
+environment:
+  # Build with both powershell and pwsh
+  matrix:
+    - PSVERSION: 'powershell'
+    - PSVERSION: 'pwsh'
+
+for:
+- matrix:
+    exclude:
+      - image: Ubuntu
+        PSVERSION: 'powershell'
+      - image: Ubuntu1804
+        PSVERSION: 'powershell'
+
+# Skip on updates to the readme.
+# We can force this by adding [skip ci] or [ci skip] anywhere in commit message
+skip_commits:
+  message: /updated README.*|Update README.*s/
+
+# Skip Tags with GitHub
+# Releases are tracked and tagged by the build script in Appveyor, having this enabled results in a double build
+skip_tags: true
+
+build_script:
+  - ps: "& $ENV:PSVERSION -noninteractive -noprofile -f build.ps1"
+on_finish:
+  #Upload Test Results
+  - ps: (Get-Item './BuildOutput/*TestResults*.xml').Foreach{([Net.WebClient]::new()).UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $PSItem)}
+
+#Capture the artifacts
+artifacts:
+  - path: BuildOutput\*.zip
+    name: Powershell Module Zip
+
+#TODO: Consider adding back cache statements on a per-OS basis
+# cache:
+#   - '%USERPROFILE%\Documents\WindowsPowerShell\Modules -> PSModule.requirements.ps1'
+#   - '%LOCALAPPDATA%\PackageManagement\NuGet'
+
+# cache:
+#   - '%USERPROFILE%\Documents\PowerShell\Modules -> PSModule.requirements.ps1'
+#   - '%LOCALAPPDATA%\PackageManagement\NuGet'
