@@ -1,9 +1,9 @@
-. $PSScriptRoot\Shared.ps1
 
 Describe "Add-MSTerminalColorScheme" {
-    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
-        $TestDrive
+    BeforeAll {
+        . $PSScriptRoot/Shared.ps1
     }
+
     BeforeEach {
         Copy-Item $Mocks/CustomSettings.json $TestDrive/settings.json
     }

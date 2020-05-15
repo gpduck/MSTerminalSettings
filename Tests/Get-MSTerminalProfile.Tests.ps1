@@ -1,16 +1,17 @@
-. $PSScriptRoot\Shared.ps1
-
 Describe "Get-MSTerminalProfile" {
-    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
-        $TestDrive
+    BeforeAll {
+        . $PSScriptRoot\Shared.ps1
+        $profileNameToTest = 'Windows Powershell'
+        Copy-Item $Mocks/DefaultSettings.json $TestDrive/settings.json
+        $profileToTest = Get-MSTerminalProfile -Name $profileNameToTest
     }
 
+    #FIXME: Some awkward setup to please Pester 5, it shouldn't be duplicated both here and in BeforeAll
     $profileNameToTest = 'Windows Powershell'
-    Copy-Item $Mocks/DefaultSettings.json $TestDrive/settings.json
-    $profileToTest = Get-MSTerminalProfile -Name $profileNameToTest
+    $GLOBAL:Mocks = "$PSScriptRoot\Mocks"
 
-    $valuesToTest = (Import-JsonWithComments $TestDrive/settings.json).profiles.list | Where-Object name -match $profileNameToTest
-
+    . $PSScriptRoot\..\MSTerminalSettings\Private\Import-JsonWithComments.ps1
+    $valuesToTest = (Import-JsonWithComments $Mocks/DefaultSettings.json).profiles.list | Where-Object name -match $profileNameToTest
     $valuesToTest.psobject.properties.foreach{
         It "Reads $($PSItem.Name)" {
             $propertyToTest = if ($profileToTest.($PSItem.Name).Enum) {
@@ -21,6 +22,7 @@ Describe "Get-MSTerminalProfile" {
             $propertyToTest | Should -be $PSItem.Value
         }
     }
+
 
     # Context "Default Profile" {
     #     BeforeEach {

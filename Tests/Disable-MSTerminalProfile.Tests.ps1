@@ -1,8 +1,6 @@
-. $PSScriptRoot\Shared.ps1
-
 Describe "Disable-MSTerminalProfile" {
-    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
-        $TestDrive
+    BeforeAll {
+        . $PSScriptRoot/Shared.ps1
     }
 
     BeforeEach {

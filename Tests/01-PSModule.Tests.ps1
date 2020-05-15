@@ -1,8 +1,10 @@
-. $PSScriptRoot\Shared.ps1
 
 Describe 'Module Manifest Tests' {
+    BeforeAll {
+        . $PSScriptRoot/Shared.ps1
+    }
+
     It 'Passes Test-ModuleManifest' {
-        Test-ModuleManifest -Path $ModuleManifestPath
-        $? | Should Be $true
+        Test-ModuleManifest -Path $ModuleManifestPath | Should -Not -BeNullOrEmpty
     }
 }

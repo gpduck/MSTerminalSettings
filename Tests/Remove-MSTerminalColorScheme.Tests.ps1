@@ -1,8 +1,6 @@
-. $PSScriptRoot\Shared.ps1
-
 Describe "Remove-MSTerminalColorScheme" {
-    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
-        $TestDrive
+    BeforeAll {
+        . $PSScriptRoot\Shared.ps1
     }
 
     BeforeEach {

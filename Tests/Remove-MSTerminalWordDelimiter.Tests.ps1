@@ -1,11 +1,9 @@
-. $PSScriptRoot\Shared.ps1
-
 Describe "Remove-MSTerminalWordDelimiter" {
-    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
-        $TestDrive
+    BeforeAll {
+        . $PSScriptRoot\Shared.ps1
     }
 
-    context "Default values" {
+    Context "Default values" {
         BeforeEach {
             Copy-Item $Mocks/CustomSettings.json $TestDrive/settings.json
         }

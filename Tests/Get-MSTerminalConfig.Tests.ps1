@@ -1,8 +1,6 @@
-. $PSScriptRoot\Shared.ps1
-
 Describe "Get-MSTerminalConfig" {
-    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
-        $TestDrive
+    BeforeAll {
+        . $PSScriptRoot\Shared.ps1
     }
     BeforeEach {
         Copy-Item $Mocks/DefaultSettings.json $TestDrive/settings.json

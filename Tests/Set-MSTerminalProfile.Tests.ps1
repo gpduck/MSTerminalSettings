@@ -1,14 +1,12 @@
-. $PSScriptRoot\Shared.ps1
-
 Describe "Set-MSTerminalProfile" {
-    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
-        $TestDrive
+    BeforeAll {
+        . $PSScriptRoot\Shared.ps1
+        $testProfileName = 'Windows Powershell'
     }
     BeforeEach {
         Copy-Item $Mocks/DefaultUserSettings.json $TestDrive/settings.json
     }
 
-    $testProfileName = 'Windows Powershell'
 
     Context "Profile by pipeline" {
         It "Updates commandLine" {
@@ -40,17 +38,19 @@ Describe "Set-MSTerminalProfile" {
     # }
 
     Context "Update Settings" {
-        $ExpectedValues = @{
-            "backgroundImageAlignment" = "bottomRight"
-            "source" = "Windows.Terminal.Wsl"
-        }
-        $ExpectedValues.Keys | ForEach-Object {
-            $SettingName = $_
-            $ExpectedValue = $ExpectedValues[$_]
-            It "Updates $SettingName" {
-                $profileToTest = Get-MSTerminalProfile -Name $testProfileName
-                Invoke-Expression "Set-MSTerminalProfile -InputObject `$profileToTest -$SettingName $ExpectedValue"
-                (Get-MSTerminalProfile -Name $testProfileName)."$Settingname" | Should -Be $ExpectedValue
+        BeforeAll {
+            $ExpectedValues = @{
+                "backgroundImageAlignment" = "bottomRight"
+                "source" = "Windows.Terminal.Wsl"
+            }
+            $ExpectedValues.Keys | ForEach-Object {
+                $SettingName = $_
+                $ExpectedValue = $ExpectedValues[$_]
+                It "Updates $SettingName" {
+                    $profileToTest = Get-MSTerminalProfile -Name $testProfileName
+                    Invoke-Expression "Set-MSTerminalProfile -InputObject `$profileToTest -$SettingName $ExpectedValue"
+                    (Get-MSTerminalProfile -Name $testProfileName)."$Settingname" | Should -Be $ExpectedValue
+                }
             }
         }
 

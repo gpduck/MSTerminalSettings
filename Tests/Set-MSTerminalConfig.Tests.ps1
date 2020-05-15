@@ -1,8 +1,6 @@
-. $PSScriptRoot\Shared.ps1
-
 Describe "Set-MSTerminalConfig" {
-    Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
-        $TestDrive
+    BeforeAll {
+        . $PSScriptRoot\Shared.ps1
     }
     BeforeEach {
         Copy-Item $Mocks/DefaultUserSettings.json $TestDrive/settings.json
@@ -19,8 +17,7 @@ Describe "Set-MSTerminalConfig" {
         $Settings.defaultProfile | Should -Be $testGuid
     }
     It "Sets disabledProfileSources" {
-        Set-ItResult -Skipped -Because 'This is a hidden feature not part of the json schema and unsupported at the moment https://github.com/microsoft/terminal/issues/5410'
-        Set-MSTerminalConfig -disabledProfileSources @("Windows.Terminal.Azure")
+        Set-MSTerminalConfig -disabledProfileSources @("WindowsTerminalAzure")
         $Settings = Import-JsonWithComments $TestDrive/settings.json
         $Settings.disabledProfileSources -contains "Windows.Terminal.Azure" | Should -Be $true
     }
