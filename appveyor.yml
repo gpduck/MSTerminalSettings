@@ -1,10 +1,11 @@
 # See http://www.appveyor.com/docs/appveyor-yml for many more options
 version: '{build}-{branch}'
+pull_requests:
+  do_not_increment_build_number: true
 branches:
   only:
-    - master
-    - production
-    - ci
+  - master
+  - preview
 
 image:
   - Visual Studio 2019
