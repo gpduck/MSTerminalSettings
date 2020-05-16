@@ -7,12 +7,12 @@
 task AdditionalFiles -After 'PowerCD.BuildPSModule' {
     if (Test-Path $BuildRoot\BuildOutput\MSTerminalSettings) {
         @(
-            "Formats"
+            "MSTerminalSettings/Formats"
         ).foreach{
             $sourceItem = Join-Path $BuildRoot $PSItem
             if (Test-Path $sourceItem) {
                 #FIXME: Use variables for module name and path
-                Copy-Item $sourceItem -Destination (Get-Item $BuildRoot\BuildOutput\MSTerminalSettings)
+                Copy-Item $sourceItem -Destination (Get-Item $BuildRoot\BuildOutput\MSTerminalSettings) -Recurse
             }
         }
     }
@@ -21,5 +21,7 @@ task AdditionalFiles -After 'PowerCD.BuildPSModule' {
 task BuildTerminalSettings -After 'PowerCD.BuildPSModule' {
     if (-not (get-command dotnet)) {throw 'This build requires dotnet SDK 3.0 or greater installed'}
     #FIXME: Use variables for module name and path
-    dotnet publish -o $BuildRoot\BuildOutput\MSTerminalSettings $BuildROot\MSTerminalSettings\src\TerminalSettings.csproj | Write-Verbose
+    dotnet publish -o $BuildRoot\BuildOutput\MSTerminalSettings\lib $BuildRoot\MSTerminalSettings\src\TerminalSettings.csproj | Write-Verbose
+    Remove-Item $BuildRoot\BuildOutput\MSTerminalSettings\lib\*.pdb
+    Remove-Item $BuildRoot\BuildOutput\MSTerminalSettings\lib\*.deps.json
 }
