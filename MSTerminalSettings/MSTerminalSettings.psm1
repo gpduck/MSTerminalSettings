@@ -1,4 +1,3 @@
-using namespace WindowsTerminal
 $Script:ModuleRoot = $PSScriptRoot
 
 $Script:DEV_PATH = "packages/WindowsTerminalDev_8wekyb3d8bbwe/LocalState"
@@ -23,6 +22,7 @@ try {
 	} else {throw $PSItem}
 }
 
+#region SourceInit
 $publicFunctions = @()
 foreach ($ScriptPathItem in 'Private','Public','ArgumentCompleters') {
     $ScriptSearchFilter = [io.path]::Combine($PSScriptRoot, $ScriptPathItem, '*.ps1')
@@ -36,6 +36,7 @@ foreach ($verb in 'Get','Set','New') {
     New-Alias -Name "$verb-MSTerminalSetting" -Value "$verb-MSTerminalConfig"
     Export-ModuleMember -Alias "$verb-MSTerminalSetting"
 }
+#endregion SourceInit
 
 
 #Add a not implemented exception for work in progress
