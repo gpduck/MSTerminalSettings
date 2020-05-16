@@ -1,7 +1,7 @@
 function Update-WTQuickType {
     param (
         $Path = 'https://aka.ms/terminal-profiles-schema',
-        $JsonOutPath = "$PSSCRIPTROOT\..\src\TerminalSettingsSchema.json",
+        $JsonOutPath = "$PSSCRIPTROOT\..\TerminalSettingsSchema.json",
         $Destination = "$PSSCRIPTROOT\..\src\TerminalSettings.cs"
     )
 

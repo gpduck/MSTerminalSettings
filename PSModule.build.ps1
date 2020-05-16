@@ -8,11 +8,12 @@ task AdditionalFiles -After 'PowerCD.BuildPSModule' {
     if (Test-Path $BuildRoot\BuildOutput\MSTerminalSettings) {
         @(
             "MSTerminalSettings/Formats"
+            "MSTerminalSettings/TerminalSettingsSchema.json"
         ).foreach{
             $sourceItem = Join-Path $BuildRoot $PSItem
             if (Test-Path $sourceItem) {
                 #FIXME: Use variables for module name and path
-                Copy-Item $sourceItem -Destination (Get-Item $BuildRoot\BuildOutput\MSTerminalSettings) -Recurse
+                Copy-Item $sourceItem -Destination (Get-Item $BuildRoot\BuildOutput\MSTerminalSettings) -Recurse -Verbose
             }
         }
     }
