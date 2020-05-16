@@ -7,7 +7,7 @@ function Add-TerminalSettingsParams {
 
         [ValidateNotNullOrEmpty()]
         [IO.FileInfo]
-        $SchemaPath = (Join-Path (Split-Path $PSScriptRoot) 'TerminalSettingsSchema.json')
+        $SchemaPath = $TerminalSettingsSchemaPath
     )
 
     begin {

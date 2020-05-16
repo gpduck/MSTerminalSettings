@@ -42,3 +42,6 @@ foreach ($verb in 'Get','Set','New') {
 #Add a not implemented exception for work in progress
 
 $SCRIPT:QuickTypeNotImplementedException = [notimplementedexception]'This command has not been reimplemented for the new version yet. Stay tuned!'
+
+#Terminal Settings Schema Path
+$SCRIPT:TerminalSettingsSchemaPath = "$PSScriptRoot/TerminalSettingsSchema.json"
