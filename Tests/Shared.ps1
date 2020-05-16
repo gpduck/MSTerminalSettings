@@ -9,8 +9,13 @@ param (
 . $PSScriptRoot\..\MSTerminalSettings\Private\Import-JsonWithComments.ps1
 
 if ($PSEdition -eq 'Desktop') {
-    write-verbose "Detected Windows Powershell 5.1, pester tests can only run against the released module. Redirecting to $ModuleManifestPath"
-    $ModuleManifestPath = Resolve-Path "$psscriptroot\..\Release\MSterminalSettings\MSTerminalSettings.psd1"
+    Write-Verbose "Detected Windows Powershell 5.1, running tests against released module"
+    $ModuleManifestPath = Resolve-Path "$psscriptroot\..\BuildOutput\MSterminalSettings\MSTerminalSettings.psd1"
+}
+
+if ($BuildRoot) {
+    Write-Verbose "Detected Invoke-Build, running tests against compiled module"
+    $ModuleManifestPath = Resolve-Path "$psscriptroot\..\BuildOutput\MSterminalSettings\MSTerminalSettings.psd1"
 }
 
 $ModuleManifestName = 'MSTerminalSettings.psd1'
