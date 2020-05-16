@@ -13,7 +13,7 @@ task AdditionalFiles -After 'PowerCD.BuildPSModule' {
             $sourceItem = Join-Path $BuildRoot $PSItem
             if (Test-Path $sourceItem) {
                 #FIXME: Use variables for module name and path
-                Copy-Item $sourceItem -Destination (Get-Item $BuildRoot\BuildOutput\MSTerminalSettings) -Recurse -Verbose
+                Copy-Item $sourceItem -Destination (Get-Item $BuildRoot\BuildOutput\MSTerminalSettings) -Recurse
             }
         }
     }
