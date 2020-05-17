@@ -17,12 +17,18 @@ Retrieves an MS Terminal Color Scheme
     begin {
         if (-not $ExcludeDefault) {
             if (Get-Command 'get-appxpackage' -erroraction silentlyContinue) {
-                $defaultSettingsPath = Join-Path (get-appxpackage 'Microsoft.WindowsTerminal').installLocation 'defaults.json'
-            } else {
-                #Its not possible to resolve the path to the defaults.json due to WindowsApps being access denied.
-                #This should only happen in areas where windowsterminal isn't installed, for instance Appveyor CI
+                $appxLocation = (get-appxpackage -erroraction silentlyContinue 'Microsoft.WindowsTerminal').installLocation
+                if ($appxLocation) {
+                    $defaultSettingsPath = Join-Path $appxLocation 'defaults.json'
+                }
+
+            }
+            #If we cant get the defaults.json from the current terminal for whatever reason, use the module one
+            if (-not $defaultSettingsPath) {
+                Write-Debug "Unable to detect Windows Terminal, it may not be installed. Falling back to module-included default settings"
                 $defaultSettingsPath = Resolve-Path $moduleroot/src/TerminalSettingsDefaults.json
             }
+
             if (-not (Test-Path $defaultSettingsPath)) {
                 #Don't issue warning for appveyor as this is expected
                 if (-not $env:APPVEYOR) {
