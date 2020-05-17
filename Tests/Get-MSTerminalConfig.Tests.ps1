@@ -3,7 +3,7 @@ Describe "Get-MSTerminalConfig" {
         . $PSScriptRoot\Shared.ps1
     }
     BeforeEach {
-        Copy-Item $Mocks/DefaultSettings.json $TestDrive/settings.json
+        Copy-Item $MSTerminalDefaultSettingsPath $TestDrive/settings.json
     }
     It "Reads alwaysShowTabs" {
         $Value = (Get-MSTerminalConfig).alwaysShowTabs

@@ -31,6 +31,8 @@ if (!$SkipImportModule) {
 
 $GLOBAL:Mocks = "$PSScriptRoot\Mocks"
 
+Set-Variable -Scope 1 -Name MSTerminalDefaultSettingsPath -Value (Resolve-Path "$PSScriptRoot\..\MSTerminalSettings\src\TerminalSettingsDefaults.json")
+
 Mock Find-MSTerminalFolder -ModuleName MSTerminalSettings -MockWith {
     if (-not $TestDrive) {throw 'TestDrive could not be detected, this should not happen!'}
     return $TestDrive

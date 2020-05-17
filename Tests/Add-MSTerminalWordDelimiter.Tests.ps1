@@ -1,11 +1,11 @@
-Describe "Add-MSTerminalWordDelimiter" {
+Describe "Add-MSTerminalWordDelimiter" -Skip:$($PSEdition -eq 'Desktop') {
     BeforeAll {
         . $PSScriptRoot/Shared.ps1
     }
 
     context "Default values" {
         BeforeEach {
-            Copy-Item $Mocks/DefaultSettings.json $TestDrive/settings.json
+            Copy-Item $MSTerminalDefaultSettingsPath $TestDrive/settings.json
         }
 
         It "Adds a single delimiter" {

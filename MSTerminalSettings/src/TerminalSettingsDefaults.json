@@ -1,4 +1,5 @@
-// From 0.11
+// From 1.0RC2
+// It has been slightly modified to the new profile "lists" mode
 // THIS IS AN AUTO-GENERATED FILE! Changes to this file will be ignored.
 {
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
@@ -26,44 +27,47 @@
     "snapToGridOnResize": true,
 
     "profiles":
-    [
-        {
-            "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-            "name": "Windows PowerShell",
-            "commandline": "powershell.exe",
-            "icon": "ms-appx:///ProfileIcons/{61c54bbd-c2c6-5271-96e7-009a87ff44bf}.png",
-            "colorScheme": "Campbell",
-            "antialiasingMode": "grayscale",
-            "closeOnExit": "graceful",
-            "cursorShape": "bar",
-            "fontFace": "Cascadia Code",
-            "fontSize": 12,
-            "hidden": false,
-            "historySize": 9001,
-            "padding": "8, 8, 8, 8",
-            "snapOnInput": true,
-            "startingDirectory": "%USERPROFILE%",
-            "useAcrylic": false
-        },
-        {
-            "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-            "name": "Command Prompt",
-            "commandline": "cmd.exe",
-            "icon": "ms-appx:///ProfileIcons/{0caa0dad-35be-5f56-a8ff-afceeeaa6101}.png",
-            "colorScheme": "Campbell",
-            "antialiasingMode": "grayscale",
-            "closeOnExit": "graceful",
-            "cursorShape": "bar",
-            "fontFace": "Cascadia Code",
-            "fontSize": 12,
-            "hidden": false,
-            "historySize": 9001,
-            "padding": "8, 8, 8, 8",
-            "snapOnInput": true,
-            "startingDirectory": "%USERPROFILE%",
-            "useAcrylic": false
-        }
-    ],
+    {
+        "defaults": {},
+        "list": [
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "name": "Windows PowerShell",
+                "commandline": "powershell.exe",
+                "icon": "ms-appx:///ProfileIcons/{61c54bbd-c2c6-5271-96e7-009a87ff44bf}.png",
+                "colorScheme": "Campbell",
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "graceful",
+                "cursorShape": "bar",
+                "fontFace": "Cascadia Mono",
+                "fontSize": 12,
+                "hidden": false,
+                "historySize": 9001,
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "useAcrylic": false
+            },
+            {
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "name": "Command Prompt",
+                "commandline": "cmd.exe",
+                "icon": "ms-appx:///ProfileIcons/{0caa0dad-35be-5f56-a8ff-afceeeaa6101}.png",
+                "colorScheme": "Campbell",
+                "antialiasingMode": "grayscale",
+                "closeOnExit": "graceful",
+                "cursorShape": "bar",
+                "fontFace": "Cascadia Mono",
+                "fontSize": 12,
+                "hidden": false,
+                "historySize": 9001,
+                "padding": "8, 8, 8, 8",
+                "snapOnInput": true,
+                "startingDirectory": "%USERPROFILE%",
+                "useAcrylic": false
+            }
+        ]
+    },
     "schemes":
     [
         // A profile can override the following color scheme values:
@@ -226,7 +230,7 @@
         },
         {
             "name": "Tango Dark",
-            "foreground": "#FFFFFF",
+            "foreground": "#D3D7CF",
             "background": "#000000",
             "cursorColor": "#FFFFFF",
             "black": "#000000",
@@ -248,7 +252,7 @@
         },
         {
             "name": "Tango Light",
-            "foreground": "#000000",
+            "foreground": "#555753",
             "background": "#FFFFFF",
             "cursorColor": "#000000",
             "black": "#000000",
