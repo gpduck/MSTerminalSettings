@@ -1,4 +1,4 @@
-Describe "Remove-MSTerminalWordDelimiter" {
+Describe "Remove-MSTerminalWordDelimiter" -Skip:$($PSEdition -eq 'Desktop') {
     BeforeAll {
         . $PSScriptRoot\Shared.ps1
     }

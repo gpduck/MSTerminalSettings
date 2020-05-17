@@ -18,10 +18,10 @@ Describe "Find-CurrentTerminalProfile" {
     }
     It "Detects pwsh" {
         $env:WT_PROFILE_ID = $null
-        Mock Get-Process {@{
-            ProcessName = 'pwsh'
-        }}
         InModuleScope MSTerminalSettings {
+            Mock Get-Process {@{
+                ProcessName = 'pwsh'
+            }}
             (Find-CurrentTerminalProfile).Name | Should -Be 'Powershell'
         }
     }

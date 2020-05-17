@@ -4,6 +4,7 @@ function Remove-MSTerminalWordDelimiter {
     param(
         $Delimiter
     )
+    if ($PSEdition -eq 'Desktop') {throw [NotImplementedException]'Word Delimiter commands do not work on Powershell 5.1 due to a Newtonsoft.Json issue. Please try again in Powershell 7+'}
     $Settings = Get-MSTerminalConfig
     $Changed = $false
     $Delimiter.ToCharArray() | ForEach-Object {
