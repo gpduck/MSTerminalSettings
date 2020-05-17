@@ -21,12 +21,15 @@ Retrieves an MS Terminal Color Scheme
                 if ($appxLocation) {
                     $defaultSettingsPath = Join-Path $appxLocation 'defaults.json'
                 }
-
             }
             #If we cant get the defaults.json from the current terminal for whatever reason, use the module one
             if (-not $defaultSettingsPath) {
                 Write-Debug "Unable to detect Windows Terminal, it may not be installed. Falling back to module-included default settings"
-                $defaultSettingsPath = Resolve-Path $moduleroot/src/TerminalSettingsDefaults.json
+                if (Test-Path $moduleroot/TerminalSettingsDefaults.json) {
+                    $defaultSettingsPath = Resolve-Path $moduleroot/TerminalSettingsDefaults.json
+                } else {
+                    $defaultSettingsPath = Resolve-Path $moduleroot/src/TerminalSettingsDefaults.json
+                }
             }
 
             if (-not (Test-Path $defaultSettingsPath)) {
