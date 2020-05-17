@@ -2,7 +2,7 @@ using namespace WindowsTerminal
 function Set-MSTerminalConfig {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Position=0,ValueFromPipeline)][ValidateNotNullOrEmpty()][TerminalSettings]$TerminalConfig = (Get-MSTerminalConfig)
+        [Parameter(Position=0,ValueFromPipeline)][ValidateNotNullOrEmpty()][WindowsTerminal.TerminalSettings]$TerminalConfig = (Get-MSTerminalConfig)
     )
     DynamicParam {
         $dynamicParams = Get-ObjectDynamicParameters 'WindowsTerminal.TerminalSettings'

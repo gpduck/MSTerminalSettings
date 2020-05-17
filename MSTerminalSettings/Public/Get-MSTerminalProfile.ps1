@@ -2,7 +2,7 @@ using namespace WindowsTerminal
 function Get-MSTerminalProfile {
     [CmdletBinding(DefaultParameterSetName='Filter')]
     param (
-        [Parameter(ValueFromPipeline)][ValidateNotNull()][TerminalSettings]$TerminalConfig = (Get-MSTerminalConfig),
+        [Parameter(ValueFromPipeline)][ValidateNotNull()][WindowsTerminal.TerminalSettings]$TerminalConfig = (Get-MSTerminalConfig),
         #Return a profile object representing the "defaults" section for the default settings for all profiles
         [Parameter(Mandatory,ParameterSetName='DefaultSettings')][Switch]$DefaultSettings,
         #Return the default configured profile

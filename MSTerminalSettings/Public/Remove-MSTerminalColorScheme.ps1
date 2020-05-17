@@ -3,7 +3,7 @@ function Remove-MSTerminalColorScheme {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(ValueFromPipelineByPropertyName)][String]$Name,
-        [ValidateNotNullOrEmpty()][TerminalSettings]$TerminalSettings = (Get-MSTerminalConfig)
+        [ValidateNotNullOrEmpty()][WindowsTerminal.TerminalSettings]$TerminalSettings = (Get-MSTerminalConfig)
     )
     process {
         $SchemeList = $TerminalSettings.Schemes

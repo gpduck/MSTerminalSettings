@@ -1,7 +1,7 @@
 using namespace WindowsTerminal
 function Add-MSTerminalProfile {
     param(
-        [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][TerminalSettings]$InputObject = (Get-MSTerminalConfig),
+        [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][WindowsTerminal.TerminalSettings]$InputObject = (Get-MSTerminalConfig),
         [Switch]$MakeDefault,
         [Switch]$Force
     )

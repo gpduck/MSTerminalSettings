@@ -6,9 +6,8 @@ function Get-MSTerminalColorScheme {
 Retrieves an MS Terminal Color Scheme
 #>
     [CmdletBinding()]
-    [OutputType([List[SchemeList]])]
     param(
-        [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][TerminalSettings]$InputObject = (Get-MSTerminalConfig),
+        [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][WindowsTerminal.TerminalSettings]$InputObject = (Get-MSTerminalConfig),
         #Exclude the default color schemes
         [Switch]$ExcludeDefault
     )

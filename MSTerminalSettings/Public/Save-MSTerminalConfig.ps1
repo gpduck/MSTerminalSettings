@@ -2,7 +2,7 @@ using namespace WindowsTerminal
 function Save-MSTerminalConfig {
     [CmdletBinding(SupportsShouldProcess,DefaultParameterSetName='Path')]
     param (
-        [Parameter(Position=0,ValueFromPipeline)][TerminalSettings]$TerminalConfig = (Get-MSTerminalConfig),
+        [Parameter(Position=0,ValueFromPipeline)][WindowsTerminal.TerminalSettings]$TerminalConfig = (Get-MSTerminalConfig),
         [IO.FileInfo]$Path,
         [Switch]$PassThru
     )

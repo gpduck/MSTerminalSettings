@@ -2,7 +2,7 @@ using namespace WindowsTerminal
 function Add-MSTerminalColorScheme {
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][TerminalSettings]$TerminalSettings = (Get-MSTerminalConfig),
+        [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][WindowsTerminal.TerminalSettings]$TerminalSettings = (Get-MSTerminalConfig),
         [Switch]$Force
     )
     DynamicParam {
