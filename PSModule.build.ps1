@@ -16,7 +16,7 @@ task AdditionalFiles -After 'PowerCD.BuildPSModule' {
                 Copy-Item $sourceItem -Destination (Get-Item $BuildRoot\BuildOutput\MSTerminalSettings) -Recurse
             }
         }
-        Copy-Item $BuildRoot/MSterminalSettings/src/TerminalSettingsDefaults.json -Destination $BuildRoot\BuildOutput\MSTerminalSettings
+        Copy-Item $BuildRoot\MSTerminalSettings\src\TerminalSettingsDefaults.json -Destination $BuildRoot\BuildOutput\MSTerminalSettings
     }
 }
 
