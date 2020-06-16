@@ -18,24 +18,12 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
-          - ubuntu-16.04
           - windows-latest
-          - windows-2016
-          - macOS-latest
         psversion:
           - pwsh
           - powershell
-        exclude:
-          - os: ubuntu-latest
-            psversion: powershell
-          - os: ubuntu-16.04
-            psversion: powershell
-          - os: macOS-latest
-            psversion: powershell
     steps:
       - uses: actions/checkout@v1
-
       - name: Determine PowerCD Cache Folder
         shell: pwsh
         run: |
@@ -72,7 +60,7 @@ jobs:
 
       - uses: actions/upload-artifact@master
         with:
-          name: PSModule
+          name: PSModule-${{ matrix.os }}-${{ matrix.psversion }}
           path: BuildOutput/
 
   publish:
@@ -83,7 +71,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@master
         with:
-          name: PSModule
+          name: PSModule-windows-latest-powershell
           path: BuildOutput/
 
       - name: Create Github Deployment
@@ -103,7 +91,7 @@ jobs:
         run: |
           $verbosePreference = 'continue'
           $path = resolve-path ./BuildOutput/MSTerminalSettings
-          Publish-Module -path $path -nugetapikey $env:PSGALLERYAPIKEY -whatif
+          Publish-Module -path $path -nugetapikey $env:PSGALLERYAPIKEY
 
       - name: Github Deployment Success
         if: success()
