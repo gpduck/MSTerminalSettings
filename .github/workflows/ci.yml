@@ -10,8 +10,6 @@ on:
     branches:
       - master
       - preview
-      - ci
-      - release/v2.0
 jobs:
   build:
     name: Build
@@ -79,7 +77,7 @@ jobs:
 
   publish:
     name: Publish
-    if: contains(github.ref,'release')
+    if: contains(github.ref,'release') && github.head_ref == null
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -95,7 +93,7 @@ jobs:
           token: ${{ github.token }}
           description: Powershell Gallery Prerelease Modules
           target_url: https://www.powershellgallery.com/packages/MSTerminalSettings/
-          environment: PSGalleryPrerelease
+          environment: Powershell Gallery Prerelease
           ref: ${{ github.sha }}
 
       - name: Powershell Gallery
@@ -105,7 +103,7 @@ jobs:
         run: |
           $verbosePreference = 'continue'
           $path = resolve-path ./BuildOutput/MSTerminalSettings
-          Publish-Module -path $path -nugetapikey $env:PSGALLERYAPIKEY
+          Publish-Module -path $path -nugetapikey $env:PSGALLERYAPIKEY -whatif
 
       - name: Github Deployment Success
         if: success()
