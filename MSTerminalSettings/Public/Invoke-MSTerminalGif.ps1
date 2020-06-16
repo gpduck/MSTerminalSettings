@@ -16,7 +16,7 @@ function Invoke-MSTerminalGif {
         #The name or GUID of the Windows Terminal Profile in which to play the Gif.
         [Parameter(ValueFromPipeline)][Alias('Name','Guid')]$InputObject = (Get-MSTerminalProfile -Current),
         #How to resize the background image in the window. Options are None, Fill, Uniform, and UniformToFill
-        [Parameter(ParameterSetName='Uri')][BackgroundImageStretchMode]$BackgroundImageStretchMode = 'uniformToFill',
+        [Parameter(ParameterSetName='Uri')][WindowsTerminal.BackgroundImageStretchMode]$BackgroundImageStretchMode = 'uniformToFill',
         #How transparent to make the background image. Default is 60% (.6)
         [Parameter(ParameterSetName='Uri')][float]$BackgroundImageOpacity = 0.6,
         #Specify this to use the Acrylic visual effect (semi-transparency)
