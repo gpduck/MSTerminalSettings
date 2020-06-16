@@ -4,10 +4,14 @@ on:
     branches:
       - master
       - preview
+      - ci
+      - release/v2.0
   pull_request:
     branches:
       - master
       - preview
+      - ci
+      - release/v2.0
 jobs:
   build:
     name: Build
@@ -70,5 +74,54 @@ jobs:
 
       - uses: actions/upload-artifact@master
         with:
-          name: PSModule Zip
+          name: PSModule
           path: BuildOutput/
+
+  publish:
+    name: Publish
+    if: contains(github.ref,'release')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: PSModule
+          path: BuildOutput/
+
+      - name: Create Github Deployment
+        id: deployment
+        uses: chrnorm/deployment-action@releases/v1
+        with:
+          token: ${{ github.token }}
+          description: Powershell Gallery Prerelease Modules
+          target_url: https://www.powershellgallery.com/packages/MSTerminalSettings/
+          environment: PSGalleryPrerelease
+          ref: ${{ github.sha }}
+
+      - name: Powershell Gallery
+        env:
+          PSGALLERYAPIKEY: ${{ secrets.PSGallery }}
+        shell: pwsh
+        run: |
+          $verbosePreference = 'continue'
+          $path = resolve-path ./BuildOutput/MSTerminalSettings
+          Publish-Module -path $path -nugetapikey $env:PSGALLERYAPIKEY
+
+      - name: Github Deployment Success
+        if: success()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://www.powershellgallery.com/packages/MSTerminalSettings/
+          state: "success"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Github Deployment Failure
+        if: failure()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://www.powershellgallery.com/packages/MSTerminalSettings/
+          state: "failure"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+

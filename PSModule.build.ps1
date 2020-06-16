@@ -27,3 +27,37 @@ task BuildTerminalSettings -After 'PowerCD.BuildPSModule' {
     Remove-Item $BuildRoot\BuildOutput\MSTerminalSettings\lib\*.pdb
     Remove-Item $BuildRoot\BuildOutput\MSTerminalSettings\lib\*.deps.json
 }
+
+task BuildModuleHelp {
+    #TODO: Run as job so as not to lock the build folder
+    $buildOutputDir = "$BuildRoot\BuildOutput"
+    Import-Module "$buildoutputdir\msterminalsettings\MSTerminalSettings.psd1" -force
+    New-MarkdownHelp -Module MSTerminalSettings -OutputFolder $buildOutputDir\docs
+    #Update-MarkdownHelp -Path $buildOutputDir\docs
+    New-ExternalHelp -Path $buildOutputDir\docs -OutputPath $buildoutputdir\msterminalsettings\en-US
+
+    #TODO: Derive content from README
+    "Please see the Github README: https://github.com/gpduck/msterminalsettings" |
+        Out-File -FilePath $buildoutputdir\msterminalsettings\en-US\about_MSTerminalSettings.txt -Encoding utf8
+}
+
+task BuildDocusaurusHelp {
+    #TODO: Run as job so as not to lock the build folder
+    $buildOutputDir = "$BuildRoot\BuildOutput"
+    $newDocusaurusHelpParams = @{
+        Module = "$buildoutputdir\msterminalsettings\MSTerminalSettings.psd1"
+        DocsFolder = "$BuildRoot\BuildOutput\docs"
+        SideBar = "commands"
+        MetaDescription = 'Help page for the MSTerminalSettings "%1" command'
+        MetaKeywords = @(
+            "Windows"
+            "Terminal"
+            "Settings"
+            "MSTerminalSettings"
+            "Help"
+            "Documentation"
+        )
+    }
+    Write-Host "Generating Command Reference" -ForegroundColor Magenta
+    New-DocusaurusHelp @newDocusaurusHelpParams
+}

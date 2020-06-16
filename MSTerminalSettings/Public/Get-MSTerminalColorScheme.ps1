@@ -1,10 +1,6 @@
 using namespace WindowsTerminal
 using namespace System.Collections.Generic
 function Get-MSTerminalColorScheme {
-<#
-.SYNOPSIS
-Retrieves an MS Terminal Color Scheme
-#>
     [CmdletBinding()]
     param(
         [Parameter(ValueFromPipeline)][ValidateNotNullOrEmpty()][WindowsTerminal.TerminalSettings]$InputObject = (Get-MSTerminalConfig),
