@@ -18,4 +18,4 @@ jobs:
     steps:
       - shell: pwsh
         run: |
-          "I Ran!: ${{github.head_ref}} "
+          "I Ran!: ${{contains(github.ref,'ci') && github.head_ref == null}} "
