@@ -24,6 +24,10 @@ jobs:
           - powershell
     steps:
       - uses: actions/checkout@v1
+      - name: Variable Check
+        shell: pwsh
+        run: |
+          dir env:GitHUB*
       - name: Determine PowerCD Cache Folder
         shell: pwsh
         run: |
