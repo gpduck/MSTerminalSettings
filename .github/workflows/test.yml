@@ -1,0 +1,22 @@
+name: Test
+on:
+  push:
+    branches:
+      - master
+      - preview
+      - ci
+      - release/v2.0
+  pull_request:
+    branches:
+      - master
+      - preview
+jobs:
+  publish:
+    name: Publish
+    if: contains(github.ref,'release') && github.head_ref == ''
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - shell: pwsh
+        run: |
+          "I Ran!"
