@@ -13,7 +13,7 @@ on:
 jobs:
   publish:
     name: Publish
-    if: github.head_ref == 0
+    if: github.head_ref == null
     runs-on: ubuntu-latest
     steps:
       - shell: pwsh
