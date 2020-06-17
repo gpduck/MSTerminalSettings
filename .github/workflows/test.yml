@@ -14,6 +14,7 @@ jobs:
   publish:
     name: Publish
     if: contains(github.ref,'release') && github.head_ref == ''
+    runs-on: ubuntu-latest
     steps:
       - shell: pwsh
         run: |
