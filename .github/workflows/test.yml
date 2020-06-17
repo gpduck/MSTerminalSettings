@@ -13,9 +13,9 @@ on:
 jobs:
   publish:
     name: Publish
-    if: contains(github.ref,'release') && github.head_ref == 0
+    if: github.head_ref == 0
     runs-on: ubuntu-latest
     steps:
       - shell: pwsh
         run: |
-          "I Ran!"
+          "I Ran!: ${{github.head_ref}} "
